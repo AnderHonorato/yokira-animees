@@ -1,0 +1,162 @@
+/* Arquivo: src/lib/componentes/home/banner-destaque-estilo.css */
+/* Nome com sufixo "-estilo" porque banner-destaque.css ja e o modulo de logica .ts do par. */
+
+.hero {
+  margin-top: var(--espaco-4);
+}
+
+.hero-painel {
+  display: grid;
+  grid-template-columns: 118px 1fr;
+  gap: var(--espaco-4);
+  padding: var(--espaco-3);
+  background: var(--cor-fundo-elevado);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-painel);
+}
+
+.hero-arte {
+  position: relative;
+}
+
+.hero-selo {
+  position: absolute;
+  top: var(--espaco-2);
+  left: var(--espaco-2);
+  padding: 3px 7px;
+  border-radius: var(--raio-chip);
+  background: var(--cor-marca);
+  font-size: var(--texto-11);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.hero-texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  min-width: 0;
+}
+
+.hero-titulo {
+  font-size: var(--texto-28);
+  /* Titulo longo em caixa alta estourava a borda direita em 360px. */
+  overflow-wrap: break-word;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.hero-gratuito {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  font-size: var(--texto-13);
+  color: var(--cor-texto);
+}
+
+.hero-coroa {
+  display: inline-flex;
+  color: var(--cor-coroa);
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-2);
+  font-size: var(--texto-13);
+  color: var(--cor-texto-secundario);
+}
+
+.hero-sinopse {
+  font-size: var(--texto-14);
+  line-height: 1.5;
+  color: var(--cor-texto-secundario);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hero-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-2);
+  margin-top: var(--espaco-2);
+}
+
+.hero-dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--espaco-2);
+  margin-top: var(--espaco-3);
+}
+
+.hero-dot {
+  width: 22px;
+  height: 4px;
+  border-radius: var(--raio-botao);
+  background: var(--cor-borda);
+  transition:
+    background var(--transicao-rapida),
+    width var(--transicao-rapida);
+}
+
+.hero-dot-ativo {
+  width: 28px;
+  background: var(--cor-marca);
+}
+
+/* Em telas muito estreitas a arte vira uma faixa acima do texto pra sinopse respirar. */
+/* Abaixo de 400px: arte mais estreita e titulo menor, senao uma palavra longa como
+   "CREPUSCULO" quebra no meio e o bloco fica ilegivel. */
+@media (max-width: 399px) {
+  .hero-painel {
+    grid-template-columns: 100px 1fr;
+    gap: var(--espaco-3);
+  }
+  .hero-titulo {
+    font-size: 1.375rem;
+    hyphens: auto;
+  }
+  .hero-selo {
+    font-size: 0.625rem;
+    padding: 2px 5px;
+  }
+}
+
+@media (max-width: 359px) {
+  .hero-painel {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-painel {
+    grid-template-columns: 240px 1fr;
+    gap: var(--espaco-6);
+    padding: var(--espaco-4);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-painel {
+    /* 240px de arte -> 320px de altura. Com 300px o painel esticava e sobrava um
+       vazio enorme a direita do texto, coisa que nao existe nas telas de referencia. */
+    align-items: start;
+    grid-template-columns: 240px 1fr;
+    gap: var(--espaco-8);
+    padding: var(--espaco-5);
+  }
+  .hero-titulo {
+    font-size: var(--texto-40);
+  }
+  .hero-texto {
+    gap: var(--espaco-3);
+    padding-right: var(--espaco-8);
+  }
+}

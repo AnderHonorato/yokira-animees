@@ -1,0 +1,135 @@
+/* Arquivo: src/lib/componentes/detalhes/cabecalho-titulo.css */
+/* Mesmas medidas do hero da home; repetido de proposito porque aqui nao ha painel externo
+   nem dots — herdar do outro arquivo criaria acoplamento entre duas telas diferentes. */
+
+.titulo-hero {
+  display: grid;
+  grid-template-columns: 118px 1fr;
+  gap: var(--espaco-4);
+  padding: var(--espaco-3);
+  background: var(--cor-fundo-elevado);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-painel);
+  margin-bottom: var(--espaco-6);
+}
+
+.titulo-hero-arte {
+  position: relative;
+}
+
+.titulo-hero-selo {
+  position: absolute;
+  top: var(--espaco-2);
+  left: var(--espaco-2);
+  padding: 3px 7px;
+  border-radius: var(--raio-chip);
+  background: var(--cor-marca);
+  font-size: var(--texto-11);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.titulo-hero-texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  min-width: 0;
+}
+
+.titulo-hero-nome {
+  font-size: var(--texto-28);
+  /* Titulo longo em caixa alta estourava a borda direita em 360px. */
+  overflow-wrap: break-word;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+
+.titulo-hero-gratuito {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  font-size: var(--texto-13);
+}
+
+.titulo-hero-coroa {
+  display: inline-flex;
+  color: var(--cor-coroa);
+}
+
+.titulo-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-2);
+  font-size: var(--texto-13);
+  color: var(--cor-texto-secundario);
+}
+
+.titulo-hero-nota {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--cor-estrela);
+}
+
+.titulo-hero-sinopse {
+  font-size: var(--texto-14);
+  line-height: 1.5;
+  color: var(--cor-texto-secundario);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.titulo-hero-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-2);
+  margin-top: var(--espaco-2);
+}
+
+.titulo-hero-recado {
+  font-size: var(--texto-12);
+  color: #fca5a5;
+}
+
+/* Mesma regra do hero da home: em 360px a palavra longa nao pode quebrar no meio. */
+@media (max-width: 399px) {
+  .titulo-hero {
+    grid-template-columns: 100px 1fr;
+    gap: var(--espaco-3);
+  }
+  .titulo-hero-nome {
+    font-size: 1.375rem;
+    hyphens: auto;
+  }
+}
+
+@media (max-width: 359px) {
+  .titulo-hero {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .titulo-hero {
+    grid-template-columns: 240px 1fr;
+    gap: var(--espaco-6);
+    padding: var(--espaco-4);
+  }
+}
+
+@media (min-width: 1024px) {
+  .titulo-hero {
+    align-items: start;
+    grid-template-columns: 230px 1fr;
+    gap: var(--espaco-6);
+  }
+  .titulo-hero-nome {
+    font-size: var(--texto-40);
+  }
+}

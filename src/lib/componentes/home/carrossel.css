@@ -1,0 +1,67 @@
+/* Arquivo: src/lib/componentes/home/carrossel.css */
+
+.carrossel {
+  position: relative;
+}
+
+.carrossel-trilha {
+  display: flex;
+  gap: var(--espaco-3);
+  overflow-x: auto;
+  /* Snap so no mobile: no desktop as setas ja dao o passo certo. */
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  padding-bottom: var(--espaco-1);
+}
+
+.carrossel-seta {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .carrossel-trilha {
+    scroll-snap-type: none;
+    gap: var(--espaco-4);
+  }
+
+  .carrossel-seta {
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    transform: translateY(-50%);
+    border-radius: var(--raio-botao);
+    background: rgba(17, 17, 22, 0.92);
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-texto);
+    opacity: 0;
+    transition:
+      opacity var(--transicao-rapida),
+      background var(--transicao-rapida);
+  }
+
+  .carrossel:hover .carrossel-seta:not(:disabled),
+  .carrossel-seta:focus-visible {
+    opacity: 1;
+  }
+
+  .carrossel-seta:hover:not(:disabled) {
+    background: var(--cor-superficie-hover);
+  }
+
+  .carrossel-seta:disabled {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+
+  .carrossel-seta-esquerda {
+    left: calc(var(--espaco-3) * -1);
+  }
+
+  .carrossel-seta-direita {
+    right: calc(var(--espaco-3) * -1);
+  }
+}

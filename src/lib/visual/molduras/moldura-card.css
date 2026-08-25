@@ -1,0 +1,16 @@
+/* Arquivo: src/lib/visual/molduras/moldura-card.css */
+
+.moldura-card {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  border-radius: var(--raio-card);
+  overflow: hidden;
+  background: var(--cor-superficie);
+  /* aspect-ratio reserva o espaco antes da imagem chegar: e assim que o CLS fica em zero. */
+}
+
+.moldura-card-imagem {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

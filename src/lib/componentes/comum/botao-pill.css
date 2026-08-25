@@ -1,0 +1,59 @@
+/* Arquivo: src/lib/componentes/comum/botao-pill.css */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-2);
+  min-height: var(--alvo-toque);
+  padding: 0 var(--espaco-5);
+  border-radius: var(--raio-botao);
+  font-size: var(--texto-13);
+  font-weight: 600;
+  /* Resposta visual em menos de 100ms mesmo antes do servidor responder. */
+  transition:
+    background var(--transicao-rapida),
+    transform var(--transicao-rapida);
+}
+
+.pill:active {
+  transform: scale(0.97);
+}
+
+.pill:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pill-marca {
+  background: var(--cor-marca);
+  color: var(--cor-texto);
+}
+
+.pill-marca:hover:not(:disabled) {
+  background: var(--cor-marca-forte);
+}
+
+.pill-neutro {
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+  border: 1px solid var(--cor-borda);
+}
+
+.pill-neutro:hover:not(:disabled) {
+  background: var(--cor-superficie-hover);
+}
+
+.pill-circular {
+  width: var(--alvo-toque);
+  height: var(--alvo-toque);
+  padding: 0;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  color: var(--cor-texto);
+}
+
+.pill-circular:hover:not(:disabled) {
+  background: var(--cor-superficie-hover);
+}

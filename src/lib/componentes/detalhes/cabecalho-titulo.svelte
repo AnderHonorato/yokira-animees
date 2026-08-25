@@ -1,0 +1,92 @@
+<!-- Arquivo: src/lib/componentes/detalhes/cabecalho-titulo.svelte -->
+<!-- Mesmo bloco do hero da home, mas com o botao de lista realmente ligado na API. -->
+<script lang="ts">
+  import './cabecalho-titulo.css';
+  import RecorteHero from '$visual/molduras/recorte-hero.svelte';
+  import BotaoPill from '../comum/botao-pill.svelte';
+  import Chip from '../comum/chip.svelte';
+  import Coroa from '$visual/icones/coroa.svelte';
+  import Play from '$visual/icones/play.svelte';
+  import Mais from '$visual/icones/mais.svelte';
+  import Estrela from '$visual/icones/estrela.svelte';
+  import PolegarCima from '$visual/icones/polegar-cima.svelte';
+  import Girador from '../comum/girador.svelte';
+  import { alternarLista } from '$cliente/acoes-do-usuario';
+  import type { DestaqueDoHero } from '$servidor/banco/tipos-catalogo';
+
+  export let destaque: DestaqueDoHero;
+  export let nota: number | null = null;
+  export let naLista = false;
+
+  let salvando = false;
+  let recado = '';
+
+  async function aoAlternar() {
+    salvando = true;
+    recado = '';
+    // Estado otimista: a interface responde antes do servidor e volta atras se der erro.
+    const anterior = naLista;
+    naLista = !naLista;
+    try {
+      const resultado = await alternarLista(destaque.id);
+      naLista = resultado.naLista;
+    } catch (erro) {
+      naLista = anterior;
+      recado = erro instanceof Error ? erro.message : 'Não foi possível salvar.';
+    } finally {
+      salvando = false;
+    }
+  }
+</script>
+
+<section class="titulo-hero">
+  <div class="titulo-hero-arte">
+    <RecorteHero fonte={destaque.arte} descricao={`Arte de ${destaque.nome}`}>
+      {#if destaque.novidade}
+        <span class="titulo-hero-selo">Novo episódio</span>
+      {/if}
+    </RecorteHero>
+  </div>
+
+  <div class="titulo-hero-texto">
+    <h1 class="titulo-hero-nome">{destaque.nome}</h1>
+
+    <p class="titulo-hero-gratuito">
+      <span class="titulo-hero-coroa"><Coroa tamanho={16} /></span>
+      {destaque.chamadaGratuita}
+    </p>
+
+    <p class="titulo-hero-meta">
+      <Chip variante="classificacao">{destaque.classificacao}</Chip>
+      <span>{destaque.ano}</span>
+      <span aria-hidden="true">•</span>
+      <span>{destaque.temporadas} {destaque.temporadas === 1 ? 'Temporada' : 'Temporadas'}</span>
+      <span aria-hidden="true">•</span>
+      <span>{destaque.generos.join(', ')}</span>
+      {#if nota !== null}
+        <span class="titulo-hero-nota"><Estrela tamanho={12} /> {nota.toFixed(1)}</span>
+      {/if}
+    </p>
+
+    <p class="titulo-hero-sinopse">{destaque.sinopse}</p>
+
+    <div class="titulo-hero-acoes">
+      <BotaoPill variante="marca" href={`/titulo/${destaque.slug}`}>
+        <Play tamanho={15} /> Assistir agora
+      </BotaoPill>
+
+      <BotaoPill variante="neutro" desabilitado={salvando} on:click={aoAlternar}>
+        {#if salvando}<Girador />{:else}<Mais tamanho={15} />{/if}
+        {naLista ? 'Na Minha Lista' : 'Minha Lista'}
+      </BotaoPill>
+
+      <BotaoPill variante="circular" rotuloAcessivel="Curtir este título">
+        <PolegarCima tamanho={16} />
+      </BotaoPill>
+    </div>
+
+    {#if recado}
+      <p class="titulo-hero-recado" role="alert">{recado}</p>
+    {/if}
+  </div>
+</section>

@@ -1,0 +1,28 @@
+/* Arquivo: src/lib/componentes/comum/chip.css */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border-radius: var(--raio-chip);
+  font-size: var(--texto-11);
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.chip-roxo {
+  background: var(--cor-marca-suave);
+  color: #c4b5fd;
+}
+
+.chip-neutro {
+  background: var(--cor-superficie);
+  color: var(--cor-texto-secundario);
+}
+
+.chip-classificacao {
+  background: var(--cor-marca);
+  color: var(--cor-texto);
+  padding: 1px 6px;
+}
