@@ -12,18 +12,18 @@
   border-radius: var(--raio-painel);
   border: 1px solid var(--cor-borda);
   background: var(--cor-fundo-elevado);
-  /* Em pe no celular: a arte deitada recortada num quadro alto ainda respira,
-     e o texto por cima precisa de altura pra caber sem espremer. */
-  aspect-ratio: 4 / 5;
-  display: flex;
-  align-items: flex-end;
 }
 
+/* No celular a arte e um banner no topo e o texto entra por baixo, dentro do
+   degrade — mesmo desenho da pagina de titulo. Sobrepor o texto num quadro
+   estreito obrigava o painel a ficar em pe pra tudo caber. */
 .hero-arte {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   /* 42% e onde o brilho do gerador procedural fica: recortar pelo centro exato
      deixava o clarao alto demais e o texto brigava com ele. */
@@ -31,17 +31,20 @@
   z-index: -2;
 }
 
-/* Veu em duas paradas: quase opaco embaixo, onde mora o texto, e transparente
-   em cima, onde a arte tem que aparecer. Uma parada so escurecia a arte inteira. */
+/* O veu cobre exatamente a caixa da arte e termina na cor do painel: e ele que
+   costura imagem e texto em vez de deixar a arte parar numa borda dura. */
 .hero-veu {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  aspect-ratio: 16 / 9;
   z-index: -1;
   background: linear-gradient(
     to top,
-    var(--veu-hero-forte) 0%,
-    var(--veu-hero-medio) 42%,
-    var(--veu-hero-nulo) 78%
+    var(--cor-fundo-elevado) 0%,
+    color-mix(in srgb, var(--cor-fundo-elevado) 55%, transparent) 34%,
+    transparent 68%
   );
 }
 
@@ -66,7 +69,10 @@
   gap: var(--espaco-2);
   min-width: 0;
   width: 100%;
-  padding: var(--espaco-5) var(--espaco-4) var(--espaco-4);
+  padding: 0 var(--espaco-4) var(--espaco-4);
+  /* 38% da LARGURA: a arte tem 56,25% dela de altura, entao o texto comeca a dois
+     tercos do banner, ja dentro da parte opaca do degrade. */
+  padding-top: 38%;
 }
 
 .hero-titulo {
@@ -114,7 +120,7 @@
 
 .hero-acoes {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap: var(--espaco-2);
   margin-top: var(--espaco-2);
@@ -130,31 +136,5 @@
   .hero-selo {
     font-size: 0.625rem;
     padding: 2px 5px;
-  }
-}
-
-@media (min-width: 768px) {
-  .hero-painel {
-    aspect-ratio: 21 / 9;
-  }
-  .hero-texto {
-    padding: var(--espaco-6);
-    /* O texto ocupa a metade esquerda: sobre arte deitada, linha corrida de ponta
-       a ponta fica longa demais pra ler e ainda tapa o assunto da imagem. */
-    max-width: 60%;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-painel {
-    aspect-ratio: 24 / 9;
-  }
-  .hero-titulo {
-    font-size: var(--texto-40);
-  }
-  .hero-texto {
-    gap: var(--espaco-3);
-    padding: var(--espaco-8);
-    max-width: 52%;
   }
 }
