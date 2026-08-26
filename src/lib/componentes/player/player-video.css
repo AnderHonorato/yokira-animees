@@ -31,6 +31,13 @@
   color: var(--cor-texto-terciario);
 }
 
+/* Erro de midia (link expirado, sessao caida, video em processamento). */
+.player-erro {
+  margin: var(--espaco-2) 0 0;
+  font-size: var(--texto-13);
+  color: var(--cor-texto-secundario);
+}
+
 .player-audiencia {
   display: flex;
   align-items: center;

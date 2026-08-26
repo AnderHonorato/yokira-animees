@@ -6,6 +6,7 @@ import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { banco } from '../banco/cliente.js';
+import { pastaDeHls } from '../midia/caminhos.js';
 import { PERFIS, argumentosDaVariante, playlistMestre } from './perfis-hls.js';
 
 const BINARIO = process.env.CAMINHO_FFMPEG ?? 'ffmpeg';
@@ -41,8 +42,9 @@ export async function processarArquivo(arquivoId: string): Promise<void> {
     data: { arquivoId, situacao: 'PROCESSANDO' }
   });
 
-  const pastaHls = process.env.PASTA_HLS ?? './static/hls';
-  const destino = join(pastaHls, arquivoId);
+  // Fora de static/: em static/ o servidor de arquivos entregaria os .ts sem
+  // passar por sessao nenhuma, que era exatamente o buraco do item 5.2.
+  const destino = join(pastaDeHls(), arquivoId);
 
   try {
     await mkdir(destino, { recursive: true });
@@ -58,7 +60,8 @@ export async function processarArquivo(arquivoId: string): Promise<void> {
           arquivoId,
           altura: perfil.altura,
           taxaBits: perfil.taxaBits,
-          playlist: `/hls/${arquivoId}/${perfil.altura}p.m3u8`
+          // Nome do recurso, nao URL: quem monta a URL e quem assina, no /api/midia/playlist.
+          playlist: `${perfil.altura}p.m3u8`
         }
       });
     }

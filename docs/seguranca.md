@@ -80,8 +80,38 @@ deslogar ninguém.
 `.mov` e `.webm`, limite de 8 GB, e grava com nome gerado por `randomUUID()` —
 o nome enviado pelo usuário nunca vira caminho no disco.
 
-O arquivo original vai para `midia/originais/`, **fora de `static/`**. Só os
-segmentos HLS gerados ficam públicos.
+O arquivo original vai para `midia/originais/` e os segmentos HLS para
+`midia/hls/`, os dois **fora de `static/`**. Nada de mídia é servido como
+arquivo estático.
+
+## Mídia assinada
+
+Todo `.m3u8` e todo `.ts` passa por `/midia/hls/[arquivoId]/[recurso]`, que
+exige **as duas coisas**: sessão válida e assinatura válida.
+
+A assinatura é um HMAC-SHA256 (`SEGREDO_SESSAO`) sobre
+`arquivoId:recurso:usuarioId:expiraEm`. Amarrar o `usuarioId` é o que torna um
+link vazado inútil para outra conta — quem receber a URL ainda precisaria do
+cookie de sessão de quem gerou.
+
+O nome do recurso passa por lista fechada
+(`mestre.m3u8`, `\d{3,4}p.m3u8`, `\d{3,4}p_\d{3,5}.ts`), então não existe
+travessia de caminho: nomes fora do padrão são recusados antes de o disco ser
+tocado.
+
+**Por que a playlist é reescrita.** O player resolve os nomes de dentro do
+`.m3u8` relativos à playlist. Assinar só a playlist deixaria o pedido do
+segmento chegar sem assinatura nenhuma. Por isso cada URI de dentro sai
+assinada, em `src/lib/servidor/midia/playlist-assinada.ts`.
+
+**Dois prazos, de propósito.** A playlist vale 10 minutos, e é pedida no
+instante do play (`/api/midia/playlist`) — a página não carrega nenhuma URL de
+mídia embutida, senão uma aba aberta por meia hora daria 403 no play. Os
+segmentos valem 4 horas porque a playlist de VOD não é recarregada pelo
+player: 10 minutos aqui matariam o vídeo no minuto 11.
+
+Em produção o servidor **se recusa a assinar** com o `SEGREDO_SESSAO` de
+exemplo. Falha fechada: sem segredo real, sem mídia.
 
 ## O que ainda não está pronto
 
@@ -89,5 +119,5 @@ segmentos HLS gerados ficam públicos.
   envio de e-mail nem tela. Hoje o cadastro já entra com a conta ativa.
 - Não há limite de requisições por IP no nível do servidor (só por conta).
   Em produção, coloque isso no proxy reverso.
-- Os segmentos HLS são servidos como arquivo estático, sem token por sessão.
-  Conteúdo licenciado precisa de URL assinada — veja `RESUMO-DA-ENTREGA.md`.
+- Não há marca d'água por sessão. Contra redistribuição por quem _tem_ acesso
+  legítimo, a URL assinada não ajuda — isso é outro problema.

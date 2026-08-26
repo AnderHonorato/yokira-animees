@@ -5,17 +5,19 @@
   import './player-video.css';
   import { onDestroy, onMount } from 'svelte';
   import { anexarPlaylist } from './carregar-hls';
+  import { pedirPlaylist } from './pedir-playlist';
   import { criarAgendador } from './progresso-periodico';
   import { obterChaveDeAudiencia } from './chave-de-audiencia';
   import { salvarProgressoNoServidor, sinalizarAudiencia } from '$cliente/acoes-do-usuario';
   import OlhoAssistindo from '$visual/icones/olho-assistindo.svelte';
 
   export let episodioId: string;
-  export let playlist: string | null = null;
+  export let temMidia = false;
   export let segundoInicial = 0;
 
   let video: HTMLVideoElement;
   let assistindo = 0;
+  let mensagemErro: string | null = null;
   let desanexar: (() => void) | undefined;
   let sinalizador: ReturnType<typeof setInterval> | undefined;
 
@@ -37,8 +39,17 @@
     window.addEventListener('beforeunload', aoSair);
 
     void (async () => {
-      if (playlist) desanexar = await anexarPlaylist(video, playlist);
-      if (segundoInicial > 0) video.currentTime = segundoInicial;
+      if (temMidia) {
+        try {
+          // A URL e assinada e curta: pedimos agora, nao na renderizacao da pagina.
+          const { playlist } = await pedirPlaylist(episodioId);
+          desanexar = await anexarPlaylist(video, playlist);
+          if (segundoInicial > 0) video.currentTime = segundoInicial;
+        } catch (erro) {
+          mensagemErro =
+            erro instanceof Error ? erro.message : 'Não foi possível carregar o vídeo.';
+        }
+      }
       await pulsarAudiencia();
       sinalizador = setInterval(pulsarAudiencia, 30_000);
     })();
@@ -53,7 +64,7 @@
 </script>
 
 <div class="player">
-  {#if playlist}
+  {#if temMidia}
     <video
       class="player-video"
       bind:this={video}
@@ -65,6 +76,9 @@
     >
       <track kind="captions" label="Sem legenda cadastrada" />
     </video>
+    {#if mensagemErro}
+      <p class="player-erro" role="alert">{mensagemErro}</p>
+    {/if}
   {:else}
     <div class="player-vazio">
       <p>Este episódio ainda não tem vídeo processado.</p>

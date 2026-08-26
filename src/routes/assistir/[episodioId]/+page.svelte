@@ -18,7 +18,7 @@
 
   <PlayerVideo
     episodioId={data.episodio.id}
-    playlist={data.playlist}
+    temMidia={data.temMidia}
     segundoInicial={data.segundoInicial}
   />
 

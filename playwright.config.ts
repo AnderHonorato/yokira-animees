@@ -44,6 +44,11 @@ export default defineConfig({
       PORT: String(PORTA),
       ORIGIN: `http://localhost:${PORTA}`,
       DATABASE_URL: process.env.DATABASE_URL ?? 'file:./dev.db',
+      // Build de producao se recusa a assinar midia com o valor de exemplo — e isso
+      // e proposital. Os testes sobem com um segredo real, como um servidor de verdade.
+      SEGREDO_SESSAO:
+        process.env.SEGREDO_SESSAO ?? 'segredo-fixo-so-para-os-testes-de-ponta-a-ponta',
+      PASTA_HLS: process.env.PASTA_HLS ?? './midia/hls',
       NODE_ENV: 'production'
     }
   }

@@ -17,7 +17,10 @@ export const load: PageServerLoad = async ({ params, locals }) => {
   if (!episodio) throw error(404, 'Episódio não encontrado.');
 
   const progresso = locals.usuario ? await lerProgresso(locals.usuario.id, episodio.id) : null;
-  const primeiraVariante = episodio.arquivos[0]?.variantes[0];
+
+  // A URL da midia NAO sai daqui: ela e assinada e curta, e vem do /api/midia/playlist
+  // no momento do play. A pagina so diz se existe video pra tocar.
+  const temMidia = episodio.arquivos.some((arquivo) => arquivo.variantes.length > 0);
 
   return {
     episodio: {
@@ -28,7 +31,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     },
     titulo: { nome: episodio.temporada.titulo.nome, slug: episodio.temporada.titulo.slug },
     temporada: episodio.temporada.numero,
-    playlist: primeiraVariante?.playlist ?? null,
+    temMidia,
     segundoInicial: progresso?.segundos ?? 0
   };
 };
