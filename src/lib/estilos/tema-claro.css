@@ -46,7 +46,6 @@
   --claro-veu-arte: rgba(10, 10, 20, 0.28);
   --claro-veu-hero-forte: rgba(244, 244, 247, 0.94);
   --claro-veu-hero-medio: rgba(244, 244, 247, 0.5);
-  --claro-veu-hero-lateral: rgba(244, 244, 247, 0.75);
   --claro-veu-hero-nulo: rgba(244, 244, 247, 0);
   --claro-cortina-dialogo: rgba(20, 20, 26, 0.45);
   --claro-seta-carrossel: rgba(255, 255, 255, 0.94);
@@ -84,7 +83,6 @@
   --veu-arte: var(--claro-veu-arte);
   --veu-hero-forte: var(--claro-veu-hero-forte);
   --veu-hero-medio: var(--claro-veu-hero-medio);
-  --veu-hero-lateral: var(--claro-veu-hero-lateral);
   --veu-hero-nulo: var(--claro-veu-hero-nulo);
   --cor-cortina-dialogo: var(--claro-cortina-dialogo);
   --cor-seta-carrossel: var(--claro-seta-carrossel);
@@ -123,7 +121,6 @@
     --veu-arte: var(--claro-veu-arte);
     --veu-hero-forte: var(--claro-veu-hero-forte);
     --veu-hero-medio: var(--claro-veu-hero-medio);
-    --veu-hero-lateral: var(--claro-veu-hero-lateral);
     --veu-hero-nulo: var(--claro-veu-hero-nulo);
     --cor-cortina-dialogo: var(--claro-cortina-dialogo);
     --cor-seta-carrossel: var(--claro-seta-carrossel);

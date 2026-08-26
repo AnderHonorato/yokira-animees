@@ -1,8 +1,10 @@
 <!-- Arquivo: src/lib/componentes/detalhes/cabecalho-titulo.svelte -->
-<!-- Mesmo bloco do hero da home, mas com o botao de lista realmente ligado na API. -->
+<!-- Banner deitado no topo e o texto entrando por baixo, dentro do degrade. A arte
+     era um retrato de 118px em pe ao lado do texto — vertical ate no celular, onde
+     banner e justamente o formato que cabe. O degrade e o que costura os dois: sem
+     ele a imagem termina numa borda dura e o bloco vira duas pecas soltas. -->
 <script lang="ts">
   import './cabecalho-titulo.css';
-  import RecorteHero from '$visual/molduras/recorte-hero.svelte';
   import BotaoPill from '../comum/botao-pill.svelte';
   import Chip from '../comum/chip.svelte';
   import Coroa from '$visual/icones/coroa.svelte';
@@ -70,13 +72,18 @@
 </script>
 
 <section class="titulo-hero">
-  <div class="titulo-hero-arte">
-    <RecorteHero fonte={destaque.arte} descricao={`Arte de ${destaque.nome}`}>
-      {#if destaque.novidade}
-        <span class="titulo-hero-selo">Novo episódio</span>
-      {/if}
-    </RecorteHero>
-  </div>
+  <img
+    class="titulo-hero-arte"
+    src={destaque.arte}
+    alt={`Arte de ${destaque.nome}`}
+    fetchpriority="high"
+    decoding="async"
+  />
+  <div class="titulo-hero-veu" aria-hidden="true"></div>
+
+  {#if destaque.novidade}
+    <span class="titulo-hero-selo">Novo episódio</span>
+  {/if}
 
   <div class="titulo-hero-texto">
     <h1 class="titulo-hero-nome">{destaque.nome}</h1>
