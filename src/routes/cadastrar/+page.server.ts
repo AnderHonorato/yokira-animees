@@ -3,6 +3,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { cadastrarUsuario, ErroDeAutenticacao } from '$servidor/banco/conta';
 import { criarSessao } from '$servidor/autenticacao/sessao';
+import { enviarVerificacaoDeEmail } from '$servidor/email/fluxos-de-conta';
 import { gravarCookieDeSessao } from '$servidor/autenticacao/cookie';
 import { validarEmail, validarNome, validarSenha } from '$lib/validacoes/conta';
 import { ErroDeValidacao } from '$lib/validacoes/erro-validacao';
@@ -14,7 +15,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 };
 
 export const actions: Actions = {
-  default: async ({ request, cookies }) => {
+  default: async ({ request, cookies, url }) => {
     const formulario = await request.formData();
     const email = String(formulario.get('email') ?? '');
     const nome = String(formulario.get('nome') ?? '');
@@ -27,6 +28,10 @@ export const actions: Actions = {
       );
       const sessao = await criarSessao(usuario.id, request.headers.get('user-agent') ?? undefined);
       gravarCookieDeSessao(cookies, sessao.id, sessao.expiraEm);
+
+      // Sem await no resultado: e-mail fora do ar nao pode impedir alguem de criar conta.
+      // A conta ja entra usavel; a verificacao e um segundo passo, nao um portao.
+      void enviarVerificacaoDeEmail(url.origin, usuario);
     } catch (erro) {
       if (erro instanceof ErroDeAutenticacao || erro instanceof ErroDeValidacao) {
         return fail(400, { email, nome, mensagem: erro.message });

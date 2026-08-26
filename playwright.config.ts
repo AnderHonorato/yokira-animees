@@ -6,6 +6,9 @@ import { defineConfig, devices } from '@playwright/test';
 
 const PORTA = Number(process.env.PORTA_TESTE ?? 4100);
 
+/** Caixa de saida dos e-mails durante os testes. O teste de recuperacao le daqui. */
+export const CAIXA_DE_SAIDA = process.env.EMAIL_ARQUIVO ?? './midia/emails-teste.jsonl';
+
 // Em maquina normal o Playwright acha o Chromium sozinho (npx playwright install).
 // Em ambiente com o navegador pre-instalado em outro caminho, aponte CHROMIUM_EXECUTAVEL.
 const executavel = process.env.CHROMIUM_EXECUTAVEL;
@@ -49,6 +52,10 @@ export default defineConfig({
       SEGREDO_SESSAO:
         process.env.SEGREDO_SESSAO ?? 'segredo-fixo-so-para-os-testes-de-ponta-a-ponta',
       PASTA_HLS: process.env.PASTA_HLS ?? './midia/hls',
+      // Transporte de arquivo: o teste le a caixa de saida e segue o link de verdade,
+      // em vez de fingir que o e-mail chegou.
+      EMAIL_TRANSPORTE: 'arquivo',
+      EMAIL_ARQUIVO: CAIXA_DE_SAIDA,
       NODE_ENV: 'production'
     }
   }

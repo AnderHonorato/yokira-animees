@@ -9,9 +9,9 @@ import { validarEmail } from '$lib/validacoes/conta';
 import { ErroDeValidacao } from '$lib/validacoes/erro-validacao';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, url }) => {
   if (locals.usuario) throw redirect(303, '/');
-  return {};
+  return { senhaRedefinida: url.searchParams.get('senha-redefinida') === '1' };
 };
 
 export const actions: Actions = {

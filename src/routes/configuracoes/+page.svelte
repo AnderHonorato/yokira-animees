@@ -8,6 +8,7 @@
   import { executarAcaoCritica } from '$cliente/acoes-criticas-cliente';
 
   export let data;
+  export let form;
 
   let acaoAberta: AcaoCritica | null = null;
   let processando = false;
@@ -31,6 +32,25 @@
 
 <h1 class="config-titulo">Configurações</h1>
 <p class="config-subtitulo">Você tem {data.sessoesAtivas} sessão(ões) ativa(s) nesta conta.</p>
+
+{#if !data.emailVerificado}
+  <div class="config-verificacao">
+    <div>
+      <h2 class="config-item-titulo">E-mail não confirmado</h2>
+      <p class="config-item-texto">
+        Confirme <strong>{data.email}</strong> para garantir que você consegue recuperar a conta se esquecer
+        a senha.
+      </p>
+    </div>
+    <form method="POST" action="?/reenviarVerificacao">
+      <BotaoPill variante="marca" tipo="submit">Reenviar confirmação</BotaoPill>
+    </form>
+  </div>
+{/if}
+
+{#if form?.mensagemVerificacao}
+  <p class="config-recado" role="status">{form.mensagemVerificacao}</p>
+{/if}
 
 {#if recado}
   <p class="config-recado" role="status">{recado}</p>

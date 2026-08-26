@@ -55,3 +55,17 @@
 .config-sair {
   margin-top: var(--espaco-6);
 }
+
+/* Faixa de e-mail nao confirmado. Some assim que a confirmacao acontece. */
+.config-verificacao {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-3);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--espaco-4);
+  margin-bottom: var(--espaco-4);
+  background: var(--cor-marca-suave);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-painel);
+}

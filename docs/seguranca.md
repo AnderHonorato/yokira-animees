@@ -113,10 +113,35 @@ player: 10 minutos aqui matariam o vídeo no minuto 11.
 Em produção o servidor **se recusa a assinar** com o `SEGREDO_SESSAO` de
 exemplo. Falha fechada: sem segredo real, sem mídia.
 
+## Verificação de e-mail e recuperação de senha
+
+Os dois tokens ficam no banco como **SHA-256**, nunca em texto — mesma escolha
+da sessão. Um backup vazado não redefine a senha de ninguém.
+
+**Verificação** (24h): sai no cadastro, sem segurar a resposta — e-mail fora do
+ar não pode impedir alguém de criar conta. A conta já entra usável; a
+confirmação é cobrada numa faixa em `/configuracoes`, que também reenvia.
+Pedir um link novo invalida o anterior.
+
+**Recuperação** (1h, uso único): `/recuperar-senha` responde **sempre a mesma
+coisa**, exista a conta ou não — tela diferente para e-mail cadastrado
+transformaria a página num oráculo de contas. Um pedido por minuto por conta.
+
+O `GET` de `/redefinir-senha` só confere o link; quem gasta o token é o `POST`.
+Consumir no `GET` faria um pré-carregador de link de e-mail queimar o token
+antes da pessoa digitar a senha. O gasto é um `updateMany` com
+`usadoEm: null` na condição, então duas abas com o mesmo link: só uma passa.
+
+Redefinir a senha **revoga todas as sessões**. Quem troca a senha por
+recuperação pode estar expulsando um invasor; deixar as sessões antigas de pé
+anularia o gesto.
+
+Transportes de envio: `console` (padrão), `arquivo` (uma linha JSON por
+mensagem, útil para conferir sem cliente de e-mail) e `resend` (HTTP direto,
+sem dependência nova).
+
 ## O que ainda não está pronto
 
-- Verificação de e-mail e recuperação de senha têm tabela e modelo, mas não têm
-  envio de e-mail nem tela. Hoje o cadastro já entra com a conta ativa.
 - Não há limite de requisições por IP no nível do servidor (só por conta).
   Em produção, coloque isso no proxy reverso.
 - Não há marca d'água por sessão. Contra redistribuição por quem _tem_ acesso
