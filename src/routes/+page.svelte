@@ -5,6 +5,22 @@
   import TrilhaConteudo from '$componentes/home/trilha-conteudo.svelte';
 
   export let data;
+
+  // O `load` devolve o cache na hora; a revalidacao chega depois e troca o objeto
+  // so quando o conteudo mudou de verdade. A geracao evita que uma resposta atrasada
+  // de uma navegacao anterior sobrescreva a tela atual.
+  let catalogo = data.catalogo;
+  let geracao = 0;
+
+  $: sincronizar(data);
+
+  function sincronizar(atual: typeof data) {
+    const minha = ++geracao;
+    catalogo = atual.catalogo;
+    void atual.atualizacao?.then((fresco) => {
+      if (fresco && minha === geracao) catalogo = fresco;
+    });
+  }
 </script>
 
 <svelte:head>
@@ -15,8 +31,8 @@
   />
 </svelte:head>
 
-<BannerDestaque destaques={data.catalogo.destaques} />
+<BannerDestaque destaques={catalogo.destaques} />
 
-{#each data.catalogo.trilhas as trilha, indice (trilha.chave)}
+{#each catalogo.trilhas as trilha, indice (trilha.chave)}
   <TrilhaConteudo {trilha} prioritaria={indice === 0} />
 {/each}

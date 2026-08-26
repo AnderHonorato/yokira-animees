@@ -70,3 +70,52 @@ test('voltar para uma pagina ja visitada e instantaneo', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Populares' })).toBeVisible();
   expect(Date.now() - inicio).toBeLessThan(1500);
 });
+
+// Le uma chave do IndexedDB de dentro da pagina. Serve pra provar que o cache
+// existe antes de medir a navegacao — sem isso o teste mediria sorte.
+async function temNoCache(page: import('@playwright/test').Page, chave: string) {
+  return page.evaluate(
+    (nomeDaChave) =>
+      new Promise<boolean>((resolver) => {
+        const pedido = indexedDB.open('yokira-cache', 1);
+        pedido.onerror = () => resolver(false);
+        pedido.onsuccess = () => {
+          const banco = pedido.result;
+          if (!banco.objectStoreNames.contains('documentos')) return resolver(false);
+          const busca = banco
+            .transaction('documentos', 'readonly')
+            .objectStore('documentos')
+            .get(nomeDaChave);
+          busca.onsuccess = () => resolver(busca.result !== undefined);
+          busca.onerror = () => resolver(false);
+        };
+      }),
+    chave
+  );
+}
+
+test('a home pinta do cache mesmo com o servidor lento', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'Populares' })).toBeVisible();
+
+  // O `load` grava o catalogo ao passar pela home; so seguimos quando ele existir.
+  await expect.poll(() => temNoCache(page, 'catalogo-publico'), { timeout: 15_000 }).toBe(true);
+
+  // Servidor propositalmente travado em 3s. Se a home esperasse o round-trip,
+  // ela so pintaria depois disso.
+  await page.route('**/api/catalogo', async (rota) => {
+    await new Promise((resolver) => setTimeout(resolver, 3000));
+    await rota.continue();
+  });
+
+  await page.locator('a[href="/catalogo"]').first().click();
+  await expect(page.getByRole('heading', { name: 'Catálogo', level: 1 })).toBeVisible();
+
+  const inicio = Date.now();
+  await page.locator('a[href="/"]').first().click();
+  await expect(page.getByRole('heading', { name: 'Populares' })).toBeVisible();
+  const decorrido = Date.now() - inicio;
+
+  // Pintou antes da resposta do servidor chegar — que e a definicao do 5.1.
+  expect(decorrido).toBeLessThan(2000);
+});
