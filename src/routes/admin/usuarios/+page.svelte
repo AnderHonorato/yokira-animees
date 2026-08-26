@@ -11,6 +11,7 @@
   import Chip from '$componentes/comum/chip.svelte';
   import DialogoConfirmacao from '$componentes/comum/dialogo-confirmacao.svelte';
   import { executarAcaoAdministrativa } from '$cliente/acoes-administrativas';
+  import { avisar, avisarErro } from '$cliente/avisos';
   import { PAPEIS } from '$lib/validacoes/administracao';
 
   export let data;
@@ -27,18 +28,17 @@
 
   let pendente: AcaoPendente | null = null;
   let processando = false;
-  let recado = '';
 
   async function confirmar() {
     if (!pendente) return;
     processando = true;
     try {
       await executarAcaoAdministrativa(pendente.acao, pendente.alvo, pendente.extras ?? {});
-      recado = 'Ação concluída.';
+      avisar(`${pendente.titulo}: concluído.`, 'sucesso');
       pendente = null;
       await invalidateAll();
     } catch (erro) {
-      recado = erro instanceof Error ? erro.message : 'Não foi possível concluir.';
+      avisarErro(erro);
     } finally {
       processando = false;
     }
@@ -63,8 +63,6 @@
 <svelte:head><title>Usuários — Painel Yōkira</title></svelte:head>
 
 <h1 class="admin-titulo">Usuários</h1>
-
-{#if recado}<p class="admin-recado" role="status">{recado}</p>{/if}
 
 <form class="admin-busca" method="GET">
   <label class="admin-campo">

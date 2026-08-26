@@ -14,6 +14,7 @@
   import Rodape from '$componentes/casca/rodape.svelte';
   import FaixaOffline from '$componentes/casca/faixa-offline.svelte';
   import TelaDeCarregamento from '$componentes/casca/tela-de-carregamento.svelte';
+  import Avisos from '$componentes/comum/avisos.svelte';
   import { registrarServiceWorker } from '$cliente/registrar-service-worker';
   import { estrategiaDePrefetch } from '$cliente/navegacao-instantanea';
 
@@ -29,6 +30,7 @@
 
 <TelaDeCarregamento />
 <FaixaOffline />
+<Avisos />
 
 <div class="casca" data-sveltekit-preload-data={prefetch}>
   <Cabecalho usuario={data.usuario} />

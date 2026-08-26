@@ -28,7 +28,12 @@
 
 <div class="detalhes">
   <div class="detalhes-principal">
-    <CabecalhoTitulo destaque={data.destaque} nota={data.nota} naLista={data.naLista} />
+    <CabecalhoTitulo
+      destaque={data.destaque}
+      nota={data.nota}
+      naLista={data.naLista}
+      minhaNota={data.minhaNota}
+    />
 
     <AbasConteudo abas={ABAS} ativa={aba} on:trocar={(evento) => (aba = evento.detail)} />
 

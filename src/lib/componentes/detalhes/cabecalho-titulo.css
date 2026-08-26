@@ -133,3 +133,19 @@
     font-size: var(--texto-40);
   }
 }
+
+/* O invólucro existe porque a classe de curtido precisa alcançar o <button> que o
+   BotaoPill renderiza por dentro — e o componente não expõe classe extra. */
+.titulo-hero-curtir {
+  display: inline-flex;
+}
+
+.titulo-hero-curtir.pill-curtido .pill {
+  color: var(--cor-marca);
+  border-color: var(--cor-marca);
+  background: var(--cor-marca-suave);
+}
+
+.titulo-hero-curtir.pill-curtido .pill svg {
+  fill: currentColor;
+}

@@ -5,9 +5,6 @@
   import './cartao-expandido.css';
   import Estrela from '$visual/icones/estrela.svelte';
   import OlhoAssistindo from '$visual/icones/olho-assistindo.svelte';
-  import Play from '$visual/icones/play.svelte';
-  import Mais from '$visual/icones/mais.svelte';
-  import PolegarCima from '$visual/icones/polegar-cima.svelte';
   import type { CartaoDeTitulo } from '$servidor/banco/tipos-catalogo';
 
   export let item: CartaoDeTitulo;
@@ -33,11 +30,5 @@
       <OlhoAssistindo tamanho={13} />
       {item.assistindoAgora} assistindo agora
     </p>
-
-    <div class="expandido-acoes">
-      <span class="expandido-acao expandido-acao-marca"><Play tamanho={14} /></span>
-      <span class="expandido-acao"><Mais tamanho={14} /></span>
-      <span class="expandido-acao"><PolegarCima tamanho={14} /></span>
-    </div>
   </div>
 </div>

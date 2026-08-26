@@ -1,0 +1,51 @@
+/* Arquivo: src/lib/componentes/home/banner-destaque-sobreposto.css */
+/* O que muda quando o texto passa a viver POR CIMA da arte, e nao ao lado dela.
+   Separado do estilo base porque juntos passavam das 180 linhas do projeto. */
+
+/* Sobre imagem, o texto secundario precisa de mais peso do que sobre painel liso. */
+.hero-sinopse,
+.hero-meta {
+  color: var(--cor-texto);
+  opacity: 0.88;
+}
+
+.hero-titulo,
+.hero-gratuito {
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+}
+
+.hero-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-top: var(--espaco-2);
+}
+
+/* Alvo de toque de 44px com barra visivel de 4px: no celular os dots sao o unico
+   jeito de trocar de destaque, e 4px de altura real e impossivel de acertar. */
+.hero-dot {
+  width: 30px;
+  height: var(--alvo-toque);
+  padding: 20px 4px;
+  background: var(--cor-borda) content-box;
+  border-radius: var(--raio-botao);
+  transition: background var(--transicao-rapida);
+}
+
+.hero-dot-ativo {
+  background: var(--cor-marca) content-box;
+}
+
+.hero-curtir {
+  display: inline-flex;
+}
+
+.hero-curtir.pill-curtido .pill {
+  color: var(--cor-marca);
+  border-color: var(--cor-marca);
+  background: var(--cor-marca-suave);
+}
+
+.hero-curtir.pill-curtido .pill svg {
+  fill: currentColor;
+}

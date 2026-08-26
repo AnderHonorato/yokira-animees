@@ -57,3 +57,65 @@
 .pill-circular:hover:not(:disabled) {
   background: var(--cor-superficie-hover);
 }
+
+/* Estado confirmado. Antes so o texto mudava ("Minha Lista" -> "Na Minha Lista"),
+   o que ninguem percebe: a cor e o pulo sao o que diz que deu certo. */
+.pill-sucesso {
+  background: var(--cor-sucesso);
+  border-color: var(--cor-sucesso);
+  color: #06210f;
+}
+
+.pill-sucesso:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+
+.pill-ativo {
+  animation: pulo-confirmacao 340ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* O icone entra girando de leve — sem isso a troca de simbolo passa despercebida. */
+.pill-ativo svg {
+  animation: entrada-do-visto 340ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes pulo-confirmacao {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.07);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes entrada-do-visto {
+  0% {
+    transform: scale(0.4) rotate(-18deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+/* Curtir: o polegar enche e pula. */
+.pill-curtido {
+  color: var(--cor-marca);
+  border-color: var(--cor-marca);
+  background: var(--cor-marca-suave);
+}
+
+.pill-curtido svg {
+  fill: currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill-ativo,
+  .pill-ativo svg {
+    animation: none;
+  }
+}

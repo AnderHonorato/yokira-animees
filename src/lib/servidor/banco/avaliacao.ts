@@ -12,6 +12,20 @@ export async function avaliarTitulo(usuarioId: string, tituloId: string, nota: n
   return mediaDoTitulo(tituloId);
 }
 
+export async function removerAvaliacao(usuarioId: string, tituloId: string) {
+  // deleteMany e nao delete: descurtir duas vezes nao pode virar erro 500.
+  await banco.avaliacao.deleteMany({ where: { usuarioId, tituloId } });
+  return mediaDoTitulo(tituloId);
+}
+
+export async function notaDoUsuario(usuarioId: string, tituloId: string): Promise<number | null> {
+  const avaliacao = await banco.avaliacao.findUnique({
+    where: { usuarioId_tituloId: { usuarioId, tituloId } },
+    select: { nota: true }
+  });
+  return avaliacao?.nota ?? null;
+}
+
 export async function mediaDoTitulo(
   tituloId: string
 ): Promise<{ media: number | null; total: number }> {

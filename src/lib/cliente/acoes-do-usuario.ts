@@ -26,7 +26,8 @@ export function salvarProgressoNoServidor(episodioId: string, segundos: number) 
   return enviar<{ segundos: number }>('/api/progresso', { episodioId, segundos });
 }
 
-export function avaliar(tituloId: string, nota: number) {
+/** `nota: null` remove a avaliacao. Curtir e nota 10; descurtir e null. */
+export function avaliar(tituloId: string, nota: number | null) {
   return enviar<{ media: number | null; total: number }>('/api/avaliacao', { tituloId, nota });
 }
 

@@ -16,11 +16,12 @@ export function validarProgresso(dados: unknown): { episodioId: string; segundos
   };
 }
 
-export function validarAvaliacao(dados: unknown): { tituloId: string; nota: number } {
+/** `nota: null` remove a avaliacao — e assim que descurtir funciona sem endpoint novo. */
+export function validarAvaliacao(dados: unknown): { tituloId: string; nota: number | null } {
   const corpo = (dados ?? {}) as Record<string, unknown>;
   return {
     tituloId: exigirTexto(corpo.tituloId, 'tituloId', 40),
-    nota: exigirInteiro(corpo.nota, 'nota', 1, 10)
+    nota: corpo.nota === null ? null : exigirInteiro(corpo.nota, 'nota', 1, 10)
   };
 }
 

@@ -3,7 +3,9 @@
 <script lang="ts">
   import './botao-pill.css';
 
-  export let variante: 'marca' | 'neutro' | 'circular' = 'marca';
+  export let variante: 'marca' | 'neutro' | 'circular' | 'sucesso' = 'marca';
+  /** Estado ligado (na lista, curtido). Dispara a animacao de confirmacao. */
+  export let ativo = false;
   export let href: string | undefined = undefined;
   export let tipo: 'button' | 'submit' = 'button';
   export let desabilitado = false;
@@ -11,14 +13,16 @@
 </script>
 
 {#if href}
-  <a class="pill pill-{variante}" {href} aria-label={rotuloAcessivel}>
+  <a class="pill pill-{variante}" class:pill-ativo={ativo} {href} aria-label={rotuloAcessivel}>
     <slot />
   </a>
 {:else}
   <button
     class="pill pill-{variante}"
+    class:pill-ativo={ativo}
     type={tipo}
     disabled={desabilitado}
+    aria-pressed={ativo ? true : undefined}
     aria-label={rotuloAcessivel}
     on:click
   >

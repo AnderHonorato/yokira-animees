@@ -1,6 +1,7 @@
 <!-- Arquivo: src/lib/componentes/home/carrossel.svelte -->
-<!-- Trilha rolavel. Mobile: arrasto com snap. Desktop: setas que aparecem no hover e
-     desabilitam nas pontas. Sem seta quando tudo ja cabe na tela. -->
+<!-- Trilha rolavel. Mobile: arrasto com snap. Desktop: faixas de borda que acendem
+     quando o cursor chega perto da esquerda ou da direita, e desabilitam nas pontas.
+     Sem seta quando tudo ja cabe na tela. -->
 <script lang="ts">
   import './carrossel.css';
   import { onMount } from 'svelte';
@@ -51,7 +52,7 @@
     disabled={!podeVoltar}
     on:click={() => deslocar(trilha, -1)}
   >
-    <SetaEsquerda tamanho={20} />
+    <span class="carrossel-seta-disco"><SetaEsquerda tamanho={20} /></span>
   </button>
 
   <ul class="carrossel-trilha rolagem-oculta" bind:this={trilha} on:scroll={medir}>
@@ -65,6 +66,6 @@
     disabled={!podeAvancar}
     on:click={() => deslocar(trilha, 1)}
   >
-    <SetaDireita tamanho={20} />
+    <span class="carrossel-seta-disco"><SetaDireita tamanho={20} /></span>
   </button>
 </div>

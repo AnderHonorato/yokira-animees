@@ -12,6 +12,7 @@
   import FormularioTitulo from '$componentes/admin/formulario-titulo.svelte';
   import TemporadasEEpisodios from '$componentes/admin/temporadas-e-episodios.svelte';
   import { executarAcaoAdministrativa } from '$cliente/acoes-administrativas';
+  import { avisar, avisarErro } from '$cliente/avisos';
 
   export let data;
   export let form;
@@ -27,18 +28,17 @@
 
   let pendente: AcaoPendente | null = null;
   let processando = false;
-  let recado = '';
 
   async function confirmar() {
     if (!pendente) return;
     processando = true;
     try {
       await executarAcaoAdministrativa(pendente.acao, pendente.alvo);
-      recado = 'Ação concluída.';
+      avisar(`${pendente.titulo}: concluído.`, 'sucesso');
       pendente = null;
       await invalidateAll();
     } catch (erro) {
-      recado = erro instanceof Error ? erro.message : 'Não foi possível concluir.';
+      avisarErro(erro);
     } finally {
       processando = false;
     }
@@ -49,8 +49,6 @@
 
 <a class="admin-voltar" href="/admin/titulos">← Todos os títulos</a>
 <h1 class="admin-titulo">{data.titulo.nome}</h1>
-
-{#if recado}<p class="admin-recado" role="status">{recado}</p>{/if}
 
 <section class="admin-secao">
   <h2 class="admin-secao-titulo">Dados do título</h2>

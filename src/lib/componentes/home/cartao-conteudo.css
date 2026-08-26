@@ -63,8 +63,16 @@
   }
 }
 
+/* A partir daqui a capa deita (16:9), entao o card precisa ser largo: com 178px
+   a capa deitada teria 100px de altura e viraria uma tarja. */
+@media (min-width: 1024px) {
+  .cartao {
+    width: 288px;
+  }
+}
+
 @media (min-width: 1280px) {
   .cartao {
-    width: 178px;
+    width: 316px;
   }
 }

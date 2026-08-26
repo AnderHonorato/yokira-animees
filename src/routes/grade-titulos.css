@@ -53,6 +53,15 @@
   gap: var(--espaco-4) var(--espaco-3);
 }
 
+/* Capa deitada precisa de coluna larga: com 126px a imagem viraria uma tarja de
+   70px de altura. Mesmo ponto de corte da moldura, senao grade e trilha divergem. */
+@media (min-width: 1024px) {
+  .grade-titulos {
+    grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+    gap: var(--espaco-5) var(--espaco-4);
+  }
+}
+
 /* Na grade o card nao tem largura fixa: quem manda e a coluna. */
 .grade-titulos .cartao {
   width: 100%;

@@ -24,44 +24,86 @@
     gap: var(--espaco-4);
   }
 
+  /* A seta e uma faixa de borda inteira, nao um botao solto: o alvo passa a ser
+     "chegar perto da borda", que e como se pega essas setas sem mirar. Ela tambem
+     mora DENTRO do carrossel — antes ficava em left: -12px e o overflow-x: hidden
+     do body cortava a da esquerda na primeira trilha da tela. */
   .carrossel-seta {
     position: absolute;
-    top: 50%;
+    top: 0;
+    bottom: var(--espaco-1);
     z-index: 5;
+    display: flex;
+    align-items: center;
+    width: 68px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--cor-texto);
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity var(--transicao-rapida);
+  }
+
+  /* O disco desenhado por dentro: e ele que ganha o fundo e cresce no hover. */
+  .carrossel-seta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .carrossel-seta-esquerda {
+    left: 0;
+    justify-content: flex-start;
+    padding-left: var(--espaco-2);
+  }
+
+  .carrossel-seta-direita {
+    right: 0;
+    justify-content: flex-end;
+    padding-right: var(--espaco-2);
+  }
+
+  .carrossel-seta-esquerda::before {
+    background: linear-gradient(to right, var(--veu-hero-forte), transparent);
+  }
+
+  .carrossel-seta-direita::before {
+    background: linear-gradient(to left, var(--veu-hero-forte), transparent);
+  }
+
+  .carrossel-seta-disco {
     display: grid;
     place-items: center;
-    width: 40px;
-    height: 40px;
-    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
     border-radius: var(--raio-botao);
     background: var(--cor-seta-carrossel);
     border: 1px solid var(--cor-borda);
-    color: var(--cor-texto);
-    opacity: 0;
-    transition:
-      opacity var(--transicao-rapida),
-      background var(--transicao-rapida);
+    box-shadow: var(--sombra-card);
+    transition: transform var(--transicao-rapida);
   }
 
+  /* Aparece ao passar o mouse na propria faixa da borda, e tambem quando o
+     carrossel inteiro esta sob o cursor — quem ja esta olhando a trilha nao
+     deveria precisar procurar o controle. */
+  .carrossel-seta:hover:not(:disabled),
   .carrossel:hover .carrossel-seta:not(:disabled),
   .carrossel-seta:focus-visible {
     opacity: 1;
   }
 
-  .carrossel-seta:hover:not(:disabled) {
-    background: var(--cor-superficie-hover);
+  .carrossel-seta:hover:not(:disabled) .carrossel-seta-disco {
+    transform: scale(1.08);
+  }
+
+  .carrossel-seta:active:not(:disabled) .carrossel-seta-disco {
+    transform: scale(0.94);
   }
 
   .carrossel-seta:disabled {
-    opacity: 0 !important;
+    opacity: 0;
     pointer-events: none;
-  }
-
-  .carrossel-seta-esquerda {
-    left: calc(var(--espaco-3) * -1);
-  }
-
-  .carrossel-seta-direita {
-    right: calc(var(--espaco-3) * -1);
   }
 }

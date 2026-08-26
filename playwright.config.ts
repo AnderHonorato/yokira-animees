@@ -9,6 +9,9 @@ const PORTA = Number(process.env.PORTA_TESTE ?? 4100);
 /** Caixa de saida dos e-mails durante os testes. O teste de recuperacao le daqui. */
 export const CAIXA_DE_SAIDA = process.env.EMAIL_ARQUIVO ?? './midia/emails-teste.jsonl';
 
+/** Fica em midia/, que ja esta no .gitignore, e nunca encosta no dev.db. */
+const BANCO_DA_SUITE = 'file:./midia/teste.db';
+
 // Em maquina normal o Playwright acha o Chromium sozinho (npx playwright install).
 // Em ambiente com o navegador pre-instalado em outro caminho, aponte CHROMIUM_EXECUTAVEL.
 const executavel = process.env.CHROMIUM_EXECUTAVEL;
@@ -39,14 +42,17 @@ export default defineConfig({
     }
   ],
   webServer: {
-    command: `npm run build && node build/index.js`,
+    // Banco proprio da suite: rodar contra o dev.db enchia o banco de
+    // desenvolvimento de contas de teste — 254 usuarios depois de algumas rodadas,
+    // e cada cadastro custa um hash Argon2. A suite ficava mais lenta a cada vez.
+    command: `npm run build && npm run teste:preparar && node build/index.js`,
     port: PORTA,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
     env: {
       PORT: String(PORTA),
       ORIGIN: `http://localhost:${PORTA}`,
-      DATABASE_URL: process.env.DATABASE_URL ?? 'file:./dev.db',
+      DATABASE_URL: process.env.DATABASE_URL ?? BANCO_DA_SUITE,
       // Build de producao se recusa a assinar midia com o valor de exemplo — e isso
       // e proposital. Os testes sobem com um segredo real, como um servidor de verdade.
       SEGREDO_SESSAO:

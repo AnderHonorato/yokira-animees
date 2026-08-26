@@ -1,7 +1,7 @@
 // Arquivo: src/lib/servidor/banco/mapear-titulo.ts
 // Traducao Prisma -> formato da interface. Isolado pra ser testavel sem tocar no banco.
 
-import { posterEmDataUri } from '../../visual/posters/gerar-poster.js';
+import { arteLargaEmDataUri, posterEmDataUri } from '../../visual/posters/gerar-poster.js';
 import type { CartaoDeTitulo, DestaqueDoHero } from './tipos-catalogo.js';
 
 export interface TituloBruto {
@@ -56,7 +56,8 @@ export function paraDestaque(bruto: TituloBruto): DestaqueDoHero {
     classificacao: bruto.classificacao,
     generos: bruto.generos.map((ligacao) => ligacao.genero.nome),
     temporadas: bruto.temporadas.length,
-    arte: bruto.arteHeroUrl ?? posterEmDataUri(`${bruto.slug}-hero`, bruto.nome),
+    // Deitada: o hero agora e a arte cobrindo o painel inteiro, nao um retrato ao lado.
+    arte: bruto.arteHeroUrl ?? arteLargaEmDataUri(`${bruto.slug}-hero`, bruto.nome),
     novidade: bruto.novidade,
     chamadaGratuita: 'Versão de período de 30 dias gratuito'
   };

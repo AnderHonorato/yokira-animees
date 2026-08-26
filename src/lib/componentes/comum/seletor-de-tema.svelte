@@ -27,7 +27,9 @@
   class="tema-forma"
   method="POST"
   action="?/tema"
-  use:enhance={() => async ({ update }) => update({ reset: false })}
+  use:enhance={() =>
+    async ({ update }) =>
+      update({ reset: false })}
 >
   <fieldset class="tema-grupo">
     <legend class="tema-legenda">Tema</legend>

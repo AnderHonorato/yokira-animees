@@ -118,7 +118,11 @@ test('excluir titulo exige digitar a palavra no passo 2', async ({ page }) => {
   await expect(confirmar).toBeEnabled();
   await confirmar.click();
 
-  await expect(page).toHaveURL(/\/admin\/titulos\/[a-z0-9]+$/);
+  // Esperar o aviso de conclusao, e nao a URL: a URL ja casava ANTES do clique,
+  // entao a assercao passava na hora e o goto seguinte cancelava a requisicao de
+  // exclusao ainda em voo. O teste "passava" sem nunca ter apagado nada.
+  await expect(page.getByText('concluído')).toBeVisible();
+
   await page.goto('/admin/titulos');
   await expect(page.getByText(nome)).toBeHidden();
 });

@@ -6,36 +6,67 @@
 }
 
 .hero-painel {
-  display: grid;
-  grid-template-columns: 118px 1fr;
-  gap: var(--espaco-4);
-  padding: var(--espaco-3);
-  background: var(--cor-fundo-elevado);
-  border: 1px solid var(--cor-borda);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   border-radius: var(--raio-painel);
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-fundo-elevado);
+  /* Em pe no celular: a arte deitada recortada num quadro alto ainda respira,
+     e o texto por cima precisa de altura pra caber sem espremer. */
+  aspect-ratio: 4 / 5;
+  display: flex;
+  align-items: flex-end;
 }
 
 .hero-arte {
-  position: relative;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* 42% e onde o brilho do gerador procedural fica: recortar pelo centro exato
+     deixava o clarao alto demais e o texto brigava com ele. */
+  object-position: center 42%;
+  z-index: -2;
+}
+
+/* Veu em duas paradas: quase opaco embaixo, onde mora o texto, e transparente
+   em cima, onde a arte tem que aparecer. Uma parada so escurecia a arte inteira. */
+.hero-veu {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to top,
+    var(--veu-hero-forte) 0%,
+    var(--veu-hero-medio) 42%,
+    var(--veu-hero-nulo) 78%
+  );
 }
 
 .hero-selo {
   position: absolute;
-  top: var(--espaco-2);
-  left: var(--espaco-2);
+  top: var(--espaco-3);
+  left: var(--espaco-3);
   padding: 3px 7px;
   border-radius: var(--raio-chip);
   background: var(--cor-marca);
+  color: #ffffff;
   font-size: var(--texto-11);
   font-weight: 600;
   white-space: nowrap;
+  z-index: 1;
 }
 
 .hero-texto {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--espaco-2);
   min-width: 0;
+  width: 100%;
+  padding: var(--espaco-5) var(--espaco-4) var(--espaco-4);
 }
 
 .hero-titulo {
@@ -89,36 +120,9 @@
   margin-top: var(--espaco-2);
 }
 
-.hero-dots {
-  display: flex;
-  justify-content: center;
-  gap: var(--espaco-2);
-  margin-top: var(--espaco-3);
-}
-
-.hero-dot {
-  width: 22px;
-  height: 4px;
-  border-radius: var(--raio-botao);
-  background: var(--cor-borda);
-  transition:
-    background var(--transicao-rapida),
-    width var(--transicao-rapida);
-}
-
-.hero-dot-ativo {
-  width: 28px;
-  background: var(--cor-marca);
-}
-
-/* Em telas muito estreitas a arte vira uma faixa acima do texto pra sinopse respirar. */
-/* Abaixo de 400px: arte mais estreita e titulo menor, senao uma palavra longa como
-   "CREPUSCULO" quebra no meio e o bloco fica ilegivel. */
+/* Abaixo de 400px o titulo encolhe: uma palavra longa em caixa alta como
+   "CREPUSCULO" quebrava no meio e o bloco ficava ilegivel. */
 @media (max-width: 399px) {
-  .hero-painel {
-    grid-template-columns: 100px 1fr;
-    gap: var(--espaco-3);
-  }
   .hero-titulo {
     font-size: 1.375rem;
     hyphens: auto;
@@ -129,34 +133,28 @@
   }
 }
 
-@media (max-width: 359px) {
-  .hero-painel {
-    grid-template-columns: 1fr;
-  }
-}
-
 @media (min-width: 768px) {
   .hero-painel {
-    grid-template-columns: 240px 1fr;
-    gap: var(--espaco-6);
-    padding: var(--espaco-4);
+    aspect-ratio: 21 / 9;
+  }
+  .hero-texto {
+    padding: var(--espaco-6);
+    /* O texto ocupa a metade esquerda: sobre arte deitada, linha corrida de ponta
+       a ponta fica longa demais pra ler e ainda tapa o assunto da imagem. */
+    max-width: 60%;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-painel {
-    /* 240px de arte -> 320px de altura. Com 300px o painel esticava e sobrava um
-       vazio enorme a direita do texto, coisa que nao existe nas telas de referencia. */
-    align-items: start;
-    grid-template-columns: 240px 1fr;
-    gap: var(--espaco-8);
-    padding: var(--espaco-5);
+    aspect-ratio: 24 / 9;
   }
   .hero-titulo {
     font-size: var(--texto-40);
   }
   .hero-texto {
     gap: var(--espaco-3);
-    padding-right: var(--espaco-8);
+    padding: var(--espaco-8);
+    max-width: 52%;
   }
 }

@@ -8,6 +8,20 @@ async function corDeFundo(page: import('@playwright/test').Page) {
   return page.evaluate(() => getComputedStyle(document.body).backgroundColor);
 }
 
+/**
+ * Espera o tema ficar GRAVADO, e nao so pintado. O componente troca o atributo na
+ * hora e envia o formulario atras; conferir so o atributo passa antes do POST
+ * terminar, e a leitura seguinte corre com o cookie.
+ */
+async function esperarTemaSalvo(page: import('@playwright/test').Page, tema: string) {
+  await expect
+    .poll(async () => {
+      const cookies = await page.context().cookies();
+      return cookies.find((cookie) => cookie.name === 'yokira_tema')?.value;
+    })
+    .toBe(tema);
+}
+
 test('visitante sem conta consegue trocar o tema', async ({ page }) => {
   await page.goto('/configuracoes');
 
@@ -27,6 +41,7 @@ test('a escolha sobrevive ao recarregar e vale nas outras paginas', async ({ pag
   await page.goto('/configuracoes');
   await page.getByRole('radio', { name: /Claro/ }).check();
   await expect(page.locator('html')).toHaveAttribute('data-tema', 'claro');
+  await esperarTemaSalvo(page, 'claro');
 
   // Recarrega: quem tem que lembrar e o servidor, pelo cookie.
   await page.reload();
@@ -40,6 +55,7 @@ test('o tema ja vem no HTML do servidor — sem piscar', async ({ page }) => {
   await page.goto('/configuracoes');
   await page.getByRole('radio', { name: /Claro/ }).check();
   await expect(page.locator('html')).toHaveAttribute('data-tema', 'claro');
+  await esperarTemaSalvo(page, 'claro');
 
   // Le o HTML cru, antes de qualquer JavaScript rodar. Se o tema fosse aplicado
   // no navegador, aqui viria "escuro" e a pagina pintaria escura antes de clarear.
@@ -56,6 +72,7 @@ test('automatico segue o sistema, nos dois sentidos', async ({ browser }) => {
   await pagina.goto('/configuracoes');
   await pagina.getByRole('radio', { name: /Automático/ }).check();
   await expect(pagina.locator('html')).toHaveAttribute('data-tema', 'automatico');
+  await esperarTemaSalvo(pagina, 'automatico');
 
   const comSistemaClaro = await corDeFundo(pagina);
 
