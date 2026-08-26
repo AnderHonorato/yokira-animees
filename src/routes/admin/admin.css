@@ -43,7 +43,7 @@
 }
 
 .admin-ffmpeg-ok {
-  color: #4ade80;
+  color: var(--cor-sucesso);
 }
 
 .admin-secao {
@@ -91,6 +91,6 @@
 }
 
 .admin-fila-erro {
-  color: #fca5a5;
+  color: var(--cor-erro-texto);
   font-size: var(--texto-12);
 }

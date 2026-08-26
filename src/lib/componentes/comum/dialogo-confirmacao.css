@@ -7,7 +7,7 @@
   display: grid;
   place-items: center;
   padding: var(--espaco-4);
-  background: rgba(4, 4, 6, 0.72);
+  background: var(--cor-cortina-dialogo);
   animation: surgir var(--transicao-rapida) both;
 }
 
@@ -66,10 +66,10 @@
   margin-top: var(--espaco-3);
   padding: var(--espaco-3);
   border-radius: var(--raio-chip);
-  background: rgba(220, 38, 38, 0.12);
-  border: 1px solid rgba(220, 38, 38, 0.35);
+  background: var(--cor-erro-fundo);
+  border: 1px solid var(--cor-erro-borda);
   font-size: var(--texto-13);
-  color: #fca5a5;
+  color: var(--cor-erro-texto);
 }
 
 .dialogo-rotulo {

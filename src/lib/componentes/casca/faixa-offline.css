@@ -7,7 +7,7 @@
   padding: var(--espaco-2) var(--espaco-4);
   background: var(--cor-marca-suave);
   border-bottom: 1px solid var(--cor-borda);
-  color: #ddd6fe;
+  color: var(--cor-marca-clara);
   font-size: var(--texto-12);
   text-align: center;
 }

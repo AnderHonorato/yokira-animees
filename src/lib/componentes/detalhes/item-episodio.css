@@ -47,7 +47,7 @@
   display: grid;
   place-items: center;
   color: var(--cor-texto);
-  background: rgba(8, 8, 11, 0.35);
+  background: var(--veu-arte);
 }
 
 .episodio-corpo {

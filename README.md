@@ -316,12 +316,14 @@ Cria um mp4 sintético de 20 segundos (barras de cor e um tom de áudio) em
    nome gerado por `randomUUID()`.
 2. Um `TrabalhoProcessamento` entra no banco e o FFmpeg roda em processo
    separado, sem segurar a resposta HTTP.
-3. Saem três variantes — 360p, 720p e 1080p — em `static/hls/<id-do-arquivo>/`,
+3. Saem três variantes — 360p, 720p e 1080p — em `midia/hls/<id-do-arquivo>/`,
    mais a playlist mestre `mestre.m3u8`.
 4. O player carrega `hls.js` por import dinâmico, e só em navegador que não toca
    HLS nativamente. No Safari o suporte é nativo e a biblioteca nem é baixada.
 
-Nada disso vai para o Git: `midia/` e `static/hls/` estão no `.gitignore`.
+Nada disso vai para o Git: `midia/` está no `.gitignore`. E nada de mídia mora em
+`static/`: lá o servidor de arquivos entregaria os segmentos sem sessão nem
+assinatura — veja `docs/seguranca.md`.
 
 ## Painel administrativo
 
@@ -408,17 +410,17 @@ CHROMIUM_EXECUTAVEL=/caminho/do/chromium npm run teste:ponta
 
 Todas em `.env.exemplo`. As que importam:
 
-| Variável         | Padrão                  | Para que serve                               |
-| ---------------- | ----------------------- | -------------------------------------------- |
-| `DATABASE_URL`   | `file:./dev.db`         | Conexão do Prisma                            |
-| `SEGREDO_SESSAO` | _(troque)_              | Segredo de sessão e tokens                   |
-| `PORT`           | `4000`                  | Porta do servidor                            |
-| `ORIGIN`         | `http://localhost:4000` | Origem pública — **obrigatória** em produção |
-| `PASTA_UPLOADS`  | `./midia/originais`     | Onde os originais são gravados               |
-| `PASTA_HLS`      | `./static/hls`          | Onde saem os segmentos HLS                   |
-| `CAMINHO_FFMPEG` | `ffmpeg`                | Binário do FFmpeg                            |
-| `ADMIN_EMAIL`    | `admin@yokira.local`    | Conta criada pelo seed                       |
-| `ADMIN_SENHA`    | `YokiraAdmin#2024`      | Senha dessa conta                            |
+| Variável         | Padrão                  | Para que serve                                  |
+| ---------------- | ----------------------- | ----------------------------------------------- |
+| `DATABASE_URL`   | `file:./dev.db`         | Conexão do Prisma                               |
+| `SEGREDO_SESSAO` | _(troque)_              | Segredo de sessão e tokens                      |
+| `PORT`           | `4000`                  | Porta do servidor                               |
+| `ORIGIN`         | `http://localhost:4000` | Origem pública — **obrigatória** em produção    |
+| `PASTA_UPLOADS`  | `./midia/originais`     | Onde os originais são gravados                  |
+| `PASTA_HLS`      | `./midia/hls`           | Onde saem os segmentos HLS (nunca em `static/`) |
+| `CAMINHO_FFMPEG` | `ffmpeg`                | Binário do FFmpeg                               |
+| `ADMIN_EMAIL`    | `admin@yokira.local`    | Conta criada pelo seed                          |
+| `ADMIN_SENHA`    | `YokiraAdmin#2024`      | Senha dessa conta                               |
 
 `ORIGIN` errada em produção quebra o envio de formulários: o SvelteKit rejeita
 POST de origem diferente por proteção contra CSRF.
@@ -441,7 +443,7 @@ Lista de conferência:
 - [ ] PostgreSQL no lugar do SQLite ([guia](docs/migracao-postgresql.md))
 - [ ] Proxy reverso terminando TLS e limitando requisições por IP
 - [ ] Senha do administrador trocada
-- [ ] `midia/` e `static/hls/` em disco com backup
+- [ ] `midia/` em disco com backup
 
 ## Erros comuns
 

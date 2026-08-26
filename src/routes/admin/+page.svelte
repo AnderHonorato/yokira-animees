@@ -3,6 +3,8 @@
 <script lang="ts">
   import './admin.css';
   import './tabela-admin.css';
+  import './admin-formularios.css';
+  import './admin-tabela.css';
   import Upload from '$visual/icones/upload.svelte';
   import Verificado from '$visual/icones/verificado.svelte';
   import Chip from '$componentes/comum/chip.svelte';

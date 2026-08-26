@@ -94,7 +94,7 @@
 
 .titulo-hero-recado {
   font-size: var(--texto-12);
-  color: #fca5a5;
+  color: var(--cor-erro-texto);
 }
 
 /* Mesma regra do hero da home: em 360px a palavra longa nao pode quebrar no meio. */

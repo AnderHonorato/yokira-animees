@@ -34,7 +34,7 @@
     height: 40px;
     transform: translateY(-50%);
     border-radius: var(--raio-botao);
-    background: rgba(17, 17, 22, 0.92);
+    background: var(--cor-seta-carrossel);
     border: 1px solid var(--cor-borda);
     color: var(--cor-texto);
     opacity: 0;

@@ -69,3 +69,16 @@
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio-painel);
 }
+
+/* Titulo de secao. A tela deixou de ser so "acoes da conta" quando a aparencia
+   entrou — e a aparencia aparece tambem pra quem nao tem conta. */
+.config-secao {
+  margin: var(--espaco-6) 0 var(--espaco-3);
+  font-size: var(--texto-16);
+  font-weight: 700;
+  color: var(--cor-texto);
+}
+
+.config-secao:first-of-type {
+  margin-top: var(--espaco-4);
+}

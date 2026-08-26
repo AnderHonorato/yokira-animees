@@ -1,6 +1,7 @@
 /* Arquivo: src/routes/admin/tabela-admin.css */
-/* Tabelas, formularios e abas das telas de gestao. Separado do admin.css, que ficou
-   com o painel de numeros e a fila de processamento. */
+/* Avisos, abas, zona de risco e atalhos do painel. Campos ficam em
+   admin-formularios.css e listagens em admin-tabela.css — o arquivo unico
+   tinha chegado a 295 linhas, contra o teto de 180 do projeto. */
 
 .admin-voltar {
   display: inline-block;
@@ -21,10 +22,10 @@
 .admin-erro {
   padding: var(--espaco-3);
   border-radius: var(--raio-chip);
-  background: rgba(220, 38, 38, 0.12);
-  border: 1px solid rgba(220, 38, 38, 0.35);
+  background: var(--cor-erro-fundo);
+  border: 1px solid var(--cor-erro-borda);
   font-size: var(--texto-13);
-  color: #fca5a5;
+  color: var(--cor-erro-texto);
 }
 
 .admin-secao-cabecalho {
@@ -34,230 +35,6 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--espaco-3);
-}
-
-/* --- Formularios --- */
-
-.admin-busca,
-.admin-forma,
-.admin-forma-inline {
-  display: flex;
-  gap: var(--espaco-3);
-}
-
-.admin-busca,
-.admin-forma-inline {
-  flex-wrap: wrap;
-  align-items: flex-end;
-}
-
-.admin-forma {
-  flex-direction: column;
-  padding: var(--espaco-4);
-  margin-bottom: var(--espaco-4);
-  background: var(--cor-fundo-elevado);
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-painel);
-}
-
-.admin-busca {
-  margin-bottom: var(--espaco-4);
-}
-
-.admin-forma-linha {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espaco-3);
-}
-
-.admin-campo {
-  display: flex;
-  flex-direction: column;
-  gap: var(--espaco-2);
-  font-size: var(--texto-12);
-  color: var(--cor-texto-secundario);
-}
-
-.admin-campo-largo {
-  flex: 1 1 220px;
-}
-
-.admin-campo input,
-.admin-campo select,
-.admin-campo textarea {
-  min-height: var(--alvo-toque);
-  padding: var(--espaco-2) var(--espaco-3);
-  border-radius: var(--raio-chip);
-  background: var(--cor-superficie);
-  border: 1px solid var(--cor-borda);
-  font-size: var(--texto-14);
-  color: var(--cor-texto);
-  font-family: inherit;
-}
-
-.admin-campo textarea {
-  resize: vertical;
-}
-
-/* Rotulo que existe pro leitor de tela e nao ocupa espaco na tela. */
-.admin-rotulo-oculto {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-.admin-grupo {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espaco-3);
-  padding: var(--espaco-3);
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-chip);
-}
-
-.admin-grupo legend {
-  padding: 0 var(--espaco-2);
-  font-size: var(--texto-12);
-  color: var(--cor-texto-secundario);
-}
-
-.admin-marcador {
-  display: flex;
-  align-items: center;
-  gap: var(--espaco-2);
-  min-height: var(--alvo-toque);
-  font-size: var(--texto-13);
-}
-
-/* --- Tabelas --- */
-
-.admin-tabela {
-  display: flex;
-  flex-direction: column;
-  gap: var(--espaco-2);
-}
-
-.admin-linha {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espaco-3);
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--espaco-3);
-  background: var(--cor-superficie);
-  border-radius: var(--raio-chip);
-}
-
-.admin-linha-principal {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-size: var(--texto-14);
-  color: var(--cor-texto);
-}
-
-.admin-linha-meta {
-  font-size: var(--texto-12);
-  color: var(--cor-texto-terciario);
-}
-
-.admin-linha-marcas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espaco-2);
-  align-items: center;
-}
-
-/* --- Temporadas e episodios --- */
-
-.admin-temporada {
-  padding: var(--espaco-4);
-  margin-top: var(--espaco-3);
-  background: var(--cor-fundo-elevado);
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-painel);
-}
-
-.admin-temporada-cabecalho {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espaco-3);
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--espaco-3);
-}
-
-.admin-temporada-cabecalho h3 {
-  font-size: var(--texto-16);
-}
-
-.admin-episodios {
-  display: flex;
-  flex-direction: column;
-  gap: var(--espaco-2);
-  margin-bottom: var(--espaco-3);
-}
-
-.admin-episodio {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espaco-3);
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--espaco-3);
-  background: var(--cor-superficie);
-  border-radius: var(--raio-chip);
-  font-size: var(--texto-13);
-}
-
-.admin-episodio-nome {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.admin-episodio-acoes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espaco-2);
-  align-items: center;
-}
-
-/* --- Zona de risco e abas --- */
-
-.admin-secao-perigo {
-  border: 1px solid rgba(220, 38, 38, 0.35);
-}
-
-.admin-perigo-acoes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espaco-3);
-}
-
-.admin-abas {
-  display: flex;
-  gap: var(--espaco-2);
-  margin-bottom: var(--espaco-4);
-}
-
-.admin-aba {
-  min-height: var(--alvo-toque);
-  display: inline-flex;
-  align-items: center;
-  padding: 0 var(--espaco-4);
-  border-radius: var(--raio-botao);
-  background: var(--cor-superficie);
-  font-size: var(--texto-13);
-  color: var(--cor-texto-secundario);
-}
-
-.admin-aba-ativa {
-  background: var(--cor-marca);
-  color: var(--cor-texto);
 }
 
 /* --- Atalhos da home do painel --- */

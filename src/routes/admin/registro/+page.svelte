@@ -2,6 +2,8 @@
 <script lang="ts">
   import '../admin.css';
   import '../tabela-admin.css';
+  import '../admin-formularios.css';
+  import '../admin-tabela.css';
 
   export let data;
 

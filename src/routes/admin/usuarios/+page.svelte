@@ -4,6 +4,8 @@
 <script lang="ts">
   import '../admin.css';
   import '../tabela-admin.css';
+  import '../admin-formularios.css';
+  import '../admin-tabela.css';
   import { invalidateAll } from '$app/navigation';
   import BotaoPill from '$componentes/comum/botao-pill.svelte';
   import Chip from '$componentes/comum/chip.svelte';

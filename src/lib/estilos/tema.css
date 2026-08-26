@@ -1,7 +1,11 @@
 /* Arquivo: src/lib/estilos/tema.css */
 /* Tokens tirados direto das telas de referencia do Yokira. */
+/* O ESCURO e o padrao da marca e mora aqui. O claro fica em tema-claro.css, que
+   so remapeia as cores — tipografia, ritmo e medidas nao mudam com o tema. */
 
 :root {
+  color-scheme: dark;
+
   /* Superficies */
   --cor-fundo: #08080b;
   --cor-fundo-elevado: #111116;
@@ -17,11 +21,30 @@
   /* Texto */
   --cor-texto: #ffffff;
   --cor-texto-secundario: #a1a1ac;
-  --cor-texto-terciario: #6f6f7b;
+  --cor-texto-terciario: #8a8a96;
 
   /* Apoio */
   --cor-estrela: #f5c518;
   --cor-coroa: #f0b429;
+  --cor-marca-clara: #c4b5fd;
+  --cor-sucesso: #4ade80;
+
+  /* Estado de erro. Estava cru em seis arquivos; sem token, o tema claro
+     mostraria texto rosa-claro sobre fundo branco. */
+  --cor-erro-texto: #fca5a5;
+  --cor-erro-fundo: rgba(220, 38, 38, 0.12);
+  --cor-erro-borda: rgba(220, 38, 38, 0.35);
+
+  /* Veus e sobreposicoes. O veu do hero termina na cor de fundo da pagina:
+     no tema claro ele precisa clarear, nao escurecer. */
+  --veu-arte: rgba(8, 8, 11, 0.35);
+  --veu-hero-forte: rgba(8, 8, 11, 0.72);
+  --veu-hero-medio: rgba(8, 8, 11, 0.35);
+  --veu-hero-lateral: rgba(8, 8, 11, 0.6);
+  --veu-hero-nulo: rgba(8, 8, 11, 0);
+  --cor-cortina-dialogo: rgba(4, 4, 6, 0.72);
+  --cor-seta-carrossel: rgba(17, 17, 22, 0.92);
+  --brilho-esqueleto: rgba(255, 255, 255, 0.06);
 
   /* Tipografia — escala propositalmente pequena */
   --fonte-base: 'Inter', system-ui, sans-serif;

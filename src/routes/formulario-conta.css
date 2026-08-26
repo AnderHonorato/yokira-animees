@@ -56,10 +56,10 @@
 .conta-erro {
   padding: var(--espaco-3);
   border-radius: var(--raio-chip);
-  background: rgba(220, 38, 38, 0.12);
-  border: 1px solid rgba(220, 38, 38, 0.35);
+  background: var(--cor-erro-fundo);
+  border: 1px solid var(--cor-erro-borda);
   font-size: var(--texto-13);
-  color: #fca5a5;
+  color: var(--cor-erro-texto);
 }
 
 /* Aviso neutro/positivo: link enviado, e-mail confirmado, senha redefinida. */

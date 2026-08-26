@@ -19,15 +19,15 @@
   inset: 0;
   background: linear-gradient(
     to right,
-    rgba(8, 8, 11, 0) 55%,
-    rgba(8, 8, 11, 0.35) 82%,
-    rgba(8, 8, 11, 0.72) 100%
+    var(--veu-hero-nulo) 55%,
+    var(--veu-hero-medio) 82%,
+    var(--veu-hero-forte) 100%
   );
   pointer-events: none;
 }
 
 @media (max-width: 1023px) {
   .recorte-hero-veu {
-    background: linear-gradient(to right, rgba(8, 8, 11, 0) 60%, rgba(8, 8, 11, 0.6) 100%);
+    background: linear-gradient(to right, var(--veu-hero-nulo) 60%, var(--veu-hero-lateral) 100%);
   }
 }

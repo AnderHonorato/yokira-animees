@@ -13,7 +13,7 @@
 
 .chip-roxo {
   background: var(--cor-marca-suave);
-  color: #c4b5fd;
+  color: var(--cor-marca-clara);
 }
 
 .chip-neutro {

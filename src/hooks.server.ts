@@ -5,6 +5,7 @@
 import type { Handle } from '@sveltejs/kit';
 import { NOME_COOKIE_SESSAO, lerSessao } from '$lib/servidor/autenticacao/sessao';
 import { apagarCookieDeSessao } from '$lib/servidor/autenticacao/cookie';
+import { NOME_COOKIE_TEMA, metaDeTema, normalizarTema } from '$lib/validacoes/tema';
 
 const CABECALHOS_DE_SEGURANCA: Record<string, string> = {
   'X-Content-Type-Options': 'nosniff',
@@ -20,7 +21,15 @@ export const handle: Handle = async ({ event, resolve }) => {
   // Cookie apontando pra sessao morta so atrapalha: limpo na hora.
   if (id && !event.locals.usuario) apagarCookieDeSessao(event.cookies);
 
-  const resposta = await resolve(event);
+  // O tema entra no HTML no servidor. Resolver isso no navegador faria a pagina
+  // pintar escura e so depois clarear — o "flash" que todo tema claro mal feito tem.
+  const tema = normalizarTema(event.cookies.get(NOME_COOKIE_TEMA));
+  event.locals.tema = tema;
+
+  const resposta = await resolve(event, {
+    transformPageChunk: ({ html }) =>
+      html.replace('%yokira.tema%', tema).replace('%yokira.metaTema%', metaDeTema(tema))
+  });
   for (const [chave, valor] of Object.entries(CABECALHOS_DE_SEGURANCA)) {
     resposta.headers.set(chave, valor);
   }

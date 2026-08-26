@@ -94,7 +94,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #4ade80;
+  background: var(--cor-sucesso);
   animation: pulsar-ponto 1.6s ease-in-out infinite;
 }
 

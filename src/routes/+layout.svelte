@@ -3,6 +3,7 @@
      no toque, "hover" nao existe e a rota so comecaria a carregar depois do clique. -->
 <script lang="ts">
   import '$lib/estilos/tema.css';
+  import '$lib/estilos/tema-claro.css';
   import '$lib/estilos/base.css';
   import '$lib/estilos/animacoes.css';
   import './layout.css';
