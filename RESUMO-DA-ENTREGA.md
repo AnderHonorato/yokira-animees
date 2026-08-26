@@ -271,7 +271,12 @@ back-end por trás. Estão aqui para não haver surpresa.
 
 Em ordem de retorno sobre esforço.
 
-### 5.1. Navegação instantânea de verdade — 1 a 2 dias
+> **Estado em 26/08/2026.** Quatro itens desta lista já foram entregues:
+> **5.1**, **5.2**, **5.5** e **5.8**. Ficam abaixo com o texto original
+> preservado, marcados como concluídos e com o link do que ler agora. Os
+> demais continuam em aberto.
+
+### 5.1. Navegação instantânea de verdade — CONCLUÍDO
 
 Hoje o cache em IndexedDB alimenta o pré-carregamento, mas o `load` da home ainda
 espera o servidor. Mover a home e o catálogo para um `+page.ts` universal que
@@ -281,13 +286,23 @@ do round-trip.
 Ganho esperado: de ~490 ms para menos de 100 ms em 4G — a meta que hoje só é
 atingida em rede local. É o item de maior impacto percebido da lista.
 
-### 5.2. Proteger os segmentos HLS — 2 a 3 dias
+**Feito.** Home e catálogo saíram de `+page.server.ts` e usam um `load`
+universal que lê o IndexedDB primeiro (`src/lib/cliente/carga-instantanea.ts`).
+Um teste de ponta a ponta trava o `/api/catalogo` em 3 s e confirma que a home
+ainda pinta em menos de 2 s.
+
+### 5.2. Proteger os segmentos HLS — CONCLUÍDO
 
 Substituir o servimento estático por um endpoint que valide a sessão e devolva a
 playlist com URLs assinadas de validade curta (5 a 10 min). Sem isso, qualquer
 conteúdo licenciado está aberto.
 
 Combina bem com marca d'água por sessão, se houver preocupação com redistribuição.
+
+**Feito.** Tudo passa por `/midia/hls/[arquivoId]/[recurso]`, que exige sessão
+**e** assinatura HMAC amarrada ao usuário. A playlist sai reescrita com cada
+segmento já assinado. Detalhes em `docs/seguranca.md`. A marca d'água por
+sessão continua não existindo.
 
 ### 5.3. PostgreSQL e busca de verdade — 1 dia
 
@@ -301,11 +316,15 @@ Uma fila com concorrência limitada (1 ou 2 trabalhos), retomada de trabalhos
 presos em `PROCESSANDO` na inicialização, e progresso real lido do `-progress` do
 FFmpeg. Uma tabela e um laço resolvem; não precisa de Redis nesta escala.
 
-### 5.5. Verificação de e-mail e recuperação de senha — 2 dias
+### 5.5. Verificação de e-mail e recuperação de senha — CONCLUÍDO
 
 As tabelas já existem. Falta o serviço de envio (Resend ou SMTP), duas telas e
 dois endpoints. Enquanto isso não existir, ninguém que esquecer a senha consegue
 voltar.
+
+**Feito.** Três transportes sem dependência nova (`console`, `arquivo`,
+`resend`), telas de recuperar/redefinir/verificar, e faixa de confirmação
+pendente em `/configuracoes`. Redefinir revoga todas as sessões.
 
 ### 5.6. Fechar o que a referência promete — 3 a 4 dias
 
@@ -319,13 +338,18 @@ Adicionar `@axe-core/playwright` e rodar em cada rota, nas duas larguras. Os
 alvos de toque e o foco visível já estão cuidados; um teste automatizado impede
 que uma regressão passe despercebida.
 
-### 5.8. Painel administrativo completo — 4 a 5 dias
+### 5.8. Painel administrativo completo — CONCLUÍDO
 
 Hoje o painel mostra números e recebe upload. Falta criar e editar títulos,
 temporadas e episódios pela interface, gerenciar usuários e papéis, e tratar as
 denúncias — os modelos `Denuncia` e `RegistroAdministrativo` existem e não têm
 tela. Toda ação destrutiva aí precisa passar pelo `dialogo-confirmacao`, que já
 está pronto para receber.
+
+**Feito.** `/admin/titulos`, `/admin/usuarios`, `/admin/denuncias` e
+`/admin/registro`, com a tabela de papéis por área no `README.md`. Tudo que
+apaga consome o token de uso único da dupla confirmação, com o alvo amarrado
+ao token. Não é possível rebaixar o último administrador.
 
 ### 5.9. Observabilidade — 1 dia
 
