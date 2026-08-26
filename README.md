@@ -328,6 +328,21 @@ Nada disso vai para o Git: `midia/` e `static/hls/` estão no `.gitignore`.
 Em `/admin`, exige papel **EDITOR** ou superior. Mostra a contagem de títulos e
 episódios, se o FFmpeg está disponível e a fila de processamento.
 
+| Área         | Caminho            | Papel mínimo  | O que faz                                               |
+| ------------ | ------------------ | ------------- | ------------------------------------------------------- |
+| Títulos      | `/admin/titulos`   | EDITOR        | Criar, buscar, editar, publicar; temporadas e episódios |
+| Denúncias    | `/admin/denuncias` | MODERADOR     | Ver abertas e resolvidas, marcar resolvida e reabrir    |
+| Registro     | `/admin/registro`  | MODERADOR     | As 100 ações administrativas mais recentes              |
+| Usuários     | `/admin/usuarios`  | ADMINISTRADOR | Buscar contas, trocar papel, remover                    |
+| Enviar vídeo | `/admin/enviar`    | EDITOR        | Upload do original e geração do HLS                     |
+
+Tudo que apaga passa pela dupla confirmação, e o servidor exige o token de uso
+único emitido no passo 1 — pular a tela e chamar a API direto não funciona.
+Não é possível rebaixar o último administrador.
+
+As listas mostram no máximo 100 linhas, da mais recente para a mais antiga; a
+tela avisa quando bate no teto e a busca resolve o resto.
+
 Primeiro envio:
 
 1. Entre com `admin@yokira.local`.

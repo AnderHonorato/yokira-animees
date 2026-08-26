@@ -2,6 +2,7 @@
 <!-- Painel administrativo: numeros, estado do ffmpeg e fila de processamento. -->
 <script lang="ts">
   import './admin.css';
+  import './tabela-admin.css';
   import Upload from '$visual/icones/upload.svelte';
   import Verificado from '$visual/icones/verificado.svelte';
   import Chip from '$componentes/comum/chip.svelte';
@@ -21,6 +22,33 @@
 
 <h1 class="admin-titulo">Painel administrativo</h1>
 <p class="admin-subtitulo">Entrou como {data.usuario.nome} ({data.usuario.papel}).</p>
+
+<nav class="admin-atalhos" aria-label="Áreas do painel">
+  <a class="admin-atalho" href="/admin/titulos">
+    <strong>Títulos</strong>
+    <span>Criar, editar, publicar e organizar temporadas e episódios</span>
+  </a>
+  {#if data.podeModerar}
+    <a class="admin-atalho" href="/admin/denuncias">
+      <strong>Denúncias</strong>
+      <span>
+        {data.denunciasAbertas === 0
+          ? 'Nenhuma denúncia aberta'
+          : `${data.denunciasAbertas} denúncia(s) aberta(s)`}
+      </span>
+    </a>
+    <a class="admin-atalho" href="/admin/registro">
+      <strong>Registro</strong>
+      <span>Quem fez o quê, da ação mais recente para a mais antiga</span>
+    </a>
+  {/if}
+  {#if data.podeGerirUsuarios}
+    <a class="admin-atalho" href="/admin/usuarios">
+      <strong>Usuários</strong>
+      <span>Contas, papéis e remoção</span>
+    </a>
+  {/if}
+</nav>
 
 <div class="admin-numeros">
   <div class="admin-cartao"><strong>{data.titulos}</strong><span>títulos</span></div>

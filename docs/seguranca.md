@@ -52,6 +52,25 @@ Ações cobertas: excluir conta, excluir título/temporada/episódio, remover us
 despublicar conteúdo, limpar histórico, limpar dados baixados, encerrar todas as
 sessões, reprocessar vídeo publicado.
 
+## Painel administrativo
+
+O `+layout.server.ts` do `/admin` garante **EDITOR** para toda a área. Isso
+protege a tela, não o dado: cada `action` e cada rota exige o papel de novo —
+`/admin/usuarios` pede **ADMINISTRADOR**, `/admin/denuncias` e
+`/admin/registro` pedem **MODERADOR**.
+
+Tudo que apaga passa por `/api/admin`, que **consome o token de uso único** da
+dupla confirmação antes de tocar no banco. O token é emitido com o `alvo`
+junto, então um token emitido para apagar o título A não apaga o título B.
+
+Trocar papel também passa pela dupla confirmação — promover alguém a
+ADMINISTRADOR é, na prática, tão irreversível quanto apagar. E há uma trava:
+**não é possível rebaixar o último administrador**. Sem ela, um clique errado
+tranca todo mundo para fora do painel e só o banco resolve.
+
+Toda ação consumada vira linha em `RegistroAdministrativo`, agora legível em
+`/admin/registro`.
+
 ## Papéis
 
 `ESPECTADOR < EDITOR < MODERADOR < ADMINISTRADOR`, comparados por peso em

@@ -12,6 +12,7 @@ const ACOES_PERMITIDAS = new Set([
   'excluir-temporada',
   'excluir-episodio',
   'remover-usuario',
+  'trocar-papel',
   'despublicar-conteudo',
   'limpar-historico',
   'limpar-dados-baixados',
