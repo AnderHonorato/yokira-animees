@@ -2,12 +2,12 @@
 // Tokens de verificacao e recuperacao contra SQLite de verdade: uso unico, prazo,
 // hash no banco e a trava que impede pedir link novo a cada segundo.
 
-import { execFileSync } from 'node:child_process';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { rodarPrisma } from './preparar-banco';
 
 const digerir = (valor: string) => createHash('sha256').update(valor).digest('hex');
 
@@ -19,10 +19,7 @@ let usuarioId: string;
 beforeAll(async () => {
   pasta = mkdtempSync(join(tmpdir(), 'yokira-tokens-'));
   const url = `file:${join(pasta, 'teste.db')}`;
-  execFileSync('npx', ['prisma', 'migrate', 'deploy'], {
-    env: { ...process.env, DATABASE_URL: url },
-    stdio: 'pipe'
-  });
+  rodarPrisma(['migrate', 'deploy'], url);
 
   // O cliente do Prisma le a URL no import e se guarda no globalThis; por isso a
   // variavel entra antes e o cache sai do caminho.
