@@ -68,16 +68,6 @@
   background: var(--cor-superficie-hover);
 }
 
-.cabecalho-idioma {
-  display: none;
-  align-items: center;
-  gap: var(--espaco-1);
-  height: var(--alvo-toque);
-  padding: 0 var(--espaco-2);
-  font-size: var(--texto-13);
-  color: var(--cor-texto);
-}
-
 .cabecalho-painel {
   display: inline-flex;
   align-items: center;
@@ -131,7 +121,6 @@
   .cabecalho-navegacao {
     padding-top: 0;
   }
-  .cabecalho-idioma,
   .cabecalho-assinar {
     display: inline-flex;
   }

@@ -1,5 +1,5 @@
 <!-- Arquivo: src/lib/componentes/casca/cabecalho.svelte -->
-<!-- Cabecalho das tres telas: logo a esquerda, navegacao, e a direita busca/idioma/avatar. -->
+<!-- Cabecalho das tres telas: logo a esquerda, navegacao, e a direita busca/painel/avatar. -->
 <!-- No mobile a navegacao cai pra linha de baixo (imagens 1 e 2); no desktop fica na mesma linha. -->
 <script lang="ts">
   import './cabecalho.css';
@@ -7,7 +7,6 @@
   import Lupa from '$visual/icones/lupa.svelte';
   import Perfil from '$visual/icones/perfil.svelte';
   import Coroa from '$visual/icones/coroa.svelte';
-  import SetaBaixo from '$visual/icones/seta-baixo.svelte';
   import NavegacaoPrincipal from './navegacao-principal.svelte';
   import type { UsuarioDaSessao } from '$servidor/autenticacao/sessao';
 
@@ -34,11 +33,6 @@
           <span class="cabecalho-painel-rotulo">Painel</span>
         </a>
       {/if}
-
-      <button class="cabecalho-idioma" type="button" aria-label="Idioma da interface: português">
-        <span>PT</span>
-        <SetaBaixo tamanho={14} />
-      </button>
 
       <a
         class="cabecalho-avatar"
