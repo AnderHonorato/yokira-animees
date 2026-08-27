@@ -33,7 +33,7 @@
 <Avisos />
 
 <div class="casca" data-sveltekit-preload-data={prefetch}>
-  <Cabecalho usuario={data.usuario} />
+  <Cabecalho usuario={data.usuario} podeAcessarPainel={data.podeAcessarPainel} />
 
   <main class="casca-conteudo">
     <slot />

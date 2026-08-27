@@ -6,11 +6,13 @@
   import LogoYokira from '$visual/marca/logo-yokira.svelte';
   import Lupa from '$visual/icones/lupa.svelte';
   import Perfil from '$visual/icones/perfil.svelte';
+  import Coroa from '$visual/icones/coroa.svelte';
   import SetaBaixo from '$visual/icones/seta-baixo.svelte';
   import NavegacaoPrincipal from './navegacao-principal.svelte';
   import type { UsuarioDaSessao } from '$servidor/autenticacao/sessao';
 
   export let usuario: UsuarioDaSessao | null = null;
+  export let podeAcessarPainel = false;
 </script>
 
 <header class="cabecalho">
@@ -23,6 +25,15 @@
       <a class="cabecalho-botao-icone" href="/buscar" aria-label="Buscar títulos">
         <Lupa tamanho={20} />
       </a>
+
+      <!-- Sem este atalho o painel so era alcancavel digitando /admin na barra de
+           endereco, e no celular nem isso era pratico. -->
+      {#if podeAcessarPainel}
+        <a class="cabecalho-painel" href="/admin" aria-label="Painel administrativo">
+          <Coroa tamanho={18} />
+          <span class="cabecalho-painel-rotulo">Painel</span>
+        </a>
+      {/if}
 
       <button class="cabecalho-idioma" type="button" aria-label="Idioma da interface: português">
         <span>PT</span>
