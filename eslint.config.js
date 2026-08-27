@@ -31,6 +31,9 @@ export default [
   },
   {
     ignores: [
+      // Segmento HLS tem extensao .ts igual a TypeScript. Sem esta linha, o lint tenta
+      // parsear video como codigo e quebra assim que alguem transcodifica um episodio.
+      'midia/',
       'build/',
       '.svelte-kit/',
       'node_modules/',
