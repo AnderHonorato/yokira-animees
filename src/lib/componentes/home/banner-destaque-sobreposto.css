@@ -61,6 +61,27 @@
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
 }
 
+/* Contagem ate o proximo destaque. Dois pixels de proposito: informa quem procura
+   e desaparece pra quem nao. Fica na borda de baixo do painel, onde o veu ja e solido. */
+.hero-progresso {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+  width: 100%;
+  height: 2px;
+  background: var(--cor-marca);
+  opacity: 0.7;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: preencher-progresso var(--duracao-do-destaque) linear forwards;
+}
+
+/* Parada com o cursor em cima: a contagem tambem para, entao a barra para junto. */
+.hero-progresso-pausado {
+  animation-play-state: paused;
+}
+
 .hero-dots {
   display: flex;
   justify-content: center;

@@ -33,6 +33,15 @@
   }
 }
 
+@keyframes preencher-progresso {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @keyframes girar {
   to {
     transform: rotate(360deg);

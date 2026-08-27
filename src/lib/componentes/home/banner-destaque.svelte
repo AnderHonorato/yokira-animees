@@ -16,7 +16,7 @@
   import Girador from '../comum/girador.svelte';
   import { alternarLista, avaliar } from '$cliente/acoes-do-usuario';
   import { avisar, avisarErro } from '$cliente/avisos';
-  import { criarRotacao, proximoIndice } from './banner-destaque';
+  import { INTERVALO_MS, criarRotacao, proximoIndice } from './banner-destaque';
   import type { DestaqueDoHero } from '$servidor/banco/tipos-catalogo';
 
   export let destaques: DestaqueDoHero[] = [];
@@ -70,9 +70,37 @@
     }
   }
 
+  // A barra de progresso e uma animacao de CSS, nao um timer paralelo: dois relogios
+  // contando o mesmo intervalo sempre acabam divergindo. `ciclo` remonta o elemento
+  // e com isso reinicia a animacao do zero, exatamente quando a contagem reinicia.
+  let pausado = false;
+  let ciclo = 0;
+
   const rotacao = criarRotacao(() => {
     indice = proximoIndice(indice, destaques.length);
+    ciclo += 1;
   });
+
+  function pausar() {
+    rotacao.parar();
+    pausado = true;
+    ciclo += 1;
+  }
+
+  function retomar() {
+    pausado = false;
+    ciclo += 1;
+    rotacao.iniciar();
+  }
+
+  /** Escolher um destaque na mao devolve os 7s inteiros; herdar o resto seria um pulo. */
+  function irPara(posicao: number) {
+    indice = posicao;
+    ciclo += 1;
+    if (pausado) return;
+    rotacao.parar();
+    rotacao.iniciar();
+  }
 
   onMount(() => {
     rotacao.iniciar();
@@ -84,10 +112,10 @@
   <section
     class="hero"
     aria-label="Destaque do catálogo"
-    on:mouseenter={rotacao.parar}
-    on:mouseleave={rotacao.iniciar}
-    on:focusin={rotacao.parar}
-    on:focusout={rotacao.iniciar}
+    on:mouseenter={pausar}
+    on:mouseleave={retomar}
+    on:focusin={pausar}
+    on:focusout={retomar}
   >
     <div class="hero-painel">
       <img
@@ -98,6 +126,19 @@
         decoding="async"
       />
       <div class="hero-veu" aria-hidden="true"></div>
+
+      <!-- Com um destaque so nao ha proximo, e uma barra que nunca leva a lugar nenhum
+           seria enfeite mentindo que algo vai acontecer. -->
+      {#if destaques.length > 1}
+        {#key ciclo}
+          <div
+            class="hero-progresso"
+            class:hero-progresso-pausado={pausado}
+            style:--duracao-do-destaque={`${INTERVALO_MS}ms`}
+            aria-hidden="true"
+          ></div>
+        {/key}
+      {/if}
 
       {#if atual.novidade}
         <span class="hero-selo">Novo episódio</span>
@@ -166,7 +207,7 @@
           role="tab"
           aria-selected={posicao === indice}
           aria-label={`Ver ${destaque.nome}`}
-          on:click={() => (indice = posicao)}
+          on:click={() => irPara(posicao)}
         ></button>
       {/each}
     </div>
