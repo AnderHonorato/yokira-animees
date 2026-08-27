@@ -493,6 +493,7 @@ ou nas ferramentas do navegador: Application → Service Workers → Unregister.
 | [`docs/migracao-postgresql.md`](docs/migracao-postgresql.md) | Passo a passo da migração                                 |
 | [`docs/auditoria-visual.md`](docs/auditoria-visual.md)       | Comparação com as telas de referência                     |
 | [`RESUMO-DA-ENTREGA.md`](RESUMO-DA-ENTREGA.md)               | O que foi feito, pontos de atenção e próximos passos      |
+| [`docs/continuidade.md`](docs/continuidade.md)               | Regras, decisões e pendências para retomar o trabalho     |
 
 ---
 
