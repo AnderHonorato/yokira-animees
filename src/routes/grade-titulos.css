@@ -73,10 +73,3 @@
   color: var(--cor-texto-secundario);
   margin-top: var(--espaco-5);
 }
-
-@media (min-width: 1024px) {
-  .grade-titulos {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: var(--espaco-6) var(--espaco-4);
-  }
-}
