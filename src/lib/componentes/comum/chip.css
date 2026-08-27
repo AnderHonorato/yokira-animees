@@ -22,7 +22,7 @@
 }
 
 .chip-classificacao {
-  background: var(--cor-marca);
-  color: var(--cor-texto);
+  background: var(--cor-marca-superficie);
+  color: var(--cor-texto-sobre-marca);
   padding: 1px 6px;
 }

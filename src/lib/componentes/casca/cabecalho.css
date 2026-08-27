@@ -84,8 +84,8 @@
   height: 40px;
   padding: 0 var(--espaco-5);
   border-radius: var(--raio-botao);
-  background: var(--cor-marca);
-  color: var(--cor-texto);
+  background: var(--cor-marca-superficie);
+  color: var(--cor-texto-sobre-marca);
   font-size: var(--texto-13);
   font-weight: 600;
   transition: background var(--transicao-rapida);

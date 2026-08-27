@@ -36,6 +36,13 @@
   --claro-coroa: #8f5a04;
   --claro-sucesso: #15803d;
 
+  /* No claro o roxo ja e escuro o bastante pra branco por cima (7.10:1), e o verde
+     precisa de branco em vez do verde-quase-preto do escuro (3.40:1 -> 5.02:1). */
+  --claro-marca-superficie: #6d28d9;
+  --claro-texto-sobre-marca: #ffffff;
+  --claro-sucesso-superficie: #15803d;
+  --claro-texto-sobre-sucesso: #ffffff;
+
   --claro-erro-texto: #b91c1c;
   --claro-erro-fundo: rgba(220, 38, 38, 0.1);
   --claro-erro-borda: rgba(220, 38, 38, 0.3);
@@ -75,6 +82,10 @@
   --cor-estrela: var(--claro-estrela);
   --cor-coroa: var(--claro-coroa);
   --cor-sucesso: var(--claro-sucesso);
+  --cor-marca-superficie: var(--claro-marca-superficie);
+  --cor-texto-sobre-marca: var(--claro-texto-sobre-marca);
+  --cor-sucesso-superficie: var(--claro-sucesso-superficie);
+  --cor-texto-sobre-sucesso: var(--claro-texto-sobre-sucesso);
 
   --cor-erro-texto: var(--claro-erro-texto);
   --cor-erro-fundo: var(--claro-erro-fundo);
@@ -113,6 +124,10 @@
     --cor-estrela: var(--claro-estrela);
     --cor-coroa: var(--claro-coroa);
     --cor-sucesso: var(--claro-sucesso);
+    --cor-marca-superficie: var(--claro-marca-superficie);
+    --cor-texto-sobre-marca: var(--claro-texto-sobre-marca);
+    --cor-sucesso-superficie: var(--claro-sucesso-superficie);
+    --cor-texto-sobre-sucesso: var(--claro-texto-sobre-sucesso);
 
     --cor-erro-texto: var(--claro-erro-texto);
     --cor-erro-fundo: var(--claro-erro-fundo);

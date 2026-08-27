@@ -71,8 +71,8 @@
   padding: 0 var(--espaco-5);
   border: none;
   border-radius: var(--raio-botao);
-  background: var(--cor-marca);
-  color: #ffffff;
+  background: var(--cor-marca-superficie);
+  color: var(--cor-texto-sobre-marca);
   font-size: var(--texto-13);
   font-family: inherit;
   cursor: pointer;

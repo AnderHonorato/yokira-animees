@@ -17,8 +17,8 @@
   left: var(--espaco-2);
   padding: 3px 7px;
   border-radius: var(--raio-chip);
-  background: var(--cor-marca);
-  color: var(--cor-texto);
+  background: var(--cor-marca-superficie);
+  color: var(--cor-texto-sobre-marca);
   font-size: var(--texto-11);
   font-weight: 600;
 }

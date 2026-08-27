@@ -27,12 +27,12 @@
 }
 
 .pill-marca {
-  background: var(--cor-marca);
-  color: var(--cor-texto);
+  background: var(--cor-marca-superficie);
+  color: var(--cor-texto-sobre-marca);
 }
 
 .pill-marca:hover:not(:disabled) {
-  background: var(--cor-marca-forte);
+  filter: brightness(1.1);
 }
 
 .pill-neutro {
@@ -61,9 +61,9 @@
 /* Estado confirmado. Antes so o texto mudava ("Minha Lista" -> "Na Minha Lista"),
    o que ninguem percebe: a cor e o pulo sao o que diz que deu certo. */
 .pill-sucesso {
-  background: var(--cor-sucesso);
-  border-color: var(--cor-sucesso);
-  color: #06210f;
+  background: var(--cor-sucesso-superficie);
+  border-color: var(--cor-sucesso-superficie);
+  color: var(--cor-texto-sobre-sucesso);
 }
 
 .pill-sucesso:hover:not(:disabled) {

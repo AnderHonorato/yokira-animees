@@ -32,15 +32,17 @@
   let curtido: Record<string, boolean> = {};
   let ocupado = '';
 
+  // O hero troca de destaque a cada 7s. `atual` lido DEPOIS do await pode ja ser
+  // outro titulo — e a resposta cairia no id errado. No toque isso e rotineiro:
+  // nao existe hover pra pausar a rotacao. Por isso o alvo e capturado antes.
   async function aoAlternarLista() {
+    const alvo = atual;
     ocupado = 'lista';
     try {
-      const resultado = await alternarLista(atual.id);
-      naLista = { ...naLista, [atual.id]: resultado.naLista };
+      const resultado = await alternarLista(alvo.id);
+      naLista = { ...naLista, [alvo.id]: resultado.naLista };
       avisar(
-        resultado.naLista
-          ? `${atual.nome} entrou na sua lista.`
-          : `${atual.nome} saiu da sua lista.`,
+        resultado.naLista ? `${alvo.nome} entrou na sua lista.` : `${alvo.nome} saiu da sua lista.`,
         resultado.naLista ? 'sucesso' : 'neutro'
       );
     } catch (erro) {
@@ -51,13 +53,14 @@
   }
 
   async function aoCurtir() {
+    const alvo = atual;
+    const jaCurtido = curtido[alvo.id] === true;
     ocupado = 'curtir';
-    const jaCurtido = curtido[atual.id] === true;
     try {
-      await avaliar(atual.id, jaCurtido ? null : NOTA_DE_CURTIDA);
-      curtido = { ...curtido, [atual.id]: !jaCurtido };
+      await avaliar(alvo.id, jaCurtido ? null : NOTA_DE_CURTIDA);
+      curtido = { ...curtido, [alvo.id]: !jaCurtido };
       avisar(
-        jaCurtido ? 'Curtida removida.' : 'Você curtiu este título.',
+        jaCurtido ? 'Curtida removida.' : `Você curtiu ${alvo.nome}.`,
         jaCurtido ? 'neutro' : 'sucesso'
       );
     } catch (erro) {

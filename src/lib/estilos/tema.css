@@ -29,6 +29,17 @@
   --cor-marca-clara: #c4b5fd;
   --cor-sucesso: #4ade80;
 
+  /* Fundo dos controles preenchidos, separado do acento. --cor-marca serve pra
+     texto, borda e icone sobre fundo escuro; como FUNDO de botao ela nao alcanca
+     4.5:1 com branco por cima (4.23). Um passo mais escura resolve sem mudar a
+     leitura da marca. E o texto por cima vira token proprio porque --cor-texto
+     inverte com o tema e a superficie colorida nao: no claro isso dava quase-preto
+     sobre roxo escuro, 2.58:1. */
+  --cor-marca-superficie: #7c3aed;
+  --cor-texto-sobre-marca: #ffffff;
+  --cor-sucesso-superficie: #4ade80;
+  --cor-texto-sobre-sucesso: #06210f;
+
   /* Estado de erro. Estava cru em seis arquivos; sem token, o tema claro
      mostraria texto rosa-claro sobre fundo branco. */
   --cor-erro-texto: #fca5a5;
