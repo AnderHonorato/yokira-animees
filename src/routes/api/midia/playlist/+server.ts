@@ -5,6 +5,7 @@
 
 import { error, json } from '@sveltejs/kit';
 import { banco } from '$servidor/banco/cliente';
+import { estreou, podeVerAntesDaEstreia } from '$servidor/banco/estreia';
 import { urlAssinada, VALIDADE_PLAYLIST_MS } from '$servidor/midia/assinatura-hls';
 import type { RequestHandler } from './$types';
 
@@ -13,6 +14,17 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 
   const episodioId = url.searchParams.get('episodioId')?.trim();
   if (!episodioId) throw error(400, 'Episódio não informado.');
+
+  // A pagina ja barra o agendado, mas este endpoint aceita um id direto: sem a
+  // mesma checagem aqui, quem soubesse o id assistiria antes da estreia.
+  const episodio = await banco.episodio.findUnique({
+    where: { id: episodioId },
+    select: { publicadoEm: true }
+  });
+  if (!episodio) throw error(404, 'Episódio não encontrado.');
+  if (!estreou(episodio.publicadoEm) && !podeVerAntesDaEstreia(locals.usuario.papel)) {
+    throw error(404, 'Episódio não encontrado.');
+  }
 
   const arquivo = await banco.arquivoMidia.findFirst({
     where: { episodioId },

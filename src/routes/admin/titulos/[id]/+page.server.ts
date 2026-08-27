@@ -17,6 +17,7 @@ import { exigirPapel } from '$servidor/permissoes/papeis';
 import {
   validarAno,
   validarClassificacao,
+  validarDataDeEstreia,
   validarDuracaoEmMinutos,
   validarNomeDeTitulo,
   validarNumeroDeEpisodio,
@@ -100,7 +101,8 @@ export const actions: Actions = {
         exigirTexto(formulario.get('temporadaId'), 'temporadaId', 60),
         numero,
         exigirTexto(formulario.get('nome'), 'nome', 160),
-        validarDuracaoEmMinutos(formulario.get('duracao')) * 60
+        validarDuracaoEmMinutos(formulario.get('duracao')) * 60,
+        validarDataDeEstreia(formulario.get('estreia'))
       );
       await registrarAcaoAdministrativa(locals.usuario!.id, 'criar-episodio', episodio.id);
       return { mensagem: `Episódio ${numero} criado.` };
@@ -117,7 +119,8 @@ export const actions: Actions = {
         id,
         validarNumeroDeEpisodio(formulario.get('numero')),
         exigirTexto(formulario.get('nome'), 'nome', 160),
-        validarDuracaoEmMinutos(formulario.get('duracao')) * 60
+        validarDuracaoEmMinutos(formulario.get('duracao')) * 60,
+        validarDataDeEstreia(formulario.get('estreia'))
       );
       await registrarAcaoAdministrativa(locals.usuario!.id, 'editar-episodio', id);
       return { mensagem: 'Episódio salvo.' };

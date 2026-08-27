@@ -57,6 +57,7 @@ export async function lerTituloDoPainel(id: string) {
               numero: true,
               nome: true,
               duracaoSegundos: true,
+              publicadoEm: true,
               _count: { select: { arquivos: true } }
             }
           }
@@ -110,7 +111,8 @@ export async function criarEpisodio(
   temporadaId: string,
   numero: number,
   nome: string,
-  duracaoSegundos: number
+  duracaoSegundos: number,
+  publicadoEm?: Date
 ) {
   const jaExiste = await banco.episodio.findFirst({
     where: { temporadaId, numero },
@@ -118,14 +120,25 @@ export async function criarEpisodio(
   });
   if (jaExiste) throw new ErroDeAdministracao(`O episodio ${numero} ja existe nesta temporada.`);
 
-  return banco.episodio.create({ data: { temporadaId, numero, nome, duracaoSegundos } });
+  // Sem data, o banco poe now() e o episodio nasce no ar. Com data no futuro, ele
+  // fica invisivel pro publico ate a hora — antes cadastrar uma temporada estreava
+  // os doze episodios de uma vez.
+  return banco.episodio.create({
+    data: { temporadaId, numero, nome, duracaoSegundos, publicadoEm }
+  });
 }
 
 export async function atualizarEpisodio(
   id: string,
   numero: number,
   nome: string,
-  duracaoSegundos: number
+  duracaoSegundos: number,
+  publicadoEm?: Date
 ) {
-  return banco.episodio.update({ data: { numero, nome, duracaoSegundos }, where: { id } });
+  // `publicadoEm` indefinido nao zera a data: no Prisma, campo ausente em `data`
+  // fica como esta. Quem quiser antecipar a estreia escolhe uma data no passado.
+  return banco.episodio.update({
+    data: { numero, nome, duracaoSegundos, publicadoEm },
+    where: { id }
+  });
 }

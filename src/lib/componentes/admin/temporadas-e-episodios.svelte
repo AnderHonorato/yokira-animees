@@ -1,16 +1,20 @@
 <!-- Arquivo: src/lib/componentes/admin/temporadas-e-episodios.svelte -->
 <!-- Temporadas, episodios e os formularios de criacao/edicao. As acoes que APAGAM
-     apenas despacham o evento: quem abre o dialogo de dupla confirmacao e a pagina. -->
+     apenas despacham o evento: quem abre o dialogo de dupla confirmacao e a pagina.
+     O campo de estreia vazio significa "no ar agora"; com data futura o episodio fica
+     visivel so aqui no painel ate a hora chegar. -->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import BotaoPill from '$componentes/comum/botao-pill.svelte';
   import Chip from '$componentes/comum/chip.svelte';
+  import { agendado, paraCampoLocal, rotuloDeEstreia } from './estreia-no-formulario';
 
   interface EpisodioListado {
     id: string;
     numero: number;
     nome: string;
     duracaoSegundos: number;
+    publicadoEm: Date;
     _count: { arquivos: number };
   }
 
@@ -83,6 +87,14 @@
                     required
                   />
                 </label>
+                <label class="admin-campo">
+                  <span>Estreia</span>
+                  <input
+                    type="datetime-local"
+                    name="estreia"
+                    value={paraCampoLocal(episodio.publicadoEm)}
+                  />
+                </label>
                 <BotaoPill variante="marca" tipo="submit">Salvar</BotaoPill>
                 <BotaoPill variante="neutro" on:click={() => (editando = null)}>Cancelar</BotaoPill>
               </form>
@@ -92,6 +104,9 @@
                 <span class="admin-linha-meta">{Math.round(episodio.duracaoSegundos / 60)}min</span>
               </span>
               <span class="admin-episodio-acoes">
+                {#if agendado(episodio.publicadoEm)}
+                  <Chip variante="neutro">Estreia {rotuloDeEstreia(episodio.publicadoEm)}</Chip>
+                {/if}
                 {#if episodio._count.arquivos > 0}
                   <Chip variante="roxo">Vídeo enviado</Chip>
                 {:else}
@@ -122,6 +137,10 @@
         <label class="admin-campo">
           <span>Min</span>
           <input type="number" name="duracao" min="1" value="24" required />
+        </label>
+        <label class="admin-campo">
+          <span>Estreia</span>
+          <input type="datetime-local" name="estreia" />
         </label>
         <BotaoPill variante="neutro" tipo="submit">Adicionar episódio</BotaoPill>
       </form>

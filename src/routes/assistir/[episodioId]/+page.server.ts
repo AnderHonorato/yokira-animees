@@ -2,6 +2,7 @@
 
 import { error } from '@sveltejs/kit';
 import { banco } from '$servidor/banco/cliente';
+import { estreou, podeVerAntesDaEstreia } from '$servidor/banco/estreia';
 import { lerProgresso } from '$servidor/banco/progresso';
 import type { PageServerLoad } from './$types';
 
@@ -15,6 +16,12 @@ export const load: PageServerLoad = async ({ params, locals }) => {
   });
 
   if (!episodio) throw error(404, 'Episódio não encontrado.');
+
+  // Mesmo 404 de quando o episodio nao existe: dizer "ainda nao estreou" contaria
+  // que ele existe e quando. Quem edita passa, pra conferir antes da hora.
+  if (!estreou(episodio.publicadoEm) && !podeVerAntesDaEstreia(locals.usuario?.papel)) {
+    throw error(404, 'Episódio não encontrado.');
+  }
 
   const progresso = locals.usuario ? await lerProgresso(locals.usuario.id, episodio.id) : null;
 

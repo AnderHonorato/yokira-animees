@@ -89,6 +89,25 @@ export function validarDuracaoEmMinutos(valor: unknown): number {
   return exigirInteiro(valor, 'duracao', 1, 600);
 }
 
+/**
+ * Data de estreia do episodio. Vazio significa "ja no ar" — o banco poe now().
+ * O <input type="datetime-local"> manda "2026-09-01T20:00", sem fuso: a norma manda
+ * ler isso como hora local, que e a hora que quem agendou digitou.
+ */
+export function validarDataDeEstreia(valor: unknown): Date | undefined {
+  if (valor === null || valor === undefined) return undefined;
+
+  const texto = String(valor).trim();
+  if (texto === '') return undefined;
+
+  const data = new Date(texto);
+  if (Number.isNaN(data.getTime())) {
+    throw new ErroDeValidacao('estreia', 'Data de estreia invalida.');
+  }
+
+  return data;
+}
+
 export function validarPopularidade(valor: unknown): number {
   return exigirInteiro(valor, 'popularidade', 0, 1_000_000);
 }

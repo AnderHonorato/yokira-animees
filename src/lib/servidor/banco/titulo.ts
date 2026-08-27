@@ -2,6 +2,7 @@
 // Pagina de detalhes: titulo + temporadas + episodios + trailers + recomendacoes.
 
 import { banco } from './cliente.js';
+import { jaEstreou } from './estreia.js';
 import { calcularNota, paraCartao, paraDestaque, type TituloBruto } from './mapear-titulo.js';
 import { posterEmDataUri } from '../../visual/posters/gerar-poster.js';
 
@@ -12,13 +13,15 @@ const INCLUSAO_CARTAO = {
 } as const;
 
 export async function detalharTitulo(slug: string) {
+  // Episodio agendado nao aparece na lista: ele ainda nao existe pra quem assiste.
+  const noAr = jaEstreou();
   const titulo = await banco.titulo.findUnique({
     where: { slug },
     include: {
       ...INCLUSAO_CARTAO,
       temporadas: {
         orderBy: { numero: 'asc' },
-        include: { episodios: { orderBy: { numero: 'asc' } } }
+        include: { episodios: { where: noAr, orderBy: { numero: 'asc' } } }
       }
     }
   });
@@ -69,7 +72,7 @@ export async function recomendacoesPara(slug: string, limite = 8) {
 
 export async function proximosEpisodios(slug: string, limite = 3) {
   const episodios = await banco.episodio.findMany({
-    where: { temporada: { titulo: { slug } } },
+    where: { temporada: { titulo: { slug } }, ...jaEstreou() },
     orderBy: [{ temporada: { numero: 'desc' } }, { numero: 'desc' }],
     take: limite,
     include: { temporada: { select: { numero: true } } }
