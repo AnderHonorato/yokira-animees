@@ -1,5 +1,5 @@
 // Arquivo: testes/ponta-a-ponta/carrossel-e-cache.teste.ts
-// Arrasto no celular, setas no desktop, expansao no hover e navegacao instantanea.
+// Arrasto no celular, setas nos dois tamanhos, expansao no hover e navegacao instantanea.
 
 import { expect, test } from '@playwright/test';
 
@@ -18,22 +18,42 @@ test('a trilha rola na horizontal', async ({ page }) => {
   expect(depois).toBeGreaterThan(inicio);
 });
 
-test('as setas do carrossel so existem no desktop', async ({ page }, informacao) => {
+test('a seta de avancar funciona nos dois tamanhos', async ({ page }, informacao) => {
   await page.goto('/');
   const seta = page.getByRole('button', { name: /Avançar em Populares/ });
+  const trilha = page.locator('.carrossel-trilha').first();
 
+  // No desktop a seta so aparece com o cursor perto; no celular nao existe hover,
+  // entao ela precisa estar visivel de saida ou ninguem a encontraria.
   if (informacao.project.name === 'desktop-1440') {
     await page.locator('.carrossel').first().hover();
-    await expect(seta).toBeVisible();
-
-    const trilha = page.locator('.carrossel-trilha').first();
-    const antes = await trilha.evaluate((elemento) => elemento.scrollLeft);
-    await seta.click();
-    await page.waitForTimeout(600);
-    expect(await trilha.evaluate((elemento) => elemento.scrollLeft)).toBeGreaterThan(antes);
-  } else {
-    await expect(seta).toBeHidden();
   }
+  await expect(seta).toBeVisible();
+
+  const antes = await trilha.evaluate((elemento) => elemento.scrollLeft);
+  await seta.click();
+  await page.waitForTimeout(600);
+  expect(await trilha.evaluate((elemento) => elemento.scrollLeft)).toBeGreaterThan(antes);
+});
+
+test('no celular a faixa da seta nao engole o toque do card', async ({ page }, informacao) => {
+  test.skip(informacao.project.name !== 'celular-390', 'a faixa so e vazada no celular');
+
+  await page.goto('/');
+  const seta = page.getByRole('button', { name: /Avançar em Populares/ });
+  const caixa = (await seta.boundingBox())!;
+
+  // Um ponto DENTRO da faixa da seta, mas fora do disco: o alvo ali tem que ser o
+  // card, senao o titulo da ponta fica inabrivel. So o disco recebe o toque.
+  const alvo = await page.evaluate(
+    ([x, y]) => {
+      const elemento = document.elementFromPoint(x, y);
+      return elemento?.closest('a[href^="/titulo/"]')?.getAttribute('href') ?? null;
+    },
+    [caixa.x + caixa.width - 6, caixa.y + 14]
+  );
+
+  expect(alvo?.startsWith('/titulo/')).toBe(true);
 });
 
 test('o card expande no hover apenas no desktop', async ({ page }, informacao) => {
