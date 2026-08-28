@@ -7,6 +7,7 @@
   import { createEventDispatcher } from 'svelte';
   import BotaoPill from '$componentes/comum/botao-pill.svelte';
   import Chip from '$componentes/comum/chip.svelte';
+  import EscolherCapa from './escolher-capa.svelte';
   import { agendado, paraCampoLocal, rotuloDeEstreia } from './estreia-no-formulario';
 
   interface EpisodioListado {
@@ -15,6 +16,7 @@
     nome: string;
     duracaoSegundos: number;
     publicadoEm: Date;
+    miniaturaUrl: string | null;
     _count: { arquivos: number };
   }
 
@@ -98,6 +100,14 @@
                 <BotaoPill variante="marca" tipo="submit">Salvar</BotaoPill>
                 <BotaoPill variante="neutro" on:click={() => (editando = null)}>Cancelar</BotaoPill>
               </form>
+
+              <!-- Sem episodio escolhido, o quadro sai do video deste mesmo episodio. -->
+              <EscolherCapa
+                acao="?/definirMiniatura"
+                rotulo="Miniatura do episódio"
+                episodioId={episodio.id}
+                atual={episodio.miniaturaUrl}
+              />
             {:else}
               <span class="admin-episodio-nome">
                 {episodio.numero}. {episodio.nome}

@@ -11,6 +11,7 @@
   import DialogoConfirmacao from '$componentes/comum/dialogo-confirmacao.svelte';
   import FormularioTitulo from '$componentes/admin/formulario-titulo.svelte';
   import TemporadasEEpisodios from '$componentes/admin/temporadas-e-episodios.svelte';
+  import EscolherCapa from '$componentes/admin/escolher-capa.svelte';
   import { executarAcaoAdministrativa } from '$cliente/acoes-administrativas';
   import { avisar, avisarErro } from '$cliente/avisos';
 
@@ -25,6 +26,15 @@
     aviso: string;
     palavraChave?: string;
   }
+
+  // Lista chata de montar no markup: os episodios vivem dentro das temporadas, e o
+  // seletor de "recortar do video" precisa deles achatados com um rotulo legivel.
+  $: episodiosDoTitulo = data.titulo.temporadas.flatMap((temporada) =>
+    temporada.episodios.map((episodio) => ({
+      id: episodio.id,
+      rotulo: `T${temporada.numero} EP${episodio.numero} — ${episodio.nome}`
+    }))
+  );
 
   let pendente: AcaoPendente | null = null;
   let processando = false;
@@ -53,6 +63,29 @@
 <section class="admin-secao">
   <h2 class="admin-secao-titulo">Dados do título</h2>
   <FormularioTitulo titulo={data.titulo} generos={data.generos} mensagem={form?.mensagem} />
+</section>
+
+<section class="admin-secao">
+  <h2 class="admin-secao-titulo">Capas</h2>
+  <p class="admin-subtitulo">
+    Envie uma imagem ou recorte um quadro de um episódio que já tenha vídeo.
+  </p>
+  <div class="admin-capas">
+    <EscolherCapa
+      acao="?/definirCapa"
+      rotulo="Pôster (card em pé)"
+      alvo="poster"
+      atual={data.titulo.posterUrl}
+      episodios={episodiosDoTitulo}
+    />
+    <EscolherCapa
+      acao="?/definirCapa"
+      rotulo="Arte do topo (banner deitado)"
+      alvo="hero"
+      atual={data.titulo.arteHeroUrl}
+      episodios={episodiosDoTitulo}
+    />
+  </div>
 </section>
 
 <TemporadasEEpisodios

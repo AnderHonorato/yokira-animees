@@ -58,6 +58,7 @@ export async function lerTituloDoPainel(id: string) {
               nome: true,
               duracaoSegundos: true,
               publicadoEm: true,
+              miniaturaUrl: true,
               _count: { select: { arquivos: true } }
             }
           }
@@ -126,6 +127,18 @@ export async function criarEpisodio(
   return banco.episodio.create({
     data: { temporadaId, numero, nome, duracaoSegundos, publicadoEm }
   });
+}
+
+/** Capa do titulo: `poster` e a vertical dos cards, `hero` e a arte deitada do topo. */
+export async function definirCapaDoTitulo(id: string, alvo: 'poster' | 'hero', url: string) {
+  return banco.titulo.update({
+    where: { id },
+    data: alvo === 'poster' ? { posterUrl: url } : { arteHeroUrl: url }
+  });
+}
+
+export async function definirMiniaturaDoEpisodio(id: string, url: string) {
+  return banco.episodio.update({ where: { id }, data: { miniaturaUrl: url } });
 }
 
 export async function atualizarEpisodio(

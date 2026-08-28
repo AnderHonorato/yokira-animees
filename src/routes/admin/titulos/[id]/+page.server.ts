@@ -5,6 +5,8 @@
 import { error, fail } from '@sveltejs/kit';
 import {
   atualizarEpisodio,
+  definirCapaDoTitulo,
+  definirMiniaturaDoEpisodio,
   atualizarTitulo,
   criarEpisodio,
   criarTemporada,
@@ -14,6 +16,7 @@ import {
 import { listarGeneros } from '$servidor/banco/catalogo';
 import { registrarAcaoAdministrativa } from '$servidor/autenticacao/confirmacao';
 import { exigirPapel } from '$servidor/permissoes/papeis';
+import { lerOrigemDoFormulario, resolverCapa } from '$servidor/midia/definir-capa';
 import {
   validarAno,
   validarClassificacao,
@@ -106,6 +109,34 @@ export const actions: Actions = {
       );
       await registrarAcaoAdministrativa(locals.usuario!.id, 'criar-episodio', episodio.id);
       return { mensagem: `Episódio ${numero} criado.` };
+    });
+  },
+
+  definirCapa: async ({ request, locals, params }) => {
+    exigirPapel(locals.usuario?.papel, 'EDITOR');
+    const formulario = await request.formData();
+
+    return comErroTratado(async () => {
+      const alvo = formulario.get('alvo') === 'hero' ? 'hero' : 'poster';
+      const url = await resolverCapa(lerOrigemDoFormulario(formulario));
+      await definirCapaDoTitulo(params.id, alvo, url);
+      await registrarAcaoAdministrativa(locals.usuario!.id, `definir-capa-${alvo}`, params.id);
+      return { mensagem: alvo === 'hero' ? 'Arte do topo trocada.' : 'Pôster trocado.' };
+    });
+  },
+
+  definirMiniatura: async ({ request, locals }) => {
+    exigirPapel(locals.usuario?.papel, 'EDITOR');
+    const formulario = await request.formData();
+
+    return comErroTratado(async () => {
+      const id = exigirTexto(formulario.get('episodioId'), 'episodioId', 60);
+      // Sem episodio escolhido pro quadro, o recorte vem do video do proprio episodio.
+      const origem = lerOrigemDoFormulario(formulario);
+      const url = await resolverCapa({ ...origem, episodioId: origem.episodioId ?? id });
+      await definirMiniaturaDoEpisodio(id, url);
+      await registrarAcaoAdministrativa(locals.usuario!.id, 'definir-miniatura', id);
+      return { mensagem: 'Miniatura do episódio trocada.' };
     });
   },
 

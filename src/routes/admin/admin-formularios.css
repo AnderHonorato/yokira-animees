@@ -131,3 +131,11 @@
   line-height: 1.5;
   color: var(--cor-texto-secundario);
 }
+
+/* As duas capas do titulo lado a lado quando cabe. */
+.admin-capas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--espaco-4);
+  margin-top: var(--espaco-4);
+}
