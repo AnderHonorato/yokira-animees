@@ -85,23 +85,38 @@
 .hero-dots {
   display: flex;
   justify-content: center;
-  gap: 0;
   margin-top: var(--espaco-2);
 }
 
-/* Alvo de toque de 44px com barra visivel de 4px: no celular os dots sao o unico
-   jeito de trocar de destaque, e 4px de altura real e impossivel de acertar. */
+/* O botao e so o alvo de toque de 44px; quem desenha o ponto e o ::before. Antes o
+   proprio botao era pintado com content-box, o que dava uma barra de 22x4px — e com
+   gap: 0 as barras se emendavam num bloco unico que parecia uma barra de progresso
+   quebrada. A contagem ate o proximo destaque agora e a linha de 2px no painel;
+   estes aqui voltaram a ser o que sao, um por destaque. */
 .hero-dot {
+  display: grid;
+  place-items: center;
   width: 30px;
   height: var(--alvo-toque);
-  padding: 20px 4px;
-  background: var(--cor-borda) content-box;
-  border-radius: var(--raio-botao);
-  transition: background var(--transicao-rapida);
+  background: none;
 }
 
-.hero-dot-ativo {
-  background: var(--cor-marca) content-box;
+.hero-dot::before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--cor-borda);
+  transition:
+    background var(--transicao-rapida),
+    width var(--transicao-rapida);
+}
+
+/* O ativo vira pilula: da pra saber em qual destaque voce esta sem contar os pontos. */
+.hero-dot-ativo::before {
+  width: 22px;
+  background: var(--cor-marca);
 }
 
 .hero-curtir {
