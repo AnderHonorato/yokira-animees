@@ -6,12 +6,50 @@
   gap: var(--espaco-3);
 }
 
+/* O quadro e o container de posicionamento dos controles e o alvo da tela cheia.
+   O overflow recorta a barra no cantinho arredondado. */
+.player-quadro {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--raio-card);
+  background: #000;
+}
+
+.player-quadro:focus-visible {
+  outline: 2px solid var(--cor-marca);
+  outline-offset: 2px;
+}
+
+/* Sem controles na tela, o cursor tambem sai: sobra so o video. */
+.player-quadro-limpo {
+  cursor: none;
+}
+
+.player-quadro-limpo .controles {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.controles {
+  transition: opacity var(--transicao-media);
+}
+
 .player-video,
 .player-vazio {
+  display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
   border-radius: var(--raio-card);
   background: #000;
+}
+
+/* Em tela cheia o quadro ocupa a tela toda: a proporcao fixa deixaria tarja preta
+   em cima e embaixo alem da que o proprio video ja tem. */
+.player-quadro:fullscreen .player-video {
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: 0;
+  object-fit: contain;
 }
 
 .player-vazio {
