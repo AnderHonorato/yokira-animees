@@ -91,9 +91,14 @@
 }
 
 @media (min-width: 1024px) {
+  /* O overflow-x: auto recorta nos DOIS eixos. Sem esta folga o painel de hover
+     era cortado embaixo — a reserva fica dentro da trilha e a margem negativa
+     devolve o espaco pro layout, pra trilha seguinte nao descer. */
   .carrossel-trilha {
     scroll-snap-type: none;
     gap: var(--espaco-4);
+    padding-bottom: 96px;
+    margin-bottom: -88px;
   }
 
   /* No desktop a faixa inteira volta a ser clicavel e o disco e maior. Aqui existe
