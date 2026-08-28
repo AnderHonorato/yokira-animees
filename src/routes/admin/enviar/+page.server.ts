@@ -1,9 +1,11 @@
 // Arquivo: src/routes/admin/enviar/+page.server.ts
-// Recebe o arquivo, grava fora de static/ e dispara o ffmpeg sem segurar a resposta.
+// Recebe o video por upload OU por link, grava fora de static/ e dispara o ffmpeg sem
+// segurar a resposta.
 
 import { fail } from '@sveltejs/kit';
 import { banco } from '$servidor/banco/cliente';
-import { gravarUpload } from '$servidor/armazenamento/gravar-upload';
+import { gravarBytes, gravarUpload } from '$servidor/armazenamento/gravar-upload';
+import { baixarVideo, ErroDeDownload } from '$servidor/armazenamento/baixar-de-url';
 import { processarArquivo } from '$servidor/processamento/transcodificar';
 import { registrarAcaoAdministrativa } from '$servidor/autenticacao/confirmacao';
 import { exigirPapel } from '$servidor/permissoes/papeis';
@@ -30,26 +32,41 @@ export const actions: Actions = {
 
     const formulario = await request.formData();
     const episodioId = String(formulario.get('episodioId') ?? '');
+    const link = String(formulario.get('link') ?? '').trim();
     const arquivo = formulario.get('arquivo');
+    const temArquivo = arquivo instanceof File && arquivo.size > 0;
 
-    if (!(arquivo instanceof File) || arquivo.size === 0) {
-      return fail(400, { mensagem: 'Escolha um arquivo de vídeo.' });
+    if (!temArquivo && link === '') {
+      return fail(400, { mensagem: 'Escolha um arquivo ou informe um link.' });
     }
 
     try {
-      const registro = await gravarUpload(episodioId, arquivo);
+      // Com os dois preenchidos o arquivo ganha: ele ja esta aqui e nao depende de
+      // rede nem do que o outro lado resolva devolver.
+      const registro = temArquivo
+        ? await gravarUpload(episodioId, arquivo)
+        : await (async () => {
+            const baixado = await baixarVideo(link);
+            return gravarBytes(episodioId, baixado.bytes, baixado.nome);
+          })();
+
       await registrarAcaoAdministrativa(
         locals.usuario!.id,
-        'enviar-video',
+        temArquivo ? 'enviar-video' : 'enviar-video-por-link',
         episodioId,
-        arquivo.name
+        temArquivo ? arquivo.name : link
       );
 
       // Sem await: transcodificar 3 variantes leva minutos e a resposta nao pode esperar.
       void processarArquivo(registro.id);
 
-      return { mensagem: 'Arquivo recebido. A conversão para HLS começou.' };
+      return {
+        mensagem: temArquivo
+          ? 'Arquivo recebido. A conversão para HLS começou.'
+          : 'Vídeo baixado do link. A conversão para HLS começou.'
+      };
     } catch (erro) {
+      if (erro instanceof ErroDeDownload) return fail(400, { mensagem: erro.message });
       return fail(400, { mensagem: erro instanceof Error ? erro.message : 'Falha no envio.' });
     }
   }
