@@ -97,7 +97,11 @@
       <Chip variante="classificacao">{destaque.classificacao}</Chip>
       <span>{destaque.ano}</span>
       <span aria-hidden="true">•</span>
-      <span>{destaque.temporadas} {destaque.temporadas === 1 ? 'Temporada' : 'Temporadas'}</span>
+      {#if destaque.ehFilme}
+        <span>Filme</span>
+      {:else}
+        <span>{destaque.temporadas} {destaque.temporadas === 1 ? 'Temporada' : 'Temporadas'}</span>
+      {/if}
       <span aria-hidden="true">•</span>
       <span>{destaque.generos.join(', ')}</span>
       {#if nota !== null}

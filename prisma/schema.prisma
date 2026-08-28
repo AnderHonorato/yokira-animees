@@ -25,6 +25,13 @@ enum SituacaoTrabalho {
   FALHOU
 }
 
+// Serie tem temporadas e episodios; filme e uma peca so. A diferenca existe no banco
+// porque ela muda o que a pagina publica escreve e o que o painel pede pra preencher.
+enum TipoDeTitulo {
+  SERIE
+  FILME
+}
+
 enum SituacaoTitulo {
   RASCUNHO
   PUBLICADO
@@ -138,6 +145,7 @@ model Titulo {
   sinopse     String
   ano         Int
   classificacao String @default("16")
+  tipo        TipoDeTitulo @default(SERIE)
   situacao    SituacaoTitulo @default(PUBLICADO)
   destaque    Boolean  @default(false)
   novidade    Boolean  @default(false)

@@ -14,6 +14,7 @@ export interface TituloBruto {
   novidade: boolean;
   posterUrl: string | null;
   arteHeroUrl: string | null;
+  tipo: string;
   temporadas: { numero: number }[];
   generos: { genero: { nome: string } }[];
   avaliacoes: { nota: number }[];
@@ -40,7 +41,10 @@ export function paraCartao(bruto: TituloBruto, assistindoAgora = 0): CartaoDeTit
     classificacao: bruto.classificacao,
     novidade: bruto.novidade,
     temporadas,
-    rotuloSecundario: bruto.novidade ? `${ultimaTemporada}ª Temporada` : 'Legendas Br',
+    ehFilme: bruto.tipo === 'FILME',
+    // Filme nao tem "2ª Temporada" pra anunciar; o ano ja diz o que ha pra dizer.
+    rotuloSecundario:
+      bruto.novidade && bruto.tipo !== 'FILME' ? `${ultimaTemporada}ª Temporada` : 'Legendas Br',
     assistindoAgora,
     sinopseCurta: bruto.sinopse.slice(0, 160)
   };
@@ -56,6 +60,7 @@ export function paraDestaque(bruto: TituloBruto): DestaqueDoHero {
     classificacao: bruto.classificacao,
     generos: bruto.generos.map((ligacao) => ligacao.genero.nome),
     temporadas: bruto.temporadas.length,
+    ehFilme: bruto.tipo === 'FILME',
     // Deitada: o hero agora e a arte cobrindo o painel inteiro, nao um retrato ao lado.
     arte: bruto.arteHeroUrl ?? arteLargaEmDataUri(`${bruto.slug}-hero`, bruto.nome),
     novidade: bruto.novidade,

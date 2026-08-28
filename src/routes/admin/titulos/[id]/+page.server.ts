@@ -17,18 +17,13 @@ import { listarGeneros } from '$servidor/banco/catalogo';
 import { registrarAcaoAdministrativa } from '$servidor/autenticacao/confirmacao';
 import { exigirPapel } from '$servidor/permissoes/papeis';
 import { lerOrigemDoFormulario, resolverCapa } from '$servidor/midia/definir-capa';
+import { executarLote, lerLoteDoFormulario, resumoDoLote } from '$servidor/lote-de-episodios';
 import {
-  validarAno,
-  validarClassificacao,
+  lerDadosDeTitulo,
   validarDataDeEstreia,
   validarDuracaoEmMinutos,
-  validarNomeDeTitulo,
   validarNumeroDeEpisodio,
-  validarNumeroDeTemporada,
-  validarPopularidade,
-  validarSinopse,
-  validarSituacao,
-  validarSlug
+  validarNumeroDeTemporada
 } from '$lib/validacoes/administracao';
 import { ErroDeValidacao, exigirTexto } from '$lib/validacoes/erro-validacao';
 import type { Actions, PageServerLoad } from './$types';
@@ -59,18 +54,7 @@ export const actions: Actions = {
     return comErroTratado(async () => {
       await atualizarTitulo(
         params.id,
-        {
-          nome: validarNomeDeTitulo(formulario.get('nome')),
-          slug: validarSlug(formulario.get('slug')),
-          sinopse: validarSinopse(formulario.get('sinopse')),
-          ano: validarAno(formulario.get('ano')),
-          classificacao: validarClassificacao(formulario.get('classificacao')),
-          situacao: validarSituacao(formulario.get('situacao')),
-          destaque: formulario.get('destaque') === 'on',
-          novidade: formulario.get('novidade') === 'on',
-          emAlta: formulario.get('emAlta') === 'on',
-          popularidade: validarPopularidade(formulario.get('popularidade'))
-        },
+        lerDadosDeTitulo(formulario),
         formulario.getAll('generos').map(String)
       );
       await registrarAcaoAdministrativa(locals.usuario!.id, 'editar-titulo', params.id);
@@ -112,31 +96,52 @@ export const actions: Actions = {
     });
   },
 
+  criarEpisodiosEmLote: async ({ request, locals }) => {
+    exigirPapel(locals.usuario?.papel, 'EDITOR');
+    const formulario = await request.formData();
+
+    return comErroTratado(async () => {
+      const lote = lerLoteDoFormulario(formulario);
+      exigirTexto(lote.temporadaId, 'temporadaId', 60);
+
+      if (lote.plano.length === 0) {
+        return { mensagem: 'Informe a quantidade, cole os links ou escolha os arquivos.' };
+      }
+
+      const resultado = await executarLote(lote.temporadaId, lote.plano, lote.arquivos);
+      await registrarAcaoAdministrativa(
+        locals.usuario!.id,
+        'criar-episodios-em-lote',
+        lote.temporadaId,
+        String(resultado.criados)
+      );
+      return { mensagem: resumoDoLote(resultado) };
+    });
+  },
+
+  // Uma acao para as tres capas: poster, arte do topo e miniatura de episodio. Sao a
+  // mesma pergunta com alvos diferentes, e duas acoes quase iguais divergiriam.
   definirCapa: async ({ request, locals, params }) => {
     exigirPapel(locals.usuario?.papel, 'EDITOR');
     const formulario = await request.formData();
 
     return comErroTratado(async () => {
-      const alvo = formulario.get('alvo') === 'hero' ? 'hero' : 'poster';
-      const url = await resolverCapa(lerOrigemDoFormulario(formulario));
-      await definirCapaDoTitulo(params.id, alvo, url);
+      const alvo = String(formulario.get('alvo') ?? 'poster');
+      const origem = lerOrigemDoFormulario(formulario);
+
+      if (alvo === 'episodio') {
+        const id = exigirTexto(formulario.get('episodioId'), 'episodioId', 60);
+        // Sem episodio escolhido, o quadro vem do video do proprio episodio.
+        const url = await resolverCapa({ ...origem, episodioId: origem.episodioId ?? id });
+        await definirMiniaturaDoEpisodio(id, url);
+        await registrarAcaoAdministrativa(locals.usuario!.id, 'definir-miniatura', id);
+        return { mensagem: 'Miniatura do episódio trocada.' };
+      }
+
+      const url = await resolverCapa(origem);
+      await definirCapaDoTitulo(params.id, alvo === 'hero' ? 'hero' : 'poster', url);
       await registrarAcaoAdministrativa(locals.usuario!.id, `definir-capa-${alvo}`, params.id);
       return { mensagem: alvo === 'hero' ? 'Arte do topo trocada.' : 'Pôster trocado.' };
-    });
-  },
-
-  definirMiniatura: async ({ request, locals }) => {
-    exigirPapel(locals.usuario?.papel, 'EDITOR');
-    const formulario = await request.formData();
-
-    return comErroTratado(async () => {
-      const id = exigirTexto(formulario.get('episodioId'), 'episodioId', 60);
-      // Sem episodio escolhido pro quadro, o recorte vem do video do proprio episodio.
-      const origem = lerOrigemDoFormulario(formulario);
-      const url = await resolverCapa({ ...origem, episodioId: origem.episodioId ?? id });
-      await definirMiniaturaDoEpisodio(id, url);
-      await registrarAcaoAdministrativa(locals.usuario!.id, 'definir-miniatura', id);
-      return { mensagem: 'Miniatura do episódio trocada.' };
     });
   },
 

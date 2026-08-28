@@ -6,10 +6,12 @@ import { ErroDeValidacao, exigirInteiro, exigirTexto } from './erro-validacao.js
 
 export const SITUACOES_DE_TITULO = ['RASCUNHO', 'PUBLICADO', 'DESPUBLICADO'] as const;
 export const PAPEIS = ['ESPECTADOR', 'EDITOR', 'MODERADOR', 'ADMINISTRADOR'] as const;
+export const TIPOS_DE_TITULO = ['SERIE', 'FILME'] as const;
 export const CLASSIFICACOES = ['L', '10', '12', '14', '16', '18'] as const;
 
 export type SituacaoDeTitulo = (typeof SITUACOES_DE_TITULO)[number];
 export type PapelValidado = (typeof PAPEIS)[number];
+export type TipoValidado = (typeof TIPOS_DE_TITULO)[number];
 
 const FORMATO_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ANO_MINIMO = 1900;
@@ -77,6 +79,14 @@ export function validarPapel(valor: unknown): PapelValidado {
   return texto as PapelValidado;
 }
 
+export function validarTipoDeTitulo(valor: unknown): TipoValidado {
+  const texto = exigirTexto(valor, 'tipo', 10).toUpperCase();
+  if (!TIPOS_DE_TITULO.includes(texto as TipoValidado)) {
+    throw new ErroDeValidacao('tipo', 'Tipo de titulo desconhecido.');
+  }
+  return texto as TipoValidado;
+}
+
 export function validarNumeroDeTemporada(valor: unknown): number {
   return exigirInteiro(valor, 'numero', 1, 99);
 }
@@ -110,4 +120,28 @@ export function validarDataDeEstreia(valor: unknown): Date | undefined {
 
 export function validarPopularidade(valor: unknown): number {
   return exigirInteiro(valor, 'popularidade', 0, 1_000_000);
+}
+
+/**
+ * Le os campos do titulo do formulario. Criar e editar pedem exatamente os mesmos, e
+ * ter isso escrito em dois arquivos foi como o campo `tipo` quase entrou so num deles.
+ */
+export function lerDadosDeTitulo(formulario: FormData) {
+  const nome = validarNomeDeTitulo(formulario.get('nome'));
+
+  return {
+    nome,
+    // Slug em branco vira sugestao a partir do nome: um campo a menos pra errar.
+    slug: validarSlug(String(formulario.get('slug') ?? '').trim() || sugerirSlug(nome)),
+    sinopse: validarSinopse(formulario.get('sinopse')),
+    ano: validarAno(formulario.get('ano')),
+    classificacao: validarClassificacao(formulario.get('classificacao')),
+    tipo: validarTipoDeTitulo(formulario.get('tipo') ?? 'SERIE'),
+    situacao: validarSituacao(formulario.get('situacao')),
+    destaque: formulario.get('destaque') === 'on',
+    novidade: formulario.get('novidade') === 'on',
+    emAlta: formulario.get('emAlta') === 'on',
+    // O formulario de criacao nao tem o campo: titulo novo comeca com popularidade zero.
+    popularidade: validarPopularidade(formulario.get('popularidade') ?? 0)
+  };
 }

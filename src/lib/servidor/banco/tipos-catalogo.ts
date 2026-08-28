@@ -12,6 +12,7 @@ export interface CartaoDeTitulo {
   classificacao: string;
   novidade: boolean;
   temporadas: number;
+  ehFilme: boolean;
   rotuloSecundario: string;
   assistindoAgora: number;
   sinopseCurta: string;
@@ -33,6 +34,7 @@ export interface DestaqueDoHero {
   classificacao: string;
   generos: string[];
   temporadas: number;
+  ehFilme: boolean;
   arte: string;
   novidade: boolean;
   chamadaGratuita: string;

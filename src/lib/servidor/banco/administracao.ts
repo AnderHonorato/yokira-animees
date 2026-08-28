@@ -7,7 +7,7 @@
 // e a forma dos dados fica aqui.
 
 import { banco } from './cliente.js';
-import type { SituacaoTitulo } from './gerado/enums.js';
+import type { SituacaoTitulo, TipoDeTitulo } from './gerado/enums.js';
 
 export class ErroDeAdministracao extends Error {}
 
@@ -17,6 +17,7 @@ export interface DadosDeTitulo {
   sinopse: string;
   ano: number;
   classificacao: string;
+  tipo: TipoDeTitulo;
   situacao: SituacaoTitulo;
   destaque: boolean;
   novidade: boolean;
@@ -77,12 +78,27 @@ async function garantirSlugLivre(slug: string, exceto?: string): Promise<void> {
 
 export async function criarTitulo(dados: DadosDeTitulo, generoIds: string[]) {
   await garantirSlugLivre(dados.slug);
-  return banco.titulo.create({
+
+  const criado = await banco.titulo.create({
     data: {
       ...dados,
       generos: { create: generoIds.map((generoId) => ({ generoId })) }
     }
   });
+
+  // Filme e uma peca so, mas o banco guarda todo video dentro de temporada/episodio.
+  // A estrutura nasce junto pra quem cadastra nao ter que criar "temporada 1" pra um
+  // filme — que era justamente o passo que fazia o painel mentir sobre o modelo.
+  if (criado.tipo === 'FILME') {
+    const temporada = await banco.temporada.create({
+      data: { tituloId: criado.id, numero: 1, nome: criado.nome }
+    });
+    await banco.episodio.create({
+      data: { temporadaId: temporada.id, numero: 1, nome: criado.nome, duracaoSegundos: 0 }
+    });
+  }
+
+  return criado;
 }
 
 export async function atualizarTitulo(id: string, dados: DadosDeTitulo, generoIds: string[]) {

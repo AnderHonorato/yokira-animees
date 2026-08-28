@@ -15,6 +15,7 @@
     sinopse: string;
     ano: number;
     classificacao: string;
+    tipo: string;
     situacao: string;
     destaque: boolean;
     novidade: boolean;
@@ -60,6 +61,16 @@
         {/each}
       </select>
     </label>
+    <label class="admin-campo">
+      <span>Tipo</span>
+      <select name="tipo">
+        <option value="SERIE" selected={titulo.tipo !== 'FILME'}>Série</option>
+        <option value="FILME" selected={titulo.tipo === 'FILME'}>Filme</option>
+      </select>
+      <!-- Filme ja nasce com a temporada e o episodio unicos criados: quem cadastra
+           nao precisa inventar uma "temporada 1" que so existe pro banco. -->
+    </label>
+
     <label class="admin-campo">
       <span>Situação</span>
       <select name="situacao">

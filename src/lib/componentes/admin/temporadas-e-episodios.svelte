@@ -8,6 +8,7 @@
   import BotaoPill from '$componentes/comum/botao-pill.svelte';
   import Chip from '$componentes/comum/chip.svelte';
   import EscolherCapa from './escolher-capa.svelte';
+  import CriarEpisodiosEmLote from './criar-episodios-em-lote.svelte';
   import { agendado, paraCampoLocal, rotuloDeEstreia } from './estreia-no-formulario';
 
   interface EpisodioListado {
@@ -103,7 +104,8 @@
 
               <!-- Sem episodio escolhido, o quadro sai do video deste mesmo episodio. -->
               <EscolherCapa
-                acao="?/definirMiniatura"
+                acao="?/definirCapa"
+                alvo="episodio"
                 rotulo="Miniatura do episódio"
                 episodioId={episodio.id}
                 atual={episodio.miniaturaUrl}
@@ -133,6 +135,11 @@
           </li>
         {/each}
       </ul>
+
+      <CriarEpisodiosEmLote
+        temporadaId={temporada.id}
+        proximoNumero={Math.max(0, ...temporada.episodios.map((e) => e.numero)) + 1}
+      />
 
       <form class="admin-forma-inline" method="POST" action="?/criarEpisodio">
         <input type="hidden" name="temporadaId" value={temporada.id} />
