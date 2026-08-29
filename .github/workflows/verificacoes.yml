@@ -1,13 +1,18 @@
 # Arquivo: .github/workflows/verificacoes.yml
-# Roda o mesmo que rodamos na maquina: tipos, lint, formatacao, testes e build.
+# Tipos, lint, formatacao, testes, build e Playwright nas branches de integracao e PRs.
 
 name: Verificações
 
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - main
+      - claude/yokira-animees-setup-docs-l1hngw
   push:
-    branches: [main]
+    branches:
+      - main
+      - claude/yokira-animees-setup-docs-l1hngw
+      - 'sol/**'
 
 env:
   DATABASE_URL: file:./dev.db
