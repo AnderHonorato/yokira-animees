@@ -1,0 +1,275 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <style>
+    /* Tokens de src/lib/estilos/tema.css, mantidos aqui como referência de leitura.
+       Os valores aparecem literais nos style= para o painel de propriedades poder editá-los. */
+    :root {
+      --cor-fundo: #08080b; --cor-fundo-elevado: #111116; --cor-superficie: #16161d;
+      --cor-superficie-hover: #1e1e27; --cor-borda: #26262f;
+      --cor-marca: #8b5cf6; --cor-marca-forte: #7c3aed; --cor-marca-suave: rgba(139, 92, 246, 0.16);
+      --cor-texto: #ffffff; --cor-texto-secundario: #a1a1ac; --cor-texto-terciario: #8a8a96;
+      --cor-estrela: #f5c518; --cor-coroa: #f0b429; --cor-marca-clara: #c4b5fd; --cor-sucesso: #4ade80;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: #08080b; color: #ffffff; font-family: 'Inter', system-ui, sans-serif; font-size: 16px; -webkit-font-smoothing: antialiased; }
+    h1, h2, h3, h4, p { margin: 0; }
+    ul, ol { list-style: none; margin: 0; padding: 0; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: #ffffff; }
+    button { background: none; border: none; padding: 0; cursor: pointer; font: inherit; color: inherit; }
+    img, svg { max-width: 100%; display: block; }
+  </style>
+</helmet>
+<div style="width:1440px;height:1220px;background:#08080b;overflow:hidden;position:relative">
+  <header style="background:#08080b;padding:12px 32px 0">
+      <div style="display:grid;grid-template-columns:auto 1fr auto;align-items:center;column-gap:32px;max-width:1600px;margin:0 auto">
+        <a href="#" style="min-height:44px;display:inline-flex;align-items:center"><span style="display:inline-flex;flex-direction:column;line-height:1;gap:3px">
+        <span style="font-size:1.5rem;font-weight:800;letter-spacing:0.09em;color:#ffffff">Y<span>Ō</span>K<span style="color:#8b5cf6">IRA</span></span>
+        <span style="font-size:0.6875rem;font-weight:600;letter-spacing:0.42em;color:#8b5cf6;padding-left:2px">A N I M E E S</span>
+      </span></a>
+        <nav style="min-width:0">
+          <ul style="display:flex;align-items:center;gap:32px;white-space:nowrap;margin:0;padding:0;list-style:none">
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Início</a></li>
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#ffffff;border-bottom:2px solid #8b5cf6">Catálogo</a></li>
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Novidades</a></li>
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Gêneros</a></li>
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Minha Lista</a></li>
+          </ul>
+        </nav>
+        <div style="justify-self:end;display:flex;align-items:center;gap:8px">
+          <a href="#" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;color:#ffffff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><circle cx="10.8" cy="10.8" r="6.4" /><path d="m20 20-4.6-4.6" /></svg></a>
+          <a href="#" style="display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 12px;border-radius:999px;border:1px solid #26262f;background:#16161d;color:#f0b429;font-size:0.8125rem;font-weight:600"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M3.4 7.6 7.5 11l4.5-6 4.5 6 4.1-3.4-1.6 10.2H5z" /><path d="M5 19.4h14" /></svg><span>Painel</span></a>
+          <a href="#" style="display:inline-flex;align-items:center;height:40px;padding:0 20px;border-radius:999px;background:#7c3aed;color:#fff;font-size:0.8125rem;font-weight:600">Assinar</a>
+          <a href="#" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:#16161d;border:1px solid #26262f;color:#ffffff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><circle cx="12" cy="8.2" r="3.7" /><path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0" /></svg></a>
+        </div>
+      </div>
+    </header>
+
+  <main style="width:100%;max-width:1600px;margin:0 auto;padding:16px 32px 0">
+    <div style="position:relative;isolation:isolate;overflow:hidden;background:#111116;border:1px solid #26262f;border-radius:14px;margin-bottom:24px">
+      <div style="position:absolute;top:0;left:0;right:0;aspect-ratio:21 / 9;z-index:-2"><svg width="100%" height="100%" viewBox="0 72.00 1280 548.57" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block">
+      <defs>
+        <linearGradient id="ga22" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0%" stop-color="#0f172a" /><stop offset="58%" stop-color="#1d4ed8" /><stop offset="100%" stop-color="#0f172a" /></linearGradient>
+        <radialGradient id="gb22" cx="0.5" cy="0.370" r="0.62"><stop offset="0%" stop-color="#38bdf8" stop-opacity="0.85" /><stop offset="100%" stop-color="#38bdf8" stop-opacity="0" /></radialGradient>
+      </defs>
+      <rect width="1280" height="720" fill="url(#ga22)" />
+      <ellipse cx="640" cy="266.4" rx="571.4" ry="446.4" fill="url(#gb22)" />
+      <path d="M0 720 L1280 640.8 L1280 720 Z" fill="#0f172a" opacity="0.75" />
+    </svg></div>
+      <div style="position:absolute;top:0;left:0;right:0;aspect-ratio:21 / 9;z-index:-1;background:linear-gradient(to top, #111116 0%, color-mix(in srgb, #111116 55%, transparent) 34%, transparent 68%)"></div>
+      <span style="position:absolute;top:12px;left:12px;padding:3px 7px;border-radius:6px;background:#7c3aed;color:#fff;font-size:0.6875rem;font-weight:600;z-index:1">Novo episódio</span>
+
+      <div style="position:relative;display:flex;flex-direction:column;gap:12px;min-width:0;padding:29% 24px 24px">
+        <h1 style="font-size:2.5rem;font-weight:800;text-transform:uppercase;line-height:1.05">Lâmina do Crepúsculo</h1>
+        <p style="display:flex;align-items:center;gap:8px;font-size:0.8125rem">
+          <span style="display:inline-flex;color:#f0b429"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M3.4 7.6 7.5 11l4.5-6 4.5 6 4.1-3.4-1.6 10.2H5z" /><path d="M5 19.4h14" /></svg></span>
+          Versão de período de 30 dias gratuito
+        </p>
+        <p style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:0.8125rem;color:#a1a1ac">
+          <span style="display:inline-flex;align-items:center;padding:1px 6px;border-radius:6px;font-size:0.6875rem;font-weight:600;line-height:1.4;white-space:nowrap;background:#7c3aed;color:#fff">16</span><span>2021</span><span aria-hidden="true">•</span><span>4 Temporadas</span><span aria-hidden="true">•</span><span>Ação, Fantasia</span>
+          <span style="display:inline-flex;align-items:center;gap:3px;color:#f5c518"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M12 3.6 14.6 8.9l5.9.85-4.25 4.15 1 5.85L12 17l-5.25 2.75 1-5.85L3.5 9.75l5.9-.85z" /></svg> 4.7</span>
+        </p>
+        <p style="font-size:0.875rem;line-height:1.5;color:#a1a1ac;max-width:760px">Depois de herdar uma espada que se alimenta de memórias, Rui precisa escolher entre lembrar quem foi e vencer quem o caça. Cada golpe cobra um pedaço do passado.</p>
+        <div style="display:flex;flex-wrap:nowrap;align-items:center;gap:8px;margin-top:8px">
+          <a href="#" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:999px;font-size:0.8125rem;font-weight:600;background:#7c3aed;color:#fff"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M7.4 4.6 19.2 12 7.4 19.4z" /></svg> Assistir T4:E1</a>
+          <button type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:999px;font-size:0.8125rem;font-weight:600;background:#16161d;color:#ffffff;border:1px solid #26262f"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M12 4.8v14.4M4.8 12h14.4" /></svg> Minha Lista</button>
+          <button type="button" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border-radius:999px;background:#16161d;border:1px solid #26262f;color:#ffffff"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M7.4 10.6h-2a1.4 1.4 0 0 0-1.4 1.4v6.6a1.4 1.4 0 0 0 1.4 1.4h2z" /><path d="M7.4 10.6 11.6 4a2 2 0 0 1 2 2v3.4h4.7a1.8 1.8 0 0 1 1.8 2.2l-1.2 5.8a1.8 1.8 0 0 1-1.8 1.4H7.4z" /></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0, 1fr) 360px;gap:40px">
+      <div style="min-width:0">
+        <div style="display:flex;gap:24px;border-bottom:1px solid #26262f;white-space:nowrap">
+            <button type="button" style="min-height:44px;padding:0 0 8px;font-size:0.8125rem;font-weight:500;color:#ffffff;border-bottom:2px solid #8b5cf6">Episódios</button>
+            <button type="button" style="min-height:44px;padding:0 0 8px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Sobre</button>
+            <button type="button" style="min-height:44px;padding:0 0 8px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Trailers</button>
+            <button type="button" style="min-height:44px;padding:0 0 8px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Avaliações</button>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin:16px 0 12px">
+          <span style="position:relative;display:inline-flex;align-items:center;gap:8px;color:#ffffff;font-size:0.875rem">
+            <span style="font-weight:600;min-height:44px;display:inline-flex;align-items:center">4ª Temporada</span>
+            <span style="color:#a1a1ac;display:inline-flex"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M5.2 9 12 15.8 18.8 9" /></svg></span>
+          </span>
+          <span style="font-size:0.8125rem;color:#a1a1ac">12 episódios</span>
+        </div>
+
+        <ul style="display:flex;flex-direction:column;gap:4px">
+          <li style="display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px;background:#16161d;">
+            <a href="#" style="display:flex;align-items:center;gap:12px;flex:1 1 auto;min-width:0">
+              <span style="position:relative;flex:0 0 auto;width:104px;aspect-ratio:16 / 9;border-radius:6px;overflow:hidden;background:#1e1e27">
+                <svg width="100%" height="100%" viewBox="0 0.00 1280 720.00" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block">
+      <defs>
+        <linearGradient id="ga23" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0%" stop-color="#0f172a" /><stop offset="58%" stop-color="#1d4ed8" /><stop offset="100%" stop-color="#0f172a" /></linearGradient>
+        <radialGradient id="gb23" cx="0.5" cy="0.370" r="0.62"><stop offset="0%" stop-color="#38bdf8" stop-opacity="0.85" /><stop offset="100%" stop-color="#38bdf8" stop-opacity="0" /></radialGradient>
+      </defs>
+      <rect width="1280" height="720" fill="url(#ga23)" />
+      <ellipse cx="640" cy="266.4" rx="571.4" ry="446.4" fill="url(#gb23)" />
+      <path d="M0 720 L1280 640.8 L1280 720 Z" fill="#0f172a" opacity="0.75" />
+    </svg>
+                <span style="position:absolute;inset:0;display:grid;place-items:center;color:#ffffff;background:rgba(8,8,11,0.35)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M7.4 4.6 19.2 12 7.4 19.4z" /></svg></span>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                <span style="font-size:0.875rem;color:#ffffff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">1. A herança que não pediu</span>
+                <span style="font-size:0.75rem;color:#8a8a96">24 min</span>
+                <span style="display:flex;gap:8px;margin-top:2px"><span style="display:inline-flex;align-items:center;padding:2px 6px;border-radius:6px;font-size:0.6875rem;font-weight:600;line-height:1.4;white-space:nowrap;background:#16161d;color:#a1a1ac">Legendado</span></span>
+              </span>
+            </a>
+            <button type="button" style="flex:0 0 auto;display:grid;place-items:center;width:44px;height:44px;border-radius:999px;color:#a1a1ac"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M12 3.8v10.8" /><path d="m7.4 10.2 4.6 4.4 4.6-4.4" /><path d="M4.4 18.4v.6a1.4 1.4 0 0 0 1.4 1.4h12.4a1.4 1.4 0 0 0 1.4-1.4v-.6" /></svg></button>
+          </li>
+          <li style="display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px;">
+            <a href="#" style="display:flex;align-items:center;gap:12px;flex:1 1 auto;min-width:0">
+              <span style="position:relative;flex:0 0 auto;width:104px;aspect-ratio:16 / 9;border-radius:6px;overflow:hidden;background:#1e1e27">
+                <svg width="100%" height="100%" viewBox="0 0.00 1280 720.00" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block">
+      <defs>
+        <linearGradient id="ga24" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0%" stop-color="#0f172a" /><stop offset="58%" stop-color="#1d4ed8" /><stop offset="100%" stop-color="#0f172a" /></linearGradient>
+        <radialGradient id="gb24" cx="0.5" cy="0.370" r="0.62"><stop offset="0%" stop-color="#38bdf8" stop-opacity="0.85" /><stop offset="100%" stop-color="#38bdf8" stop-opacity="0" /></radialGradient>
+      </defs>
+      <rect width="1280" height="720" fill="url(#ga24)" />
+      <ellipse cx="640" cy="266.4" rx="571.4" ry="446.4" fill="url(#gb24)" />
+      <path d="M0 720 L1280 640.8 L1280 720 Z" fill="#0f172a" opacity="0.75" />
+    </svg>
+                <span style="position:absolute;inset:0;display:grid;place-items:center;color:#ffffff;background:rgba(8,8,11,0.35)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M7.4 4.6 19.2 12 7.4 19.4z" /></svg></span>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                <span style="font-size:0.875rem;color:#ffffff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">2. O primeiro nome esquecido</span>
+                <span style="font-size:0.75rem;color:#8a8a96">24 min</span>
+                <span style="display:flex;gap:8px;margin-top:2px"><span style="display:inline-flex;align-items:center;padding:2px 6px;border-radius:6px;font-size:0.6875rem;font-weight:600;line-height:1.4;white-space:nowrap;background:#16161d;color:#a1a1ac">Legendado</span></span>
+              </span>
+            </a>
+            <button type="button" style="flex:0 0 auto;display:grid;place-items:center;width:44px;height:44px;border-radius:999px;color:#a1a1ac"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M12 3.8v10.8" /><path d="m7.4 10.2 4.6 4.4 4.6-4.4" /><path d="M4.4 18.4v.6a1.4 1.4 0 0 0 1.4 1.4h12.4a1.4 1.4 0 0 0 1.4-1.4v-.6" /></svg></button>
+          </li>
+          <li style="display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px;">
+            <a href="#" style="display:flex;align-items:center;gap:12px;flex:1 1 auto;min-width:0">
+              <span style="position:relative;flex:0 0 auto;width:104px;aspect-ratio:16 / 9;border-radius:6px;overflow:hidden;background:#1e1e27">
+                <svg width="100%" height="100%" viewBox="0 0.00 1280 720.00" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block">
+      <defs>
+        <linearGradient id="ga25" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0%" stop-color="#0f172a" /><stop offset="58%" stop-color="#1d4ed8" /><stop offset="100%" stop-color="#0f172a" /></linearGradient>
+        <radialGradient id="gb25" cx="0.5" cy="0.370" r="0.62"><stop offset="0%" stop-color="#38bdf8" stop-opacity="0.85" /><stop offset="100%" stop-color="#38bdf8" stop-opacity="0" /></radialGradient>
+      </defs>
+      <rect width="1280" height="720" fill="url(#ga25)" />
+      <ellipse cx="640" cy="266.4" rx="571.4" ry="446.4" fill="url(#gb25)" />
+      <path d="M0 720 L1280 640.8 L1280 720 Z" fill="#0f172a" opacity="0.75" />
+    </svg>
+                <span style="position:absolute;inset:0;display:grid;place-items:center;color:#ffffff;background:rgba(8,8,11,0.35)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M7.4 4.6 19.2 12 7.4 19.4z" /></svg></span>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                <span style="font-size:0.875rem;color:#ffffff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">3. Casa de espelhos</span>
+                <span style="font-size:0.75rem;color:#8a8a96">23 min</span>
+                <span style="display:flex;gap:8px;margin-top:2px"><span style="display:inline-flex;align-items:center;padding:2px 6px;border-radius:6px;font-size:0.6875rem;font-weight:600;line-height:1.4;white-space:nowrap;background:#16161d;color:#a1a1ac">Legendado</span><span style="display:inline-flex;align-items:center;padding:2px 6px;border-radius:6px;font-size:0.6875rem;font-weight:600;line-height:1.4;white-space:nowrap;background:#16161d;color:#a1a1ac">Dublado</span></span>
+              </span>
+            </a>
+            <button type="button" style="flex:0 0 auto;display:grid;place-items:center;width:44px;height:44px;border-radius:999px;color:#a1a1ac"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M12 3.8v10.8" /><path d="m7.4 10.2 4.6 4.4 4.6-4.4" /><path d="M4.4 18.4v.6a1.4 1.4 0 0 0 1.4 1.4h12.4a1.4 1.4 0 0 0 1.4-1.4v-.6" /></svg></button>
+          </li>
+          <li style="display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px;">
+            <a href="#" style="display:flex;align-items:center;gap:12px;flex:1 1 auto;min-width:0">
+              <span style="position:relative;flex:0 0 auto;width:104px;aspect-ratio:16 / 9;border-radius:6px;overflow:hidden;background:#1e1e27">
+                <svg width="100%" height="100%" viewBox="0 0.00 1280 720.00" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block">
+      <defs>
+        <linearGradient id="ga26" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0%" stop-color="#0f172a" /><stop offset="58%" stop-color="#1d4ed8" /><stop offset="100%" stop-color="#0f172a" /></linearGradient>
+        <radialGradient id="gb26" cx="0.5" cy="0.370" r="0.62"><stop offset="0%" stop-color="#38bdf8" stop-opacity="0.85" /><stop offset="100%" stop-color="#38bdf8" stop-opacity="0" /></radialGradient>
+      </defs>
+      <rect width="1280" height="720" fill="url(#ga26)" />
+      <ellipse cx="640" cy="266.4" rx="571.4" ry="446.4" fill="url(#gb26)" />
+      <path d="M0 720 L1280 640.8 L1280 720 Z" fill="#0f172a" opacity="0.75" />
+    </svg>
+                <span style="position:absolute;inset:0;display:grid;place-items:center;color:#ffffff;background:rgba(8,8,11,0.35)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M7.4 4.6 19.2 12 7.4 19.4z" /></svg></span>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                <span style="font-size:0.875rem;color:#ffffff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">4. A caçada começa em silêncio</span>
+                <span style="font-size:0.75rem;color:#8a8a96">24 min</span>
+                <span style="display:flex;gap:8px;margin-top:2px"><span style="display:inline-flex;align-items:center;padding:2px 6px;border-radius:6px;font-size:0.6875rem;font-weight:600;line-height:1.4;white-space:nowrap;background:#16161d;color:#a1a1ac">Legendado</span></span>
+              </span>
+            </a>
+            <button type="button" style="flex:0 0 auto;display:grid;place-items:center;width:44px;height:44px;border-radius:999px;color:#a1a1ac"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M12 3.8v10.8" /><path d="m7.4 10.2 4.6 4.4 4.6-4.4" /><path d="M4.4 18.4v.6a1.4 1.4 0 0 0 1.4 1.4h12.4a1.4 1.4 0 0 0 1.4-1.4v-.6" /></svg></button>
+          </li>
+        </ul>
+      </div>
+
+      <aside style="min-width:0">
+        <h2 style="font-size:1rem;font-weight:700;margin-bottom:12px">Você também pode gostar</h2>
+        <ul style="display:flex;flex-direction:column;gap:4px">
+          <li style="display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px">
+              <span style="flex:0 0 auto;width:80px;aspect-ratio:16 / 9;border-radius:6px;overflow:hidden;background:#16161d"><svg width="100%" height="100%" viewBox="0 157.50 400 225.00" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block">
+      <defs>
+        <linearGradient id="ga27" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0%" stop-color="#450a0a" /><stop offset="58%" stop-color="#b91c1c" /><stop offset="100%" stop-color="#450a0a" /></linearGradient>
+        <radialGradient id="gb27" cx="0.5" cy="0.460" r="0.62"><stop offset="0%" stop-color="#fbbf24" stop-opacity="0.85" /><stop offset="100%" stop-color="#fbbf24" stop-opacity="0" /></radialGradient>
+      </defs>
+      <rect width="400" height="600" fill="url(#ga27)" />
+      <ellipse cx="200" cy="276.0" rx="178.6" ry="248.0" fill="url(#gb27)" />
+      <path d="M0 600 L400 534.0 L400 600 Z" fill="#450a0a" opacity="0.75" />
+    </svg></span>
+              <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                <span style="font-size:0.875rem;color:#ffffff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Muralha de Cinzas</span>
+                <span style="font-size:0.75rem;color:#8a8a96">2013 · Ação, Drama</span>
+              </span>
+            </li>
+          <li style="display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px">
+              <span style="flex:0 0 auto;width:80px;aspect-ratio:16 / 9;border-radius:6px;overflow:hidden;background:#16161d"><svg width="100%" height="100%" viewBox="0 157.50 400 225.00" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block">
+      <defs>
+        <linearGradient id="ga28" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0%" stop-color="#450a0a" /><stop offset="58%" stop-color="#b91c1c" /><stop offset="100%" stop-color="#450a0a" /></linearGradient>
+        <radialGradient id="gb28" cx="0.5" cy="0.340" r="0.62"><stop offset="0%" stop-color="#fbbf24" stop-opacity="0.85" /><stop offset="100%" stop-color="#fbbf24" stop-opacity="0" /></radialGradient>
+      </defs>
+      <rect width="400" height="600" fill="url(#ga28)" />
+      <ellipse cx="200" cy="204.0" rx="178.6" ry="248.0" fill="url(#gb28)" />
+      <path d="M0 600 L400 552.0 L400 600 Z" fill="#450a0a" opacity="0.75" />
+    </svg></span>
+              <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                <span style="font-size:0.875rem;color:#ffffff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Ceifador de Agosto</span>
+                <span style="font-size:0.75rem;color:#8a8a96">2004 · Ação, Sobrenatural</span>
+              </span>
+            </li>
+          <li style="display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px">
+              <span style="flex:0 0 auto;width:80px;aspect-ratio:16 / 9;border-radius:6px;overflow:hidden;background:#16161d"><svg width="100%" height="100%" viewBox="0 157.50 400 225.00" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block">
+      <defs>
+        <linearGradient id="ga29" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0%" stop-color="#0c1222" /><stop offset="58%" stop-color="#334155" /><stop offset="100%" stop-color="#0c1222" /></linearGradient>
+        <radialGradient id="gb29" cx="0.5" cy="0.410" r="0.62"><stop offset="0%" stop-color="#94a3b8" stop-opacity="0.85" /><stop offset="100%" stop-color="#94a3b8" stop-opacity="0" /></radialGradient>
+      </defs>
+      <rect width="400" height="600" fill="url(#ga29)" />
+      <ellipse cx="200" cy="246.0" rx="178.6" ry="248.0" fill="url(#gb29)" />
+      <path d="M0 600 L400 564.0 L400 600 Z" fill="#0c1222" opacity="0.75" />
+    </svg></span>
+              <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                <span style="font-size:0.875rem;color:#ffffff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Ascensão Solitária</span>
+                <span style="font-size:0.75rem;color:#8a8a96">2023 · Ação, Fantasia</span>
+              </span>
+            </li>
+          <li style="display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px">
+              <span style="flex:0 0 auto;width:80px;aspect-ratio:16 / 9;border-radius:6px;overflow:hidden;background:#16161d"><svg width="100%" height="100%" viewBox="0 157.50 400 225.00" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block">
+      <defs>
+        <linearGradient id="ga30" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0%" stop-color="#0f172a" /><stop offset="58%" stop-color="#1d4ed8" /><stop offset="100%" stop-color="#0f172a" /></linearGradient>
+        <radialGradient id="gb30" cx="0.5" cy="0.310" r="0.62"><stop offset="0%" stop-color="#38bdf8" stop-opacity="0.85" /><stop offset="100%" stop-color="#38bdf8" stop-opacity="0" /></radialGradient>
+      </defs>
+      <rect width="400" height="600" fill="url(#ga30)" />
+      <ellipse cx="200" cy="186.0" rx="178.6" ry="248.0" fill="url(#gb30)" />
+      <path d="M0 600 L400 570.0 L400 600 Z" fill="#0f172a" opacity="0.75" />
+    </svg></span>
+              <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                <span style="font-size:0.875rem;color:#ffffff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Alquimia de Ferro Doce</span>
+                <span style="font-size:0.75rem;color:#8a8a96">2009 · Aventura, Drama</span>
+              </span>
+            </li>
+        </ul>
+
+        <h2 style="font-size:1rem;font-weight:700;margin:24px 0 8px">Sobre</h2>
+        <p style="font-size:0.875rem;line-height:1.6;color:#a1a1ac">Ação, Fantasia · 4 temporadas · 48 episódios</p>
+        <p style="margin-top:12px;font-size:0.8125rem;color:#8a8a96">Classificação indicativa 16 anos · Legendas em português</p>
+      </aside>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":1220}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

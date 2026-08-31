@@ -21,3 +21,6 @@ playwright-report/
 *.log
 .vite/
 src/lib/servidor/banco/gerado/
+
+# Canvas de design: gerado pelo publicador, ~2,6 MB porque embute o editor.
+docs/design/yokira-animees-telas.html

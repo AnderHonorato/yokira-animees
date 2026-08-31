@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <style>
+    /* Tokens de src/lib/estilos/tema.css, mantidos aqui como referência de leitura.
+       Os valores aparecem literais nos style= para o painel de propriedades poder editá-los. */
+    :root {
+      --cor-fundo: #08080b; --cor-fundo-elevado: #111116; --cor-superficie: #16161d;
+      --cor-superficie-hover: #1e1e27; --cor-borda: #26262f;
+      --cor-marca: #8b5cf6; --cor-marca-forte: #7c3aed; --cor-marca-suave: rgba(139, 92, 246, 0.16);
+      --cor-texto: #ffffff; --cor-texto-secundario: #a1a1ac; --cor-texto-terciario: #8a8a96;
+      --cor-estrela: #f5c518; --cor-coroa: #f0b429; --cor-marca-clara: #c4b5fd; --cor-sucesso: #4ade80;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: #08080b; color: #ffffff; font-family: 'Inter', system-ui, sans-serif; font-size: 16px; -webkit-font-smoothing: antialiased; }
+    h1, h2, h3, h4, p { margin: 0; }
+    ul, ol { list-style: none; margin: 0; padding: 0; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: #ffffff; }
+    button { background: none; border: none; padding: 0; cursor: pointer; font: inherit; color: inherit; }
+    img, svg { max-width: 100%; display: block; }
+  </style>
+</helmet>
+<div style="width:1440px;height:750px;background:#08080b;overflow:hidden;position:relative">
+  <header style="background:#08080b;padding:12px 32px 0">
+      <div style="display:grid;grid-template-columns:auto 1fr auto;align-items:center;column-gap:32px;max-width:1600px;margin:0 auto">
+        <a href="#" style="min-height:44px;display:inline-flex;align-items:center"><span style="display:inline-flex;flex-direction:column;line-height:1;gap:3px">
+        <span style="font-size:1.5rem;font-weight:800;letter-spacing:0.09em;color:#ffffff">Y<span>Ō</span>K<span style="color:#8b5cf6">IRA</span></span>
+        <span style="font-size:0.6875rem;font-weight:600;letter-spacing:0.42em;color:#8b5cf6;padding-left:2px">A N I M E E S</span>
+      </span></a>
+        <nav style="min-width:0">
+          <ul style="display:flex;align-items:center;gap:32px;white-space:nowrap;margin:0;padding:0;list-style:none">
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#ffffff;border-bottom:2px solid #8b5cf6">Início</a></li>
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Catálogo</a></li>
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Novidades</a></li>
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Gêneros</a></li>
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Minha Lista</a></li>
+          </ul>
+        </nav>
+        <div style="justify-self:end;display:flex;align-items:center;gap:8px">
+          <a href="#" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;color:#ffffff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><circle cx="10.8" cy="10.8" r="6.4" /><path d="m20 20-4.6-4.6" /></svg></a>
+          <a href="#" style="display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 12px;border-radius:999px;border:1px solid #26262f;background:#16161d;color:#f0b429;font-size:0.8125rem;font-weight:600"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M3.4 7.6 7.5 11l4.5-6 4.5 6 4.1-3.4-1.6 10.2H5z" /><path d="M5 19.4h14" /></svg><span>Painel</span></a>
+          <a href="#" style="display:inline-flex;align-items:center;height:40px;padding:0 20px;border-radius:999px;background:#7c3aed;color:#fff;font-size:0.8125rem;font-weight:600">Assinar</a>
+          <a href="#" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:#16161d;border:1px solid #26262f;color:#ffffff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><circle cx="12" cy="8.2" r="3.7" /><path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0" /></svg></a>
+        </div>
+      </div>
+    </header>
+
+  <main style="width:100%;max-width:1600px;margin:0 auto;padding:0 32px">
+    <h1 style="font-size:1.25rem;font-weight:700;margin:24px 0 8px">Painel administrativo</h1>
+    <p style="font-size:0.8125rem;color:#a1a1ac;margin-bottom:20px">Entrou como Ander Honorato (ADMINISTRADOR).</p>
+
+    <nav style="display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:12px;margin-bottom:20px" aria-label="Áreas do painel">
+        <a href="#" style="display:flex;flex-direction:column;gap:8px;padding:16px;background:#111116;border:1px solid #26262f;border-radius:14px">
+          <strong style="font-size:0.875rem;color:#ffffff">Títulos</strong>
+          <span style="font-size:0.75rem;color:#a1a1ac">Criar, editar, publicar e organizar temporadas e episódios</span>
+        </a>
+        <a href="#" style="display:flex;flex-direction:column;gap:8px;padding:16px;background:#111116;border:1px solid #26262f;border-radius:14px">
+          <strong style="font-size:0.875rem;color:#ffffff">Denúncias</strong>
+          <span style="font-size:0.75rem;color:#a1a1ac">3 denúncias aguardando revisão</span>
+        </a>
+        <a href="#" style="display:flex;flex-direction:column;gap:8px;padding:16px;background:#111116;border:1px solid #26262f;border-radius:14px">
+          <strong style="font-size:0.875rem;color:#ffffff">Registro</strong>
+          <span style="font-size:0.75rem;color:#a1a1ac">Quem fez o quê, da ação mais recente para a mais antiga</span>
+        </a>
+        <a href="#" style="display:flex;flex-direction:column;gap:8px;padding:16px;background:#111116;border:1px solid #26262f;border-radius:14px">
+          <strong style="font-size:0.875rem;color:#ffffff">Usuários</strong>
+          <span style="font-size:0.75rem;color:#a1a1ac">Contas, papéis e remoção</span>
+        </a>
+    </nav>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));gap:12px;margin-bottom:32px">
+        <div style="display:flex;flex-direction:column;gap:4px;padding:16px;background:#111116;border:1px solid #26262f;border-radius:14px">
+          <strong style="font-size:1.25rem">14</strong>
+          <span style="font-size:0.75rem;color:#a1a1ac">títulos</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;padding:16px;background:#111116;border:1px solid #26262f;border-radius:14px">
+          <strong style="font-size:1.25rem">186</strong>
+          <span style="font-size:0.75rem;color:#a1a1ac">episódios</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;padding:16px;background:#111116;border:1px solid #26262f;border-radius:14px">
+          <strong style="font-size:1.25rem"><span style="color:#4ade80;display:inline-flex"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="m12 3 2.3 1.7 2.8-.3 1 2.7 2.4 1.6-1 2.7 1 2.7-2.4 1.6-1 2.7-2.8-.3L12 21l-2.3-1.7-2.8.3-1-2.7L3.5 15.3l1-2.7-1-2.7 2.4-1.6 1-2.7 2.8.3z" /><path d="m8.8 12.2 2.2 2.2 4.2-4.6" /></svg></span></strong>
+          <span style="font-size:0.75rem;color:#a1a1ac">FFmpeg disponível</span>
+        </div>
+    </div>
+
+    <section style="margin-bottom:32px;max-width:720px">
+      <h2 style="display:flex;align-items:center;gap:8px;font-size:1rem;font-weight:700;margin-bottom:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M12 20.2V9.4" /><path d="m7.4 13.8 4.6-4.4 4.6 4.4" /><path d="M4.4 6.2v-.6a1.4 1.4 0 0 1 1.4-1.4h12.4a1.4 1.4 0 0 1 1.4 1.4v.6" /></svg> Enviar episódio</h2>
+      <p style="font-size:0.8125rem;color:#a1a1ac;line-height:1.6;margin-bottom:16px">O envio grava o original fora de <code style="padding:1px 5px;border-radius:6px;background:#16161d;font-size:0.75rem">static/</code> e enfileira a geração do HLS em 360p, 720p e 1080p. Use apenas arquivos que você tem direito de distribuir.</p>
+      <a href="#" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:999px;font-size:0.8125rem;font-weight:600;background:#7c3aed;color:#fff">Abrir formulário de envio</a>
+    </section>
+
+    <section style="margin-bottom:32px;max-width:720px">
+      <h2 style="font-size:1rem;font-weight:700;margin-bottom:8px">Fila de processamento</h2>
+      <ul style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
+          <li style="display:flex;align-items:center;gap:12px;padding:12px;background:#16161d;border-radius:6px;font-size:0.8125rem">
+            <span style="display:inline-flex;align-items:center;padding:2px 6px;border-radius:6px;font-size:0.6875rem;font-weight:600;line-height:1.4;white-space:nowrap;background:rgba(139, 92, 246, 0.16);color:#c4b5fd">Processando</span>
+            <span>62%</span>
+            
+          </li>
+          <li style="display:flex;align-items:center;gap:12px;padding:12px;background:#16161d;border-radius:6px;font-size:0.8125rem">
+            <span style="display:inline-flex;align-items:center;padding:2px 6px;border-radius:6px;font-size:0.6875rem;font-weight:600;line-height:1.4;white-space:nowrap;background:rgba(139, 92, 246, 0.16);color:#c4b5fd">Na fila</span>
+            <span>0%</span>
+            
+          </li>
+          <li style="display:flex;align-items:center;gap:12px;padding:12px;background:#16161d;border-radius:6px;font-size:0.8125rem">
+            <span style="display:inline-flex;align-items:center;padding:2px 6px;border-radius:6px;font-size:0.6875rem;font-weight:600;line-height:1.4;white-space:nowrap;background:#16161d;color:#a1a1ac">Falhou</span>
+            <span>18%</span>
+            <span style="color:#fca5a5;font-size:0.75rem">ffmpeg encerrou com código 1 na faixa de 1080p</span>
+          </li>
+      </ul>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":750}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

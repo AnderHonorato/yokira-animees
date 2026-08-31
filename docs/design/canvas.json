@@ -1,0 +1,116 @@
+{
+  "pages": [
+    {
+      "id": "page-1",
+      "name": "Telas"
+    },
+    {
+      "id": "page-2",
+      "name": "Base visual"
+    }
+  ],
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "title": "Início — desktop",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 1340,
+      "page": "page-1"
+    },
+    {
+      "file": "Catalogo.dc.html",
+      "title": "Catálogo",
+      "x": 1560,
+      "y": 0,
+      "w": 1440,
+      "h": 1010,
+      "page": "page-1"
+    },
+    {
+      "file": "Titulo.dc.html",
+      "title": "Detalhe do título",
+      "x": 3120,
+      "y": 0,
+      "w": 1440,
+      "h": 1220,
+      "page": "page-1"
+    },
+    {
+      "file": "InicioMobile.dc.html",
+      "title": "Início — celular 390",
+      "x": 4680,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "page": "page-1"
+    },
+    {
+      "file": "Player.dc.html",
+      "title": "Assistir",
+      "x": 0,
+      "y": 1560,
+      "w": 1440,
+      "h": 860,
+      "page": "page-1"
+    },
+    {
+      "file": "MinhaLista.dc.html",
+      "title": "Minha Lista",
+      "x": 1560,
+      "y": 1560,
+      "w": 1440,
+      "h": 730,
+      "page": "page-1"
+    },
+    {
+      "file": "Admin.dc.html",
+      "title": "Painel administrativo",
+      "x": 3120,
+      "y": 1560,
+      "w": 1440,
+      "h": 750,
+      "page": "page-1"
+    },
+    {
+      "file": "BaseVisual.dc.html",
+      "title": "Tokens e componentes",
+      "x": 0,
+      "y": 0,
+      "w": 1200,
+      "h": 1960,
+      "page": "page-2"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "nota-origem",
+      "x": 0,
+      "y": -190,
+      "w": 700,
+      "page": "page-1",
+      "text": "Telas montadas a partir do código, não de memória.\nCores, escala de texto, espaçamentos, raios e alturas de alvo vêm de src/lib/estilos/tema.css; a anatomia de cada peça vem de src/lib/componentes/. As artes são o gerador procedural de src/lib/visual/posters/gerar-poster.ts rodando nos mesmos slugs do seed."
+    },
+    {
+      "id": "nota-estatico",
+      "x": 3120,
+      "y": -190,
+      "w": 700,
+      "page": "page-1",
+      "text": "São maquetes estáticas: nada aqui clica, roda ou toca vídeo.\nEstados que dependem de interação (hover do card expandido, diálogo de dupla confirmação, faixa de offline, tema claro) ainda não têm artboard — dá pra acrescentar quando fizer falta."
+    },
+    {
+      "id": "nota-base",
+      "x": 0,
+      "y": -150,
+      "w": 700,
+      "page": "page-2",
+      "text": "Esta é a folha de referência: mudou aqui, muda em todas as telas.\nOs 29 ícones são os arquivos reais de src/lib/visual/icones/, um por arquivo, viewBox 24 e traço 1.75."
+    }
+  ],
+  "launch": {
+    "view": "canvas",
+    "page": "page-1"
+  }
+}

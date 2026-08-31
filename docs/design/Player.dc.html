@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <style>
+    /* Tokens de src/lib/estilos/tema.css, mantidos aqui como referência de leitura.
+       Os valores aparecem literais nos style= para o painel de propriedades poder editá-los. */
+    :root {
+      --cor-fundo: #08080b; --cor-fundo-elevado: #111116; --cor-superficie: #16161d;
+      --cor-superficie-hover: #1e1e27; --cor-borda: #26262f;
+      --cor-marca: #8b5cf6; --cor-marca-forte: #7c3aed; --cor-marca-suave: rgba(139, 92, 246, 0.16);
+      --cor-texto: #ffffff; --cor-texto-secundario: #a1a1ac; --cor-texto-terciario: #8a8a96;
+      --cor-estrela: #f5c518; --cor-coroa: #f0b429; --cor-marca-clara: #c4b5fd; --cor-sucesso: #4ade80;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: #08080b; color: #ffffff; font-family: 'Inter', system-ui, sans-serif; font-size: 16px; -webkit-font-smoothing: antialiased; }
+    h1, h2, h3, h4, p { margin: 0; }
+    ul, ol { list-style: none; margin: 0; padding: 0; }
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: #ffffff; }
+    button { background: none; border: none; padding: 0; cursor: pointer; font: inherit; color: inherit; }
+    img, svg { max-width: 100%; display: block; }
+  </style>
+</helmet>
+<div style="width:1440px;height:860px;background:#08080b;overflow:hidden;position:relative">
+  <header style="background:#08080b;padding:12px 32px 0">
+      <div style="display:grid;grid-template-columns:auto 1fr auto;align-items:center;column-gap:32px;max-width:1600px;margin:0 auto">
+        <a href="#" style="min-height:44px;display:inline-flex;align-items:center"><span style="display:inline-flex;flex-direction:column;line-height:1;gap:3px">
+        <span style="font-size:1.5rem;font-weight:800;letter-spacing:0.09em;color:#ffffff">Y<span>Ō</span>K<span style="color:#8b5cf6">IRA</span></span>
+        <span style="font-size:0.6875rem;font-weight:600;letter-spacing:0.42em;color:#8b5cf6;padding-left:2px">A N I M E E S</span>
+      </span></a>
+        <nav style="min-width:0">
+          <ul style="display:flex;align-items:center;gap:32px;white-space:nowrap;margin:0;padding:0;list-style:none">
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Início</a></li>
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#ffffff;border-bottom:2px solid #8b5cf6">Catálogo</a></li>
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Novidades</a></li>
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Gêneros</a></li>
+            <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;font-size:0.8125rem;font-weight:500;color:#a1a1ac;border-bottom:2px solid transparent">Minha Lista</a></li>
+          </ul>
+        </nav>
+        <div style="justify-self:end;display:flex;align-items:center;gap:8px">
+          <a href="#" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;color:#ffffff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><circle cx="10.8" cy="10.8" r="6.4" /><path d="m20 20-4.6-4.6" /></svg></a>
+          <a href="#" style="display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 12px;border-radius:999px;border:1px solid #26262f;background:#16161d;color:#f0b429;font-size:0.8125rem;font-weight:600"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M3.4 7.6 7.5 11l4.5-6 4.5 6 4.1-3.4-1.6 10.2H5z" /><path d="M5 19.4h14" /></svg><span>Painel</span></a>
+          <a href="#" style="display:inline-flex;align-items:center;height:40px;padding:0 20px;border-radius:999px;background:#7c3aed;color:#fff;font-size:0.8125rem;font-weight:600">Assinar</a>
+          <a href="#" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:#16161d;border:1px solid #26262f;color:#ffffff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><circle cx="12" cy="8.2" r="3.7" /><path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0" /></svg></a>
+        </div>
+      </div>
+    </header>
+
+  <main style="display:flex;flex-direction:column;gap:12px;padding-top:16px;max-width:1100px;margin:0 auto">
+    <a href="#" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:0.8125rem;color:#a1a1ac"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M14.6 5.2 7.8 12l6.8 6.8" /></svg> Voltar para Lâmina do Crepúsculo</a>
+
+    <div style="position:relative;aspect-ratio:16 / 9;border-radius:14px;overflow:hidden;background:#000">
+      <div style="position:absolute;inset:0"><svg width="100%" height="100%" viewBox="0 0.00 1280 720.00" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:block">
+      <defs>
+        <linearGradient id="ga31" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0%" stop-color="#0f172a" /><stop offset="58%" stop-color="#1d4ed8" /><stop offset="100%" stop-color="#0f172a" /></linearGradient>
+        <radialGradient id="gb31" cx="0.5" cy="0.370" r="0.62"><stop offset="0%" stop-color="#38bdf8" stop-opacity="0.85" /><stop offset="100%" stop-color="#38bdf8" stop-opacity="0" /></radialGradient>
+      </defs>
+      <rect width="1280" height="720" fill="url(#ga31)" />
+      <ellipse cx="640" cy="266.4" rx="571.4" ry="446.4" fill="url(#gb31)" />
+      <path d="M0 720 L1280 640.8 L1280 720 Z" fill="#0f172a" opacity="0.75" />
+    </svg></div>
+
+      <div style="position:absolute;left:0;right:0;bottom:0;z-index:2;display:flex;flex-direction:column;gap:4px;padding:24px 16px 16px;background:linear-gradient(to top, rgba(8,8,11,0.72), transparent);color:#fff">
+        <div style="position:relative;display:flex;align-items:center;height:20px">
+          <div style="position:relative;width:100%;height:4px;border-radius:999px;background:rgba(8,8,11,0.35);overflow:hidden">
+            <div style="position:absolute;top:0;left:0;height:100%;width:64%;background:rgba(8,8,11,0.72)"></div>
+            <div style="position:absolute;top:0;left:0;height:100%;width:41%;background:#8b5cf6"></div>
+          </div>
+          <span style="position:absolute;top:50%;left:41%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#8b5cf6;transform:translateY(-50%)"></span>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px">
+          <button type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:36px;height:36px;padding:0 4px;border-radius:999px;color:#fff"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><rect x="7" y="4.4" width="3.6" height="15.2" rx="1.2" /><rect x="13.4" y="4.4" width="3.6" height="15.2" rx="1.2" /></svg></button>
+          <span style="display:flex;align-items:center;gap:4px">
+            <button type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:36px;height:36px;padding:0 4px;border-radius:999px;color:#fff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M4.6 9.4h3.2L12.4 5.4v13.2L7.8 14.6H4.6z" /><path d="M16 9a4.4 4.4 0 0 1 0 6" /><path d="M18.6 6.4a8 8 0 0 1 0 11.2" /></svg></button>
+            <span style="display:block;width:80px;height:4px;border-radius:999px;background:rgba(255,255,255,0.28);position:relative"><span style="position:absolute;inset:0;width:70%;border-radius:999px;background:#8b5cf6"></span></span>
+          </span>
+          <span style="font-size:0.75rem;font-variant-numeric:tabular-nums;white-space:nowrap">09:52 <span style="opacity:0.6">/</span> 24:08</span>
+          <span style="flex:1 1 auto"></span>
+          <button type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:36px;height:36px;padding:0 8px;border-radius:999px;color:#fff"><span style="padding:0 8px;font-size:0.75rem;font-weight:600">Próximo episódio</span></button>
+          <button type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:36px;height:36px;padding:0 4px;border-radius:999px;color:#fff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><rect x="3" y="5.4" width="18" height="13.2" rx="2.4" /><path d="M10 10.4a2.6 2.6 0 1 0 0 3.2" /><path d="M16.6 10.4a2.6 2.6 0 1 0 0 3.2" /></svg></button>
+          <button type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:36px;height:36px;padding:0 8px;border-radius:999px;color:#fff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M4.4 7.2h15.2M4.4 12h15.2M4.4 16.8h15.2" /><circle cx="9" cy="7.2" r="2" /><circle cx="15.4" cy="12" r="2" /><circle cx="8" cy="16.8" r="2" /></svg><span style="padding:0 8px;font-size:0.75rem;font-weight:600">1080p</span></button>
+          <button type="button" style="display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:36px;height:36px;padding:0 4px;border-radius:999px;color:#fff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M4.4 9V5.6a1.2 1.2 0 0 1 1.2-1.2H9" /><path d="M15 4.4h3.4a1.2 1.2 0 0 1 1.2 1.2V9" /><path d="M19.6 15v3.4a1.2 1.2 0 0 1-1.2 1.2H15" /><path d="M9 19.6H5.6a1.2 1.2 0 0 1-1.2-1.2V15" /></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <h1 style="font-size:1rem;font-weight:700">T4:E1 — A herança que não pediu</h1>
+    <p style="display:flex;align-items:center;gap:8px;font-size:0.75rem;color:#a1a1ac">
+      <span>Lâmina do Crepúsculo</span><span aria-hidden="true">•</span><span>24 min</span><span style="display:inline-flex;align-items:center;padding:2px 6px;border-radius:6px;font-size:0.6875rem;font-weight:600;line-height:1.4;white-space:nowrap;background:#16161d;color:#a1a1ac">Legendado</span>
+      <span style="display:inline-flex;align-items:center;gap:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M2.6 12S6.4 5.6 12 5.6 21.4 12 21.4 12 17.6 18.4 12 18.4 2.6 12 2.6 12z" /><circle cx="12" cy="12" r="3.2" /></svg> 1.284 assistindo agora</span>
+    </p>
+  </main>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":860}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>
