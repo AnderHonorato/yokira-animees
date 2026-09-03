@@ -1,4 +1,7 @@
 /* Arquivo: src/routes/generos/generos.css */
+/* Cada genero e um alvo grande (nunca menos que 44px de altura), com o nome
+   alinhado a esquerda e um fio da marca no pe que cresce no hover. Sem imagem:
+   o que separa um genero do outro aqui e o ritmo, nao a arte. */
 
 .generos-grade {
   display: grid;
@@ -7,21 +10,81 @@
 }
 
 .genero-cartao {
+  position: relative;
   display: flex;
   align-items: center;
   min-height: 72px;
-  padding: 0 var(--espaco-4);
+  padding: var(--espaco-3) var(--espaco-4);
   border-radius: var(--raio-card);
-  background: linear-gradient(135deg, var(--cor-superficie), var(--cor-marca-suave));
+  background-color: var(--cor-superficie);
+  background-image: var(--gradiente-superficie);
   border: 1px solid var(--cor-borda);
-  font-size: var(--texto-14);
-  font-weight: 600;
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-15);
+  font-weight: 700;
+  letter-spacing: var(--entressilha-titulo);
+  line-height: var(--altura-linha-titulo);
+  color: var(--cor-texto);
+  overflow: hidden;
   transition:
     transform var(--transicao-rapida),
-    border-color var(--transicao-rapida);
+    border-color var(--transicao-rapida),
+    box-shadow var(--transicao-rapida),
+    background-color var(--transicao-rapida);
+}
+
+/* Faixa da marca no pe do cartao. Fica achatada em repouso e sobe no hover —
+   e o unico movimento da tela, entao pode ser o mais evidente. */
+.genero-cartao::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background-image: var(--gradiente-marca);
+  transform: scaleY(1);
+  transform-origin: bottom;
+  transition: transform var(--transicao-rapida);
 }
 
 .genero-cartao:hover {
   transform: translateY(-2px);
   border-color: var(--cor-marca);
+  background-color: var(--cor-superficie-hover);
+  box-shadow: var(--sombra-suave);
+}
+
+.genero-cartao:hover::before {
+  transform: scaleY(2);
+}
+
+.genero-cartao:active {
+  transform: translateY(0);
+}
+
+/* Genero em uso (a rota do catalogo marca com aria-current). O selecionado nao
+   pode depender so de hover: no toque hover nao existe. */
+.genero-cartao[aria-current],
+.genero-cartao-ativo {
+  background-color: var(--cor-marca-suave);
+  border-color: var(--cor-marca);
+  color: var(--cor-texto);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cor-marca) 35%, transparent);
+}
+
+.genero-cartao[aria-current]::before,
+.genero-cartao-ativo::before {
+  transform: scaleY(2);
+}
+
+@media (min-width: 768px) {
+  .generos-grade {
+    gap: var(--espaco-4);
+  }
+
+  .genero-cartao {
+    min-height: 84px;
+    font-size: var(--texto-16);
+  }
 }

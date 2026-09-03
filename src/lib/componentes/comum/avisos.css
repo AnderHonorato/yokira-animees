@@ -1,4 +1,8 @@
 /* Arquivo: src/lib/componentes/comum/avisos.css */
+/* Pilha de avisos. Painel de vidro escuro com uma barra colorida na lateral: o
+   tom (sucesso, erro, neutro) se le pela barra, entao o texto continua branco e
+   legivel nos tres casos — texto colorido em 13px era o ponto fraco do desenho
+   anterior. */
 
 .avisos {
   position: fixed;
@@ -14,32 +18,54 @@
 }
 
 .aviso {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--espaco-3);
   padding: var(--espaco-3) var(--espaco-4);
+  /* A barra mora no padding esquerdo: 3px de cor + o respiro de sempre. */
+  padding-left: calc(var(--espaco-4) + var(--espaco-1));
   border-radius: var(--raio-painel);
-  background: var(--cor-fundo-elevado);
-  border: 1px solid var(--cor-borda);
-  box-shadow: var(--sombra-card);
+  background-color: var(--vidro-fundo-denso);
+  background-image: var(--gradiente-superficie);
+  -webkit-backdrop-filter: var(--desfoque-vidro);
+  backdrop-filter: var(--desfoque-vidro);
+  border: 1px solid var(--vidro-borda);
+  box-shadow: var(--sombra-flutuante);
   font-size: var(--texto-13);
+  line-height: var(--altura-linha-corpo);
   color: var(--cor-texto);
+  overflow: hidden;
   pointer-events: auto;
 }
 
-.aviso-sucesso {
-  border-color: var(--cor-sucesso);
+/* Barra do tom. Neutro herda a marca; os outros dois trocam so esta cor. */
+.aviso::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--cor-marca);
+}
+
+.aviso-sucesso::before {
+  background: var(--cor-sucesso);
 }
 
 .aviso-sucesso .aviso-icone {
   display: inline-flex;
+  flex: 0 0 auto;
   color: var(--cor-sucesso);
 }
 
 .aviso-erro {
   border-color: var(--cor-erro-borda);
-  background: var(--cor-erro-fundo);
-  color: var(--cor-erro-texto);
+}
+
+.aviso-erro::before {
+  background: var(--cor-erro-texto);
 }
 
 .aviso-texto {
@@ -51,16 +77,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 auto;
   width: var(--alvo-toque);
   height: var(--alvo-toque);
   margin: calc(var(--espaco-3) * -1) calc(var(--espaco-2) * -1) calc(var(--espaco-3) * -1) 0;
-  color: inherit;
-  opacity: 0.65;
+  color: var(--cor-texto-secundario);
   border-radius: var(--raio-botao);
+  transition:
+    color var(--transicao-rapida),
+    background var(--transicao-rapida);
 }
 
 .aviso-fechar:hover {
-  opacity: 1;
+  color: var(--cor-texto);
+  background: color-mix(in srgb, var(--cor-texto) 10%, transparent);
 }
 
 @media (min-width: 768px) {

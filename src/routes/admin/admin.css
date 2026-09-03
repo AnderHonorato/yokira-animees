@@ -1,78 +1,216 @@
 /* Arquivo: src/routes/admin/admin.css */
+/* Casca do painel: cabecalho de pagina, navegacao entre as secoes, cartoes de
+   numero, painel de secao e a fila de processamento. Campos ficam em
+   admin-formularios.css, listagens em admin-tabela.css e avisos/atalhos em
+   tabela-admin.css — o teto de 180 linhas por arquivo continua valendo. */
+
+/* --- Cabecalho da pagina --- */
+
+.admin-cabecalho {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  padding: var(--espaco-6) 0 var(--espaco-4);
+}
 
 .admin-titulo {
-  font-size: var(--texto-20);
+  position: relative;
+  padding-left: var(--espaco-3);
+  margin: 0;
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-24);
   font-weight: 700;
-  margin: var(--espaco-6) 0 var(--espaco-2);
+  line-height: var(--altura-linha-titulo);
+  letter-spacing: var(--entressilha-display);
+  /* Nome de titulo nao tem limite de tamanho: em 360px ele quebra em vez de
+     empurrar a pagina. */
+  overflow-wrap: anywhere;
+}
+
+/* Fio da marca a esquerda do titulo: e a unica assinatura visual que o painel
+   precisa pra deixar de parecer um formulario solto. */
+.admin-titulo::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.14em;
+  bottom: 0.14em;
+  width: 3px;
+  border-radius: var(--raio-botao);
+  background: var(--gradiente-marca);
 }
 
 .admin-subtitulo {
+  margin: 0;
+  padding-left: var(--espaco-3);
   font-size: var(--texto-13);
+  line-height: var(--altura-linha-corpo);
   color: var(--cor-texto-secundario);
-  margin-bottom: var(--espaco-5);
 }
+
+/* --- Navegacao entre as secoes --- */
+
+/* Rola dentro de si no mobile; a pagina nunca ganha rolagem horizontal. */
+.admin-nav {
+  margin-bottom: var(--espaco-5);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.admin-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.admin-nav-trilha {
+  display: flex;
+  gap: var(--espaco-2);
+  width: max-content;
+  min-width: 100%;
+  padding: var(--espaco-1) 0;
+}
+
+.admin-nav-item {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--alvo-toque);
+  padding: 0 var(--espaco-4);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-botao);
+  background: var(--cor-superficie);
+  font-size: var(--texto-13);
+  font-weight: 600;
+  color: var(--cor-texto-secundario);
+  white-space: nowrap;
+  transition:
+    background var(--transicao-rapida),
+    border-color var(--transicao-rapida),
+    color var(--transicao-rapida);
+}
+
+.admin-nav-item:hover {
+  background: var(--cor-superficie-hover);
+  border-color: var(--cor-borda-forte);
+  color: var(--cor-texto);
+}
+
+.admin-nav-item-ativa,
+.admin-nav-item-ativa:hover {
+  background: var(--cor-marca-suave);
+  border-color: var(--cor-marca);
+  color: var(--cor-marca-clara);
+}
+
+/* --- Cartoes de numero --- */
 
 .admin-numeros {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: var(--espaco-3);
-  margin-bottom: var(--espaco-8);
+  margin-bottom: var(--espaco-6);
 }
 
 .admin-cartao {
   display: flex;
   flex-direction: column;
-  gap: var(--espaco-1);
+  gap: var(--espaco-2);
   padding: var(--espaco-4);
-  background: var(--cor-fundo-elevado);
+  background-color: var(--cor-fundo-elevado);
+  background-image: var(--gradiente-superficie);
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio-painel);
+  box-shadow: var(--sombra-suave);
 }
 
 .admin-cartao strong {
-  font-size: var(--texto-20);
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-28);
+  line-height: var(--altura-linha-apertada);
+  letter-spacing: var(--entressilha-display);
 }
 
 .admin-cartao span {
-  font-size: var(--texto-12);
-  color: var(--cor-texto-secundario);
+  font-size: var(--texto-11);
+  font-weight: 600;
+  letter-spacing: var(--entressilha-rotulo);
+  text-transform: uppercase;
+  color: var(--cor-texto-terciario);
 }
 
+/* O estado do ffmpeg e um icone, nao um numero: vira selo pra ocupar a mesma
+   altura visual dos vizinhos. */
 .admin-ffmpeg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--raio-chip);
+  background: color-mix(in srgb, var(--cor-texto-terciario) 16%, transparent);
   color: var(--cor-texto-terciario);
 }
 
 .admin-ffmpeg-ok {
+  background: color-mix(in srgb, var(--cor-sucesso) 18%, transparent);
   color: var(--cor-sucesso);
 }
 
+/* --- Painel de secao --- */
+
 .admin-secao {
-  margin-bottom: var(--espaco-8);
-  max-width: 720px;
+  max-width: 900px;
+  margin-bottom: var(--espaco-6);
+  padding: var(--espaco-4);
+  background-color: var(--cor-fundo-elevado);
+  background-image: var(--gradiente-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-painel);
+  box-shadow: var(--sombra-suave);
+}
+
+/* Formulario dentro do painel nao repete a moldura: seriam duas bordas pra
+   dizer a mesma coisa. */
+.admin-secao .admin-forma {
+  padding: 0;
+  margin-bottom: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
 }
 
 .admin-secao-titulo {
   display: flex;
   align-items: center;
   gap: var(--espaco-2);
+  margin: 0 0 var(--espaco-2);
+  font-family: var(--fonte-titulo);
   font-size: var(--texto-16);
   font-weight: 700;
-  margin-bottom: var(--espaco-2);
+  letter-spacing: var(--entressilha-titulo);
+}
+
+.admin-secao-titulo svg {
+  flex: 0 0 auto;
+  color: var(--cor-marca);
 }
 
 .admin-secao-texto {
   font-size: var(--texto-13);
+  line-height: var(--altura-linha-corpo);
   color: var(--cor-texto-secundario);
-  line-height: 1.6;
   margin-bottom: var(--espaco-4);
 }
 
 .admin-secao-texto code {
-  padding: 1px 5px;
+  padding: 1px var(--espaco-1);
   border-radius: var(--raio-chip);
   background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
   font-size: var(--texto-12);
 }
+
+/* --- Fila de processamento --- */
 
 .admin-fila {
   display: flex;
@@ -82,15 +220,32 @@
 
 .admin-fila-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--espaco-3);
+  gap: var(--espaco-2) var(--espaco-3);
   padding: var(--espaco-3);
   background: var(--cor-superficie);
-  border-radius: var(--raio-chip);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
   font-size: var(--texto-13);
 }
 
 .admin-fila-erro {
   color: var(--cor-erro-texto);
   font-size: var(--texto-12);
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 768px) {
+  .admin-titulo {
+    font-size: var(--texto-32);
+  }
+
+  .admin-cabecalho {
+    padding: var(--espaco-8) 0 var(--espaco-5);
+  }
+
+  .admin-secao {
+    padding: var(--espaco-6);
+  }
 }

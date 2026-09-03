@@ -8,6 +8,19 @@
   overflow: hidden;
   background: var(--cor-superficie);
   /* aspect-ratio reserva o espaco antes da imagem chegar: e assim que o CLS fica em zero. */
+  /* A sombra e o anel interno sao o que tira a trilha do "chapado": sem eles a
+     fileira lia como retangulos colados na pagina, e no tema claro a capa clara
+     encostava no fundo claro sem nenhuma aresta. O anel vai de inset em vez de
+     border pra nao empurrar a imagem 1px pra dentro. */
+  box-shadow:
+    var(--sombra-card),
+    inset 0 0 0 1px var(--vidro-borda);
+  /* Quem dispara a elevacao e o hover do card (cartao-conteudo.css); a duracao e
+     a curva ficam aqui, junto da peca que se move. */
+  transition:
+    transform var(--transicao-media),
+    box-shadow var(--transicao-media),
+    border-radius var(--transicao-media);
 }
 
 .moldura-card-imagem {
@@ -17,6 +30,24 @@
   /* 42% pega a faixa onde o brilho do poster procedural mora. Recorte pelo centro
      exato deixava a capa deitada com o clarao encostado no topo. */
   object-position: center 42%;
+}
+
+/* Veu do pe da arte. Muito poster real tem o nome do titulo impresso na propria
+   capa, e sobre uma arte clara esse nome sumia. O degrade e o piso que garante a
+   leitura em qualquer capa — e de quebra ancora o card no fundo.
+   Sao DUAS passadas do mesmo --veu-arte: o token e discreto de proposito (0.35) e
+   sozinho nao segura texto branco sobre capa clara; compondo duas vezes chega a
+   ~0.58 sem inventar cor fora do tema. Fica em ::before pra pintar acima da
+   imagem e ABAIXO do que vem pelo slot (o selo "Novo episodio"). */
+.moldura-card::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 55%;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to top, var(--veu-arte), transparent 62%),
+    linear-gradient(to top, var(--veu-arte), transparent 40%);
 }
 
 /* No desktop a capa deita. Trilha de retratos altos em tela larga vira uma parede

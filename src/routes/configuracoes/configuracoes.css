@@ -1,22 +1,45 @@
 /* Arquivo: src/routes/configuracoes/configuracoes.css */
+/* Tela de ajustes: uma coluna estreita, cada assunto num cartao e as acoes que
+   nao voltam atras separadas por cor de erro — antes elas eram cinzas iguais a
+   "Sair desta conta", que e reversivel. */
 
 .config-titulo {
-  font-size: var(--texto-20);
+  max-width: 720px;
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-24);
   font-weight: 700;
+  line-height: var(--altura-linha-titulo);
+  letter-spacing: var(--entressilha-display);
   margin: var(--espaco-6) 0 var(--espaco-2);
 }
 
 .config-subtitulo {
+  max-width: 720px;
   font-size: var(--texto-13);
+  line-height: var(--altura-linha-corpo);
   color: var(--cor-texto-secundario);
   margin-bottom: var(--espaco-5);
 }
 
+.config-subtitulo a {
+  color: var(--cor-marca);
+  font-weight: 600;
+}
+
+.config-subtitulo a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .config-recado {
-  padding: var(--espaco-3);
-  border-radius: var(--raio-chip);
+  max-width: 720px;
+  padding: var(--espaco-3) var(--espaco-4);
+  border-radius: var(--raio-card);
+  border: 1px solid color-mix(in srgb, var(--cor-marca) 32%, transparent);
+  border-left-width: 3px;
   background: var(--cor-marca-suave);
   font-size: var(--texto-13);
+  line-height: var(--altura-linha-corpo);
   margin-bottom: var(--espaco-4);
 }
 
@@ -27,6 +50,8 @@
   max-width: 720px;
 }
 
+/* Cartao de acao critica. A faixa de erro na lateral e o fundo levemente tingido
+   dizem "isto apaga alguma coisa" antes de a pessoa ler o titulo. */
 .config-item {
   display: flex;
   align-items: center;
@@ -34,26 +59,46 @@
   gap: var(--espaco-4);
   flex-wrap: wrap;
   padding: var(--espaco-4);
-  background: var(--cor-fundo-elevado);
-  border: 1px solid var(--cor-borda);
+  background-color: var(--cor-fundo-elevado);
+  background-image: var(--gradiente-superficie);
+  border: 1px solid var(--cor-erro-borda);
+  border-left-width: 3px;
   border-radius: var(--raio-painel);
+  box-shadow: var(--sombra-suave);
+  transition: border-color var(--transicao-rapida);
+}
+
+.config-item:hover {
+  border-color: color-mix(in srgb, var(--cor-erro-texto) 55%, transparent);
+}
+
+/* Cada cartao tem duas colunas: o texto que cresce e o botao que nao encolhe. */
+.config-item > div {
+  flex: 1 1 240px;
+  min-width: 0;
 }
 
 .config-item-titulo {
-  font-size: var(--texto-14);
-  font-weight: 600;
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-15);
+  font-weight: 700;
+  letter-spacing: var(--entressilha-titulo);
   margin-bottom: var(--espaco-1);
 }
 
 .config-item-texto {
   font-size: var(--texto-13);
   color: var(--cor-texto-secundario);
-  line-height: 1.5;
+  line-height: var(--altura-linha-corpo);
   max-width: 46ch;
 }
 
+/* Sair e reversivel: fica longe do bloco vermelho e sem cor de alerta. */
 .config-sair {
+  max-width: 720px;
   margin-top: var(--espaco-6);
+  padding-top: var(--espaco-6);
+  border-top: 1px solid var(--cor-borda);
 }
 
 /* Faixa de e-mail nao confirmado. Some assim que a confirmacao acontece. */
@@ -63,22 +108,51 @@
   gap: var(--espaco-3);
   align-items: center;
   justify-content: space-between;
+  max-width: 720px;
   padding: var(--espaco-4);
   margin-bottom: var(--espaco-4);
-  background: var(--cor-marca-suave);
-  border: 1px solid var(--cor-borda);
+  background-color: var(--cor-marca-suave);
+  background-image: var(--gradiente-superficie);
+  border: 1px solid color-mix(in srgb, var(--cor-marca) 38%, transparent);
   border-radius: var(--raio-painel);
 }
 
+.config-verificacao > div {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
 /* Titulo de secao. A tela deixou de ser so "acoes da conta" quando a aparencia
-   entrou — e a aparencia aparece tambem pra quem nao tem conta. */
+   entrou — e a aparencia aparece tambem pra quem nao tem conta. Vira rotulo:
+   caixa alta pequena com fio, que separa sem competir com o titulo da pagina. */
 .config-secao {
-  margin: var(--espaco-6) 0 var(--espaco-3);
-  font-size: var(--texto-16);
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-3);
+  max-width: 720px;
+  margin: var(--espaco-8) 0 var(--espaco-3);
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-12);
   font-weight: 700;
-  color: var(--cor-texto);
+  text-transform: uppercase;
+  letter-spacing: var(--entressilha-rotulo);
+  color: var(--cor-texto-secundario);
+}
+
+/* O fio ocupa o que sobrar da linha do rotulo. */
+.config-secao::after {
+  content: '';
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--cor-borda);
 }
 
 .config-secao:first-of-type {
-  margin-top: var(--espaco-4);
+  margin-top: var(--espaco-5);
+}
+
+@media (min-width: 768px) {
+  .config-titulo {
+    font-size: var(--texto-32);
+  }
 }

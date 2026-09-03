@@ -1,52 +1,95 @@
 /* Arquivo: src/lib/componentes/comum/seletor-de-tema.css */
+/* Grupo de segmentos. O radio nativo continua la (papel, teclado e o envio sem
+   JavaScript dependem dele), so que esticado e invisivel por cima do proprio
+   segmento: quem clica em qualquer canto do cartao acerta o controle. */
 
 .tema-forma {
-  margin-bottom: var(--espaco-4);
+  max-width: 720px;
+  margin-bottom: var(--espaco-5);
 }
 
 .tema-grupo {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: var(--espaco-3);
-  padding: var(--espaco-4);
-  background: var(--cor-fundo-elevado);
+  grid-template-columns: 1fr;
+  gap: var(--espaco-2);
+  margin: 0;
+  padding: var(--espaco-3);
+  background-color: var(--cor-fundo-elevado);
+  background-image: var(--gradiente-superficie);
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio-painel);
 }
 
 .tema-legenda {
   padding: 0 var(--espaco-2);
-  font-size: var(--texto-13);
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-12);
   font-weight: 700;
-  color: var(--cor-texto);
+  text-transform: uppercase;
+  letter-spacing: var(--entressilha-rotulo);
+  color: var(--cor-texto-secundario);
 }
 
 .tema-opcao {
+  position: relative;
   display: flex;
   align-items: flex-start;
   gap: var(--espaco-3);
   min-height: var(--alvo-toque);
-  padding: var(--espaco-3);
+  padding: var(--espaco-3) var(--espaco-6) var(--espaco-3) var(--espaco-3);
   background: var(--cor-superficie);
   border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-chip);
+  border-radius: var(--raio-card);
   cursor: pointer;
-  transition: border-color var(--transicao-rapida);
+  transition:
+    background var(--transicao-rapida),
+    border-color var(--transicao-rapida),
+    box-shadow var(--transicao-rapida);
 }
 
 .tema-opcao:hover {
   background: var(--cor-superficie-hover);
+  border-color: var(--cor-borda-forte);
 }
 
-/* Marca a escolhida pela borda, e nao so pelo radio: num toque rapido o ponto
-   do radio e pequeno demais pra ler qual esta ativa. */
-.tema-opcao-ativa {
+/* Marca a escolhida pela cor e pela borda, e nao so pelo radio: num toque rapido
+   o ponto do radio e pequeno demais pra ler qual esta ativa. */
+.tema-opcao-ativa,
+.tema-opcao-ativa:hover {
+  background: var(--cor-marca-suave);
   border-color: var(--cor-marca);
 }
 
+/* Ponto no canto: o estado ativo nao pode depender so de cor de fundo. */
+.tema-opcao-ativa::after {
+  content: '';
+  position: absolute;
+  top: var(--espaco-3);
+  right: var(--espaco-3);
+  width: 10px;
+  height: 10px;
+  border-radius: var(--raio-botao);
+  background: var(--cor-marca);
+}
+
+/* O radio some da vista, mas continua sendo o alvo do clique e do leitor de tela.
+   Nada de display:none nem visibility:hidden — os dois tirariam o controle do
+   fluxo de foco e o teclado perderia o grupo. */
 .tema-opcao input {
-  margin-top: 2px;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
   accent-color: var(--cor-marca);
+}
+
+/* O contorno de foco nao pode morar no input (invisivel): vai pro segmento. */
+.tema-opcao:has(input:focus-visible) {
+  outline: 2px solid var(--cor-marca);
+  outline-offset: 2px;
 }
 
 .tema-texto {
@@ -56,24 +99,39 @@
 }
 
 .tema-nome {
+  font-family: var(--fonte-titulo);
   font-size: var(--texto-14);
+  font-weight: 700;
+  letter-spacing: var(--entressilha-titulo);
   color: var(--cor-texto);
 }
 
 .tema-descricao {
   font-size: var(--texto-12);
+  line-height: var(--altura-linha-corpo);
   color: var(--cor-texto-secundario);
 }
 
+/* Botao do <noscript>: mesma pele do pill primario, sem depender do componente. */
 .tema-salvar {
   margin-top: var(--espaco-3);
   min-height: var(--alvo-toque);
   padding: 0 var(--espaco-5);
-  border: none;
+  border: 1px solid transparent;
   border-radius: var(--raio-botao);
-  background: var(--cor-marca-superficie);
+  background-color: var(--cor-marca-superficie);
+  background-image: var(--gradiente-marca-forte);
   color: var(--cor-texto-sobre-marca);
+  font-family: var(--fonte-base);
   font-size: var(--texto-13);
-  font-family: inherit;
+  font-weight: 600;
+  box-shadow: var(--sombra-marca);
   cursor: pointer;
+}
+
+/* A partir de 640px os tres cabem lado a lado sem espremer a descricao. */
+@media (min-width: 640px) {
+  .tema-grupo {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }

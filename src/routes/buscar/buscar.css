@@ -1,25 +1,72 @@
 /* Arquivo: src/routes/buscar/buscar.css */
+/* Campo unico da tela, entao ele manda: alto, com a lupa dentro e uma borda que
+   acende no foco. O icone e decorativo — o rotulo acessivel esta no input. */
 
 .busca-forma {
   position: relative;
   margin-bottom: var(--espaco-6);
-  max-width: 520px;
+  max-width: 560px;
 }
 
 .busca-icone {
   position: absolute;
-  left: var(--espaco-3);
+  left: var(--espaco-4);
   top: 50%;
   transform: translateY(-50%);
-  color: var(--cor-texto-secundario);
+  display: inline-flex;
+  /* Fica embaixo do campo: o clique na lupa foca o input em vez de nao fazer nada. */
+  pointer-events: none;
+  color: var(--cor-texto-terciario);
+  transition: color var(--transicao-rapida);
 }
 
+/* 52px pra caber a lupa de 18px com folga; o padding esquerdo abre espaco pra ela.
+   O tamanho 16px do texto e o que impede o Android/iOS de dar zoom ao focar. */
 .busca-campo {
   width: 100%;
-  min-height: var(--alvo-toque);
-  padding: 0 var(--espaco-4) 0 var(--espaco-10);
+  min-height: 52px;
+  padding: 0 var(--espaco-4) 0 var(--espaco-12);
   border-radius: var(--raio-botao);
-  background: var(--cor-superficie);
+  background-color: var(--cor-superficie);
+  background-image: var(--gradiente-superficie);
   border: 1px solid var(--cor-borda);
-  font-size: var(--texto-14);
+  font-size: var(--texto-16);
+  color: var(--cor-texto);
+  box-shadow: var(--sombra-suave);
+  transition:
+    border-color var(--transicao-rapida),
+    box-shadow var(--transicao-rapida),
+    background var(--transicao-rapida);
+}
+
+.busca-campo::placeholder {
+  color: var(--cor-texto-terciario);
+}
+
+.busca-campo:hover {
+  border-color: var(--cor-borda-forte);
+}
+
+.busca-campo:focus {
+  outline: none;
+  border-color: var(--cor-marca);
+  background-color: var(--cor-fundo-elevado);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cor-marca) 22%, transparent);
+}
+
+/* A lupa acende junto com a borda: o campo inteiro reage ao foco. */
+.busca-forma:focus-within .busca-icone {
+  color: var(--cor-marca);
+}
+
+/* O "x" de limpar do type=search: no WebKit ele nasce cinza-claro e some no escuro. */
+.busca-campo::-webkit-search-cancel-button {
+  filter: grayscale(1) opacity(0.6);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .busca-campo {
+    font-size: var(--texto-15);
+  }
 }

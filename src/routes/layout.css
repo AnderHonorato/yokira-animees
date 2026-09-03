@@ -1,35 +1,27 @@
 /* Arquivo: src/routes/layout.css */
 
 .casca {
-  position: relative;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-}
-
-/* Brilho da marca preso no topo da janela. Fixo (nao absoluto) e com z-index
-   negativo: nao entra no fluxo, nao alonga a pagina e nao cria rolagem — so
-   tira o fundo do "preto chapado" enquanto o conteudo passa por cima. */
-.casca::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: min(560px, 60vh);
-  z-index: -1;
-  pointer-events: none;
+  /* Brilho da marca ancorado no topo da pagina. Vai como BACKGROUND da casca, e
+     nao como camada posicionada: o `body` tem fundo opaco proprio, entao um
+     elemento com z-index negativo ficaria escondido atras dele, e um z-index
+     positivo cobriria o conteudo. Sendo fundo, ele nao entra no fluxo, nao
+     alonga a pagina e nao repinta a cada quadro de rolagem. */
   background-image: var(--brilho-marca);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% min(560px, 60vh);
 }
 
 .casca-conteudo {
-  position: relative;
   flex: 1 1 auto;
   width: 100%;
   max-width: var(--largura-maxima);
   margin: 0 auto;
   padding: var(--espaco-4) var(--espaco-4) 0;
-  /* Espaco pra barra inferior nao cobrir o ultimo card — e a area segura do
+  /* Espaco pra barra inferior nao cobrir o ultimo card — mais a area segura do
      aparelho por baixo dela, senao a barra de gestos come esse respiro. */
   padding-bottom: calc(
     var(--altura-barra-inferior) + var(--espaco-8) + env(safe-area-inset-bottom)

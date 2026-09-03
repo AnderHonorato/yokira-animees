@@ -1,12 +1,35 @@
 /* Arquivo: src/routes/formulario-conta.css */
-/* Compartilhado por entrar e cadastrar. */
+/* Compartilhado por entrar, cadastrar, recuperar senha, redefinir senha e
+   confirmar e-mail. Tudo mora num cartao centralizado com um brilho de marca
+   atras: e a unica tela do app sem poster nenhum, e sem esse brilho ela ficaria
+   um retangulo cinza no meio do nada. */
 
 .conta {
-  width: min(400px, 100%);
-  margin: var(--espaco-10) auto;
+  position: relative;
+  width: min(420px, 100%);
+  margin: var(--espaco-8) auto var(--espaco-10);
   display: flex;
   flex-direction: column;
   gap: var(--espaco-4);
+}
+
+/* Brilho preso atras do cartao. Absoluto e sem eventos: nao entra no fluxo, nao
+   estica a pagina e nao cria rolagem lateral (as bordas passam do cartao). */
+.conta::before {
+  content: '';
+  position: absolute;
+  top: calc(var(--espaco-8) * -1);
+  left: calc(var(--espaco-6) * -1);
+  right: calc(var(--espaco-6) * -1);
+  height: 280px;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--brilho-marca);
+}
+
+.conta > * {
+  position: relative;
+  z-index: 1;
 }
 
 .conta-marca {
@@ -15,19 +38,26 @@
 }
 
 .conta-titulo {
-  font-size: var(--texto-20);
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-24);
   font-weight: 700;
+  line-height: var(--altura-linha-titulo);
+  letter-spacing: var(--entressilha-display);
   text-align: center;
 }
 
+/* O cartao: fundo elevado + o veu de superficie por cima, que so acende o topo.
+   Sem ele o painel fica chapado no escuro e sem volume nenhum. */
 .conta-forma {
   display: flex;
   flex-direction: column;
   gap: var(--espaco-4);
-  padding: var(--espaco-5);
-  background: var(--cor-fundo-elevado);
+  padding: var(--espaco-6) var(--espaco-5);
+  background-color: var(--cor-fundo-elevado);
+  background-image: var(--gradiente-superficie);
   border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-painel);
+  border-radius: var(--raio-painel-grande);
+  box-shadow: var(--sombra-flutuante);
 }
 
 .conta-campo {
@@ -35,45 +65,80 @@
   flex-direction: column;
   gap: var(--espaco-2);
   font-size: var(--texto-13);
+  font-weight: 600;
   color: var(--cor-texto-secundario);
 }
 
+/* 16px no campo e regra de plataforma, nao gosto: abaixo disso o Android e o iOS
+   dao zoom sozinhos ao focar e a tela nunca mais volta pro lugar. */
 .conta-campo input {
+  width: 100%;
   min-height: var(--alvo-toque);
-  padding: 0 var(--espaco-3);
-  border-radius: var(--raio-chip);
+  padding: 0 var(--espaco-4);
+  border-radius: var(--raio-card);
   background: var(--cor-superficie);
   border: 1px solid var(--cor-borda);
-  font-size: var(--texto-14);
+  font-size: var(--texto-16);
+  font-weight: 500;
   color: var(--cor-texto);
+  transition:
+    border-color var(--transicao-rapida),
+    box-shadow var(--transicao-rapida),
+    background var(--transicao-rapida);
+}
+
+.conta-campo input::placeholder {
+  color: var(--cor-texto-terciario);
+}
+
+.conta-campo input:hover {
+  border-color: var(--cor-borda-forte);
+}
+
+/* A borda acende no foco e ganha um halo da marca. O outline global continua
+   valendo pro teclado; isto aqui e o que da o "campo ativo" tambem no toque. */
+.conta-campo input:focus {
+  outline: none;
+  border-color: var(--cor-marca);
+  background: var(--cor-fundo-elevado);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cor-marca) 22%, transparent);
 }
 
 .conta-campo small {
   font-size: var(--texto-11);
+  font-weight: 500;
+  line-height: var(--altura-linha-corpo);
   color: var(--cor-texto-terciario);
 }
 
+/* Erro: barra de erro na lateral alem do fundo, pra a mensagem se ler como erro
+   mesmo em tela com pouco brilho ou pra quem nao distingue vermelho. */
 .conta-erro {
-  padding: var(--espaco-3);
-  border-radius: var(--raio-chip);
-  background: var(--cor-erro-fundo);
+  padding: var(--espaco-3) var(--espaco-4);
+  border-radius: var(--raio-card);
   border: 1px solid var(--cor-erro-borda);
+  border-left-width: 3px;
+  background: var(--cor-erro-fundo);
   font-size: var(--texto-13);
+  line-height: var(--altura-linha-corpo);
   color: var(--cor-erro-texto);
 }
 
 /* Aviso neutro/positivo: link enviado, e-mail confirmado, senha redefinida. */
 .conta-aviso {
-  padding: var(--espaco-3);
-  border-radius: var(--raio-chip);
+  padding: var(--espaco-3) var(--espaco-4);
+  border-radius: var(--raio-card);
+  border: 1px solid color-mix(in srgb, var(--cor-marca) 32%, transparent);
+  border-left-width: 3px;
   background: var(--cor-marca-suave);
-  border: 1px solid var(--cor-borda);
   font-size: var(--texto-13);
+  line-height: var(--altura-linha-corpo);
   color: var(--cor-texto);
 }
 
 .conta-dica {
   font-size: var(--texto-12);
+  line-height: var(--altura-linha-corpo);
   color: var(--cor-texto-terciario);
 }
 
@@ -85,4 +150,32 @@
 
 .conta-alternativa a {
   color: var(--cor-marca);
+  font-weight: 600;
+  /* Alvo de toque decente sem virar bloco: o link e uma linha curta e centrada. */
+  display: inline-block;
+  padding: var(--espaco-2) var(--espaco-1);
+}
+
+.conta-alternativa a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (min-width: 768px) {
+  .conta {
+    margin-top: var(--espaco-10);
+  }
+
+  .conta-titulo {
+    font-size: var(--texto-32);
+  }
+
+  .conta-forma {
+    padding: var(--espaco-8) var(--espaco-6);
+  }
+
+  /* No desktop nao ha teclado virtual pra dar zoom: o campo volta pro corpo. */
+  .conta-campo input {
+    font-size: var(--texto-15);
+  }
 }
