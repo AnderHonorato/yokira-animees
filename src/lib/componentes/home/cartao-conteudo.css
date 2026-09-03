@@ -4,6 +4,11 @@
   flex: 0 0 auto;
   width: 138px;
   scroll-snap-align: start;
+  /* A elevacao do hover mora numa variavel porque duas pecas precisam da MESMA
+     transformacao: o poster (moldura-card.css) e o painel expandido
+     (cartao-expandido.css), que cobre o poster. Se divergissem em um pixel, a
+     capa aparecia como franja colorida por tras do painel. */
+  --elevacao-do-card: translateY(-4px) scale(1.03);
 }
 
 .cartao-link {
@@ -11,22 +16,30 @@
   position: relative;
 }
 
+/* Selo sobre a arte: gradiente da marca com fio de vidro em volta. Chapado na cor
+   solida ele desaparecia em capas roxas, que sao metade do catalogo procedural. */
 .cartao-selo {
   position: absolute;
   top: var(--espaco-2);
   left: var(--espaco-2);
-  padding: 3px 7px;
+  padding: 3px 8px;
   border-radius: var(--raio-chip);
-  background: var(--cor-marca-superficie);
+  background: var(--gradiente-marca);
+  border: 1px solid var(--vidro-borda);
+  box-shadow: var(--sombra-suave);
   color: var(--cor-texto-sobre-marca);
   font-size: var(--texto-11);
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: var(--entressilha-titulo);
+  line-height: 1.5;
+  white-space: nowrap;
 }
 
 .cartao-titulo {
   margin-top: var(--espaco-2);
   font-size: var(--texto-13);
-  font-weight: 500;
+  font-weight: 600;
+  line-height: var(--altura-linha-titulo);
   color: var(--cor-texto);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -57,6 +70,14 @@
   color: var(--cor-estrela);
 }
 
+/* Em card de 138px o selo com 11px ocupava quase metade da largura da capa. */
+@media (max-width: 599px) {
+  .cartao-selo {
+    font-size: var(--texto-10);
+    padding: 2px 6px;
+  }
+}
+
 @media (min-width: 768px) {
   .cartao {
     width: 160px;
@@ -68,6 +89,22 @@
 @media (min-width: 1024px) {
   .cartao {
     width: 288px;
+  }
+}
+
+/* Elevacao do hover: so onde existe cursor. No toque ela nunca sairia do lugar e
+   ainda brigaria com o :active. O raio sobe pro do painel porque e o painel
+   expandido que aparece por cima em seguida — se a capa continuasse com o raio
+   menor, os cantos dela escapariam por fora do painel. */
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .cartao-link:hover .moldura-card,
+  .cartao-link:focus-visible .moldura-card {
+    transform-origin: top center;
+    transform: var(--elevacao-do-card);
+    border-radius: var(--raio-painel);
+    box-shadow:
+      var(--sombra-flutuante),
+      inset 0 0 0 1px var(--vidro-borda);
   }
 }
 

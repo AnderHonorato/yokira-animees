@@ -7,6 +7,7 @@
 .admin-forma-inline {
   display: flex;
   gap: var(--espaco-3);
+  min-width: 0;
 }
 
 .admin-busca,
@@ -17,6 +18,7 @@
 
 .admin-forma {
   flex-direction: column;
+  gap: var(--espaco-4);
   padding: var(--espaco-4);
   margin-bottom: var(--espaco-4);
   background: var(--cor-fundo-elevado);
@@ -25,12 +27,37 @@
 }
 
 .admin-busca {
-  margin-bottom: var(--espaco-4);
+  padding: var(--espaco-3);
+  margin-bottom: var(--espaco-5);
+  background-color: var(--cor-fundo-elevado);
+  background-image: var(--gradiente-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-painel);
+  box-shadow: var(--sombra-suave);
 }
 
+.admin-busca .admin-campo {
+  flex: 1 1 220px;
+}
+
+/* Formulario de linha (temporada, episodio): a moldura tracejada avisa que ele
+   e um acrescimo dentro do painel, nao um painel novo. */
+.admin-forma-inline {
+  padding: var(--espaco-3);
+  border: 1px dashed var(--cor-borda-forte);
+  border-radius: var(--raio-card);
+  background: color-mix(in srgb, var(--cor-superficie) 60%, transparent);
+}
+
+.admin-forma-inline .admin-campo {
+  flex: 1 1 150px;
+}
+
+/* Uma coluna no celular, duas no desktop: e o par (rotulo, campo) que manda no
+   ponto de virada, nao a largura da tela inteira. */
 .admin-forma-linha {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: var(--espaco-3);
 }
 
@@ -38,7 +65,14 @@
   display: flex;
   flex-direction: column;
   gap: var(--espaco-2);
+  min-width: 0;
+  color: var(--cor-texto-secundario);
+}
+
+.admin-campo > span {
   font-size: var(--texto-12);
+  font-weight: 600;
+  letter-spacing: var(--entressilha-rotulo);
   color: var(--cor-texto-secundario);
 }
 
@@ -49,18 +83,56 @@
 .admin-campo input,
 .admin-campo select,
 .admin-campo textarea {
+  width: 100%;
+  min-width: 0;
   min-height: var(--alvo-toque);
   padding: var(--espaco-2) var(--espaco-3);
   border-radius: var(--raio-chip);
   background: var(--cor-superficie);
   border: 1px solid var(--cor-borda);
-  font-size: var(--texto-14);
+  /* 16px (--texto-16) e o piso: abaixo disso o Android da zoom ao focar. */
+  font-size: var(--texto-16);
   color: var(--cor-texto);
   font-family: inherit;
+  transition:
+    border-color var(--transicao-rapida),
+    box-shadow var(--transicao-rapida),
+    background var(--transicao-rapida);
 }
 
 .admin-campo textarea {
+  line-height: var(--altura-linha-corpo);
   resize: vertical;
+}
+
+.admin-campo input:hover,
+.admin-campo select:hover,
+.admin-campo textarea:hover {
+  border-color: var(--cor-borda-forte);
+}
+
+/* A borda acende na marca e o halo faz o papel do contorno padrao, que sai pra
+   nao desenhar dois aneis em volta do mesmo campo. */
+.admin-campo input:focus-visible,
+.admin-campo select:focus-visible,
+.admin-campo textarea:focus-visible {
+  outline: none;
+  border-color: var(--cor-marca);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cor-marca) 24%, transparent);
+}
+
+/* Campo de arquivo e zona de arraste: a propria caixa e o alvo do soltar. */
+.admin-campo input[type='file'] {
+  padding: var(--espaco-4) var(--espaco-3);
+  border: 1px dashed var(--cor-borda-forte);
+  border-radius: var(--raio-card);
+  background: color-mix(in srgb, var(--cor-superficie) 60%, transparent);
+  cursor: pointer;
+}
+
+.admin-campo input[type='file']:hover {
+  border-color: var(--cor-marca);
+  background: var(--cor-marca-suave);
 }
 
 /* Rotulo que existe pro leitor de tela e nao ocupa espaco na tela. */
@@ -73,69 +145,89 @@
   white-space: nowrap;
 }
 
-.admin-grupo {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--espaco-3);
-  padding: var(--espaco-3);
-  border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-chip);
-}
-
-.admin-grupo legend {
-  padding: 0 var(--espaco-2);
-  font-size: var(--texto-12);
-  color: var(--cor-texto-secundario);
-}
-
-.admin-marcador {
-  display: flex;
-  align-items: center;
-  gap: var(--espaco-2);
-  min-height: var(--alvo-toque);
-  font-size: var(--texto-13);
-}
-
-/* Escolha da origem do video no envio: arquivo ou link. */
+.admin-grupo,
 .admin-origem {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--espaco-4);
-  padding: var(--espaco-3);
+  gap: var(--espaco-2);
+  min-width: 0;
+  margin: 0;
+  padding: var(--espaco-2) var(--espaco-3) var(--espaco-3);
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio-card);
+  background: color-mix(in srgb, var(--cor-superficie) 55%, transparent);
 }
 
+.admin-grupo legend,
 .admin-origem legend {
   padding: 0 var(--espaco-2);
   font-size: var(--texto-12);
+  font-weight: 600;
+  letter-spacing: var(--entressilha-rotulo);
   color: var(--cor-texto-secundario);
 }
 
+/* Marcador e opcao de origem sao a mesma peca: uma pilula que acende quando
+   escolhida, com 44px de alvo mesmo quando o texto e curto. */
+.admin-marcador,
 .admin-origem-opcao {
   display: inline-flex;
   align-items: center;
   gap: var(--espaco-2);
   min-height: var(--alvo-toque);
-  font-size: var(--texto-14);
+  padding: 0 var(--espaco-3);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-botao);
+  background: var(--cor-superficie);
+  font-size: var(--texto-13);
+  color: var(--cor-texto-secundario);
+  cursor: pointer;
+  transition:
+    background var(--transicao-rapida),
+    border-color var(--transicao-rapida),
+    color var(--transicao-rapida);
 }
 
+.admin-marcador:hover,
+.admin-origem-opcao:hover {
+  background: var(--cor-superficie-hover);
+  border-color: var(--cor-borda-forte);
+  color: var(--cor-texto);
+}
+
+.admin-marcador input,
 .admin-origem-opcao input {
   accent-color: var(--cor-marca);
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.admin-marcador:has(input:checked),
+.admin-origem-opcao:has(input:checked) {
+  border-color: var(--cor-marca);
+  background: var(--cor-marca-suave);
+  color: var(--cor-marca-clara);
 }
 
 .admin-dica {
   display: block;
   margin-top: var(--espaco-2);
   font-size: var(--texto-12);
-  line-height: 1.5;
-  color: var(--cor-texto-secundario);
+  line-height: var(--altura-linha-corpo);
+  color: var(--cor-texto-terciario);
 }
 
 /* As duas capas do titulo lado a lado quando cabe. */
 .admin-capas {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--espaco-4);
   margin-top: var(--espaco-4);
+}
+
+@media (min-width: 768px) {
+  .admin-forma-linha {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
