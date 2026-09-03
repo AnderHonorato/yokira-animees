@@ -15,7 +15,14 @@ body {
   color: var(--cor-texto);
   font-family: var(--fonte-base);
   font-size: 16px;
+  line-height: var(--altura-linha-corpo);
+  letter-spacing: var(--entressilha-titulo);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* A Plus Jakarta Sans tem alternativas contextuais que so ligam com isso; sem
+     elas o "fi" de "configuracoes" fica com o pingo colado na barra do f. */
+  text-rendering: optimizeLegibility;
+  font-synthesis-weight: none;
   /* Trava a rolagem horizontal: requisito de 360px sem overflow. */
   overflow-x: hidden;
 }
@@ -66,11 +73,49 @@ p {
   margin: 0;
 }
 
+/* Titulo e display: a Outfit assume tudo que e chamada. Corpo continua na
+   Plus Jakarta Sans, herdada do body. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  line-height: var(--altura-linha-titulo);
+  letter-spacing: var(--entressilha-titulo);
+  /* Evita a linha orfa de uma palavra so em titulo de duas linhas. */
+  text-wrap: balance;
+}
+
+/* Numero tabular em qualquer lugar que mostre nota, ano ou tempo: sem isso a
+   coluna de duracao dos episodios "dança" a cada segundo que passa. */
+time,
+output,
+[data-numerico] {
+  font-variant-numeric: tabular-nums;
+}
+
 /* Foco sempre visivel: navegacao por teclado e requisito, nao enfeite. */
 :focus-visible {
   outline: 2px solid var(--cor-marca);
   outline-offset: 2px;
   border-radius: var(--raio-chip);
+}
+
+/* Selecao na cor da marca em vez do azul do sistema. */
+::selection {
+  background: var(--cor-marca-suave);
+  color: var(--cor-texto);
+}
+
+/* Barra de rolagem discreta no desktop. No mobile ela ja e sobreposta. */
+@media (min-width: 1024px) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--cor-borda-forte) transparent;
+  }
 }
 
 /* Esconde a barra de rolagem das trilhas sem perder o arrasto. */

@@ -1,13 +1,27 @@
 /* Arquivo: src/lib/componentes/casca/faixa-offline.css */
+/* Mesmo vidro das outras barras da casca, so que tingido de roxo: a faixa avisa,
+   nao alarma. O fundo elevado por baixo do tinte garante opacidade sem o desfoque. */
 
 .faixa-offline {
   position: sticky;
   top: 0;
   z-index: 60;
   padding: var(--espaco-2) var(--espaco-4);
-  background: var(--cor-marca-suave);
-  border-bottom: 1px solid var(--cor-borda);
+  background-image: linear-gradient(var(--cor-marca-suave), var(--cor-marca-suave));
+  background-color: var(--cor-fundo-elevado);
+  border-bottom: 1px solid var(--vidro-borda);
+  box-shadow: var(--sombra-suave);
   color: var(--cor-marca-clara);
   font-size: var(--texto-12);
+  font-weight: 600;
+  letter-spacing: var(--entressilha-titulo);
   text-align: center;
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .faixa-offline {
+    background-color: var(--vidro-fundo-denso);
+    -webkit-backdrop-filter: var(--desfoque-vidro);
+    backdrop-filter: var(--desfoque-vidro);
+  }
 }

@@ -22,7 +22,7 @@ describe('normalizarTema', () => {
 
 describe('metaDeTema', () => {
   it('escolha explicita sai com uma cor so, sem media query', () => {
-    expect(metaDeTema('escuro')).toBe('<meta name="theme-color" content="#08080b" />');
+    expect(metaDeTema('escuro')).toBe('<meta name="theme-color" content="#07070c" />');
     expect(metaDeTema('claro')).toBe('<meta name="theme-color" content="#f4f4f7" />');
   });
 
@@ -30,7 +30,7 @@ describe('metaDeTema', () => {
     const marcacao = metaDeTema('automatico');
     expect(marcacao).toContain('prefers-color-scheme: dark');
     expect(marcacao).toContain('prefers-color-scheme: light');
-    expect(marcacao).toContain('#08080b');
+    expect(marcacao).toContain('#07070c');
     expect(marcacao).toContain('#f4f4f7');
   });
 

@@ -1,4 +1,8 @@
 /* Arquivo: src/lib/componentes/comum/botao-pill.css */
+/* A peca mais reaproveitada do app: hero, dialogos, formularios de conta e painel.
+   Todas as variantes nascem da mesma base — mesma altura, mesmo raio, mesma curva —
+   e mudam so a pele. Nenhum estado mexe em padding ou borda: hover e clique andam
+   por transform e sombra, senao o botao empurra os vizinhos a cada toque. */
 
 .pill {
   display: inline-flex;
@@ -8,54 +12,112 @@
   min-height: var(--alvo-toque);
   padding: 0 var(--espaco-5);
   border-radius: var(--raio-botao);
+  /* Borda transparente em todas: quem ganha contorno no hover nao cresce 1px. */
+  border: 1px solid transparent;
+  font-family: var(--fonte-base);
   font-size: var(--texto-13);
   font-weight: 600;
+  line-height: var(--altura-linha-apertada);
+  letter-spacing: var(--entressilha-titulo);
+  text-align: center;
+  cursor: pointer;
   /* Resposta visual em menos de 100ms mesmo antes do servidor responder. */
   transition:
     background var(--transicao-rapida),
+    border-color var(--transicao-rapida),
+    box-shadow var(--transicao-rapida),
+    color var(--transicao-rapida),
+    filter var(--transicao-rapida),
     transform var(--transicao-rapida);
 }
 
-.pill:active {
-  transform: scale(0.97);
+.pill:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.pill:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
 }
 
 .pill:disabled {
   opacity: 0.45;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
+  filter: none;
 }
 
+/* O icone nunca encolhe junto com o rotulo quando falta espaco. */
+.pill svg {
+  flex: 0 0 auto;
+}
+
+/* Primario. O gradiente e o "forte" de proposito: o claro da familia termina em
+   rosa e branco por cima dele nao alcanca 4.5:1 — bonito e ilegivel. O fio de luz
+   no topo vem do proprio texto, entao acompanha o tema sem cor crua. */
 .pill-marca {
-  background: var(--cor-marca-superficie);
+  background-color: var(--cor-marca-superficie);
+  background-image: var(--gradiente-marca-forte);
   color: var(--cor-texto-sobre-marca);
+  box-shadow:
+    var(--sombra-marca),
+    inset 0 1px 0 color-mix(in srgb, var(--cor-texto-sobre-marca) 26%, transparent);
 }
 
 .pill-marca:hover:not(:disabled) {
-  filter: brightness(1.1);
+  filter: brightness(1.06);
+  box-shadow:
+    var(--sombra-marca),
+    var(--sombra-suave),
+    inset 0 1px 0 color-mix(in srgb, var(--cor-texto-sobre-marca) 34%, transparent);
 }
 
+/* Secundario em vidro: funciona tanto sobre a arte do poster quanto sobre a
+   pagina, porque o fundo e translucido e a borda e que desenha o botao. */
 .pill-neutro {
-  background: var(--cor-superficie);
+  background: var(--vidro-fundo);
+  -webkit-backdrop-filter: var(--desfoque-vidro);
+  backdrop-filter: var(--desfoque-vidro);
+  border-color: var(--cor-borda);
   color: var(--cor-texto);
-  border: 1px solid var(--cor-borda);
+  box-shadow: inset 0 1px 0 var(--vidro-realce);
 }
 
 .pill-neutro:hover:not(:disabled) {
-  background: var(--cor-superficie-hover);
+  background: var(--vidro-fundo-denso);
+  border-color: var(--cor-borda-forte);
+  box-shadow:
+    var(--sombra-suave),
+    inset 0 1px 0 var(--vidro-realce);
 }
 
+/* Fantasma: acao de apoio que nao pode competir com o primario ao lado. */
+.pill-fantasma {
+  background: transparent;
+  color: var(--cor-texto-secundario);
+}
+
+.pill-fantasma:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--cor-texto) 8%, transparent);
+  color: var(--cor-texto);
+}
+
+/* Circular de icone. Mantem o alvo de 44px mesmo com icone de 16px dentro. */
 .pill-circular {
   width: var(--alvo-toque);
   height: var(--alvo-toque);
   padding: 0;
-  background: var(--cor-superficie);
-  border: 1px solid var(--cor-borda);
+  background: var(--vidro-fundo);
+  -webkit-backdrop-filter: var(--desfoque-vidro);
+  backdrop-filter: var(--desfoque-vidro);
+  border-color: var(--cor-borda);
   color: var(--cor-texto);
+  box-shadow: inset 0 1px 0 var(--vidro-realce);
 }
 
 .pill-circular:hover:not(:disabled) {
-  background: var(--cor-superficie-hover);
+  background: var(--vidro-fundo-denso);
+  border-color: var(--cor-borda-forte);
 }
 
 /* Estado confirmado. Antes so o texto mudava ("Minha Lista" -> "Na Minha Lista"),
@@ -64,6 +126,7 @@
   background: var(--cor-sucesso-superficie);
   border-color: var(--cor-sucesso-superficie);
   color: var(--cor-texto-sobre-sucesso);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--cor-texto-sobre-sucesso) 18%, transparent);
 }
 
 .pill-sucesso:hover:not(:disabled) {
@@ -125,7 +188,7 @@
    em 390px de tela e o curtir caia sozinho pra linha de baixo. */
 @media (max-width: 599px) {
   .pill {
-    padding: 0 var(--espaco-3);
+    padding: 0 var(--espaco-4);
     font-size: var(--texto-12);
     gap: var(--espaco-1);
     min-width: 0;

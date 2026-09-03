@@ -1,28 +1,40 @@
 /* Arquivo: src/lib/componentes/comum/chip.css */
+/* Rotulo pequeno e nao clicavel ("Legendas Br", "PT", classificacao). Como e
+   sempre curto, ganha entressilha de rotulo: em 11px a palavra colada some. */
 
 .chip {
   display: inline-flex;
   align-items: center;
-  padding: 2px 6px;
+  gap: var(--espaco-1);
+  padding: 3px var(--espaco-2);
   border-radius: var(--raio-chip);
+  border: 1px solid transparent;
   font-size: var(--texto-11);
   font-weight: 600;
-  line-height: 1.4;
+  line-height: var(--altura-linha-apertada);
+  letter-spacing: var(--entressilha-rotulo);
   white-space: nowrap;
 }
 
 .chip-roxo {
   background: var(--cor-marca-suave);
+  border-color: color-mix(in srgb, var(--cor-marca) 32%, transparent);
   color: var(--cor-marca-clara);
 }
 
 .chip-neutro {
   background: var(--cor-superficie);
+  border-color: var(--cor-borda);
   color: var(--cor-texto-secundario);
 }
 
+/* Classificacao indicativa: numero, entao entra tabular pra "12" e "16" ficarem
+   com a mesma largura de caixa dentro da arte. */
 .chip-classificacao {
   background: var(--cor-marca-superficie);
+  border-color: color-mix(in srgb, var(--cor-texto-sobre-marca) 22%, transparent);
   color: var(--cor-texto-sobre-marca);
-  padding: 1px 6px;
+  padding: 2px var(--espaco-2);
+  letter-spacing: var(--entressilha-titulo);
+  font-variant-numeric: tabular-nums;
 }

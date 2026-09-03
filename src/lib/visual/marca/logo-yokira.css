@@ -4,26 +4,46 @@
 .marca-logo {
   display: inline-flex;
   flex-direction: column;
-  line-height: 1;
+  line-height: var(--altura-linha-apertada);
   gap: 3px;
 }
 
 .marca-titulo {
+  /* A Outfit e o desenho de chamada da marca: em peso 800 ela ganha o corpo que
+     a fonte de interface nao tem, e a entressilha negativa junta as letras num
+     bloco unico em vez de seis letras soltas. */
+  font-family: var(--fonte-titulo);
   font-size: 1.375rem;
   font-weight: 800;
-  letter-spacing: 0.09em;
+  letter-spacing: var(--entressilha-display);
+  line-height: var(--altura-linha-apertada);
   color: var(--cor-texto);
 }
 
+/* Reserva: onde `background-clip: text` nao existe, "IRA" continua roxo chapado. */
 .marca-destaque {
   color: var(--cor-marca);
 }
 
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .marca-destaque {
+    background-image: var(--gradiente-marca);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
 .marca-subtitulo {
+  /* O texto ja vem com espaco entre as letras; a entressilha por cima e o que
+     transforma a palavra numa regua e amarra a largura dela com a do titulo. */
+  font-family: var(--fonte-titulo);
   font-size: var(--texto-11);
   font-weight: 600;
-  letter-spacing: 0.42em;
-  color: var(--cor-marca);
+  letter-spacing: calc(var(--entressilha-rotulo) * 4);
+  line-height: var(--altura-linha-apertada);
+  color: var(--cor-marca-clara);
   padding-left: 2px;
 }
 

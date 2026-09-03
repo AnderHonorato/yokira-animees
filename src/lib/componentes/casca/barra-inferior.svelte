@@ -28,7 +28,11 @@
       href={item.href}
       aria-current={ativo ? 'page' : undefined}
     >
-      <svelte:component this={ICONES[item.icone]} tamanho={22} />
+      <!-- O invólucro existe só pra pílula do item ativo ter onde morar: pintá-la
+           num pseudoelemento do link exigiria posicionar por pixel sobre o ícone. -->
+      <span class="barra-inferior-icone">
+        <svelte:component this={ICONES[item.icone]} tamanho={22} />
+      </span>
       <span class="barra-inferior-rotulo">{item.rotulo}</span>
     </a>
   {/each}

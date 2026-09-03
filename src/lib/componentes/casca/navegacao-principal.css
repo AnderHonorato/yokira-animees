@@ -2,39 +2,74 @@
 
 .nav-principal {
   overflow-x: auto;
+  /* Os itens agora tem respiro proprio pro hover arredondado. A margem negativa
+     devolve esse respiro pra fora, senao "Inicio" ficaria desalinhado da logo. */
+  margin-inline: calc(var(--espaco-2) * -1);
 }
 
 .nav-principal-lista {
   display: flex;
   align-items: center;
-  gap: var(--espaco-4);
+  gap: var(--espaco-2);
   white-space: nowrap;
 }
 
 .nav-principal-item {
+  position: relative;
   display: inline-flex;
   align-items: center;
   min-height: var(--alvo-toque);
+  padding: 0 var(--espaco-2);
+  border-radius: var(--raio-chip);
   font-size: var(--texto-13);
   font-weight: 500;
+  letter-spacing: var(--entressilha-titulo);
   color: var(--cor-texto-secundario);
-  border-bottom: 2px solid transparent;
   transition:
     color var(--transicao-rapida),
-    border-color var(--transicao-rapida);
+    background var(--transicao-rapida);
+}
+
+/* O traco do item ativo cresce do centro pra fora em vez de aparecer inteiro:
+   com cinco itens lado a lado, a animacao e o que diz qual deles acabou de mudar. */
+.nav-principal-item::after {
+  content: '';
+  position: absolute;
+  left: var(--espaco-2);
+  right: var(--espaco-2);
+  bottom: 0;
+  height: 2px;
+  border-radius: var(--raio-botao);
+  background-image: var(--gradiente-marca);
+  background-color: var(--cor-marca);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--transicao-rapida);
 }
 
 .nav-principal-item:hover {
   color: var(--cor-texto);
+  background: var(--cor-superficie-hover);
 }
 
 .nav-principal-ativo {
   color: var(--cor-texto);
-  border-bottom-color: var(--cor-marca);
+  font-weight: 600;
+}
+
+.nav-principal-ativo::after {
+  transform: scaleX(1);
 }
 
 @media (min-width: 1024px) {
   .nav-principal-lista {
-    gap: var(--espaco-8);
+    gap: var(--espaco-5);
+  }
+  .nav-principal-item {
+    padding: 0 var(--espaco-3);
+  }
+  .nav-principal-item::after {
+    left: var(--espaco-3);
+    right: var(--espaco-3);
   }
 }

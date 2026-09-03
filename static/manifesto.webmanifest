@@ -5,8 +5,8 @@
   "lang": "pt-BR",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#08080b",
-  "theme_color": "#08080b",
+  "background_color": "#07070c",
+  "theme_color": "#07070c",
   "icons": [
     { "src": "/marca/emblema-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "/marca/emblema-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }

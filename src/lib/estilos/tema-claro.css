@@ -20,6 +20,7 @@
   --claro-superficie: #ffffff;
   --claro-superficie-hover: #ebebf1;
   --claro-borda: #d9d9e2;
+  --claro-borda-forte: #c2c2d0;
 
   /* Roxo mais fundo que o do escuro: o #8b5cf6 da marca nao alcanca 4.5:1
      sobre branco, entao viraria botao bonito e ilegivel. */
@@ -27,6 +28,7 @@
   --claro-marca-forte: #5b21b6;
   --claro-marca-suave: rgba(109, 40, 217, 0.12);
   --claro-marca-clara: #5b21b6;
+  --claro-marca-secundaria: #a21caf;
 
   --claro-texto: #14141a;
   --claro-texto-secundario: #55555f;
@@ -59,6 +61,35 @@
   --claro-brilho-esqueleto: rgba(20, 20, 26, 0.06);
 
   --claro-sombra-card: 0 8px 24px rgba(20, 20, 40, 0.12);
+  --claro-sombra-suave: 0 2px 8px rgba(20, 20, 40, 0.08);
+  --claro-sombra-flutuante: 0 22px 50px rgba(20, 20, 40, 0.18);
+  --claro-sombra-marca: 0 10px 26px rgba(109, 40, 217, 0.28);
+
+  /* Vidro e gradientes: mesma ideia do escuro, com o veu clareando em vez de
+     escurecer. Os gradientes ficam um passo mais fundos porque agora ha texto
+     branco por cima deles sobre uma pagina clara. */
+  --claro-vidro-fundo: rgba(255, 255, 255, 0.76);
+  --claro-vidro-fundo-denso: rgba(255, 255, 255, 0.94);
+  --claro-vidro-borda: rgba(20, 20, 40, 0.1);
+  --claro-vidro-realce: rgba(20, 20, 40, 0.04);
+  --claro-gradiente-marca: linear-gradient(135deg, #6d28d9 0%, #7e22ce 45%, #a21caf 100%);
+  --claro-gradiente-marca-forte: linear-gradient(135deg, #5b21b6 0%, #6b21a8 50%, #86198f 100%);
+  --claro-gradiente-superficie: linear-gradient(
+    160deg,
+    rgba(20, 20, 40, 0.04) 0%,
+    rgba(20, 20, 40, 0) 55%
+  );
+  --claro-gradiente-borda-marca: linear-gradient(
+    135deg,
+    rgba(109, 40, 217, 0.35),
+    rgba(162, 28, 175, 0.14) 60%,
+    rgba(20, 20, 40, 0.06)
+  );
+  --claro-brilho-marca: radial-gradient(
+    60% 80% at 20% 0%,
+    rgba(109, 40, 217, 0.14) 0%,
+    rgba(109, 40, 217, 0) 70%
+  );
 }
 
 :root[data-tema='claro'] {
@@ -100,6 +131,23 @@
   --brilho-esqueleto: var(--claro-brilho-esqueleto);
 
   --sombra-card: var(--claro-sombra-card);
+
+  --cor-borda-forte: var(--claro-borda-forte);
+  --cor-marca-secundaria: var(--claro-marca-secundaria);
+
+  --vidro-fundo: var(--claro-vidro-fundo);
+  --vidro-fundo-denso: var(--claro-vidro-fundo-denso);
+  --vidro-borda: var(--claro-vidro-borda);
+  --vidro-realce: var(--claro-vidro-realce);
+  --gradiente-marca: var(--claro-gradiente-marca);
+  --gradiente-marca-forte: var(--claro-gradiente-marca-forte);
+  --gradiente-superficie: var(--claro-gradiente-superficie);
+  --gradiente-borda-marca: var(--claro-gradiente-borda-marca);
+  --brilho-marca: var(--claro-brilho-marca);
+
+  --sombra-suave: var(--claro-sombra-suave);
+  --sombra-flutuante: var(--claro-sombra-flutuante);
+  --sombra-marca: var(--claro-sombra-marca);
 }
 
 @media (prefers-color-scheme: light) {
@@ -142,5 +190,22 @@
     --brilho-esqueleto: var(--claro-brilho-esqueleto);
 
     --sombra-card: var(--claro-sombra-card);
+
+    --cor-borda-forte: var(--claro-borda-forte);
+    --cor-marca-secundaria: var(--claro-marca-secundaria);
+
+    --vidro-fundo: var(--claro-vidro-fundo);
+    --vidro-fundo-denso: var(--claro-vidro-fundo-denso);
+    --vidro-borda: var(--claro-vidro-borda);
+    --vidro-realce: var(--claro-vidro-realce);
+    --gradiente-marca: var(--claro-gradiente-marca);
+    --gradiente-marca-forte: var(--claro-gradiente-marca-forte);
+    --gradiente-superficie: var(--claro-gradiente-superficie);
+    --gradiente-borda-marca: var(--claro-gradiente-borda-marca);
+    --brilho-marca: var(--claro-brilho-marca);
+
+    --sombra-suave: var(--claro-sombra-suave);
+    --sombra-flutuante: var(--claro-sombra-flutuante);
+    --sombra-marca: var(--claro-sombra-marca);
   }
 }

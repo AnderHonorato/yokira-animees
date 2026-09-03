@@ -1,4 +1,6 @@
 /* Arquivo: src/lib/componentes/casca/barra-inferior.css */
+/* A peca mais usada do app no celular: fica sob o polegar a viagem inteira, entao
+   ganha vidro denso e um indicador proprio pro item ativo em vez de so mudar de cor. */
 
 .barra-inferior {
   position: fixed;
@@ -8,9 +10,24 @@
   z-index: 45;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  background: var(--cor-fundo);
-  border-top: 1px solid var(--cor-borda);
+  /* Base opaca: sem backdrop-filter a barra continua legivel por cima da arte. */
+  background: var(--cor-fundo-elevado);
+  border-top: 1px solid var(--vidro-borda);
+  /* O fio de luz na borda de cima separa a barra do conteudo sem pedir sombra forte. */
+  box-shadow:
+    inset 0 1px 0 var(--vidro-realce),
+    var(--sombra-flutuante);
+  /* A area segura fica FORA da altura da barra: o alvo de toque continua 66px
+     mesmo nos aparelhos com barra de gestos. */
   padding-bottom: env(safe-area-inset-bottom);
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .barra-inferior {
+    background: var(--vidro-fundo-denso);
+    -webkit-backdrop-filter: var(--desfoque-vidro);
+    backdrop-filter: var(--desfoque-vidro);
+  }
 }
 
 .barra-inferior-item {
@@ -21,24 +38,37 @@
   gap: var(--espaco-1);
   /* Altura acima de 44px: requisito de alvo de toque. */
   min-height: var(--altura-barra-inferior);
+  padding: 0 2px;
+  min-width: 0;
   color: var(--cor-texto-secundario);
   transition: color var(--transicao-rapida);
 }
 
+/* A pilula atras do icone e o que marca a aba atual de relance — a cor sozinha
+   some quando o polegar cobre metade da barra. */
+.barra-inferior-icone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 28px;
+  border-radius: var(--raio-botao);
+  background: transparent;
+  transition:
+    background var(--transicao-rapida),
+    transform var(--transicao-rapida);
+}
+
 .barra-inferior-rotulo {
-  /* 10px abaixo de 400px: com --texto-12 os rotulos de 5 abas colidiam em 360px. */
-  font-size: 0.625rem;
+  /* 10px abaixo de 420px: com --texto-12 os rotulos de 5 abas colidiam em 360px. */
+  font-size: var(--texto-10);
   font-weight: 500;
   line-height: 1;
+  letter-spacing: var(--entressilha-titulo);
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.barra-inferior-item {
-  padding: 0 2px;
-  min-width: 0;
 }
 
 @media (min-width: 420px) {
@@ -49,6 +79,18 @@
 
 .barra-inferior-ativo {
   color: var(--cor-marca);
+}
+
+.barra-inferior-ativo .barra-inferior-icone {
+  background: var(--cor-marca-suave);
+}
+
+.barra-inferior-ativo .barra-inferior-rotulo {
+  font-weight: 600;
+}
+
+.barra-inferior-item:active .barra-inferior-icone {
+  transform: scale(0.92);
 }
 
 @media (min-width: 1024px) {

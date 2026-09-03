@@ -2,9 +2,12 @@
 
 .rodape {
   display: none;
-  border-top: 1px solid var(--cor-borda);
-  margin-top: var(--espaco-10);
-  padding: var(--espaco-8) var(--espaco-8) var(--espaco-10);
+  border-top: 1px solid var(--vidro-borda);
+  /* O veu de superficie levanta o rodape um passo do fundo da pagina sem virar
+     um bloco de cor: e o mesmo recurso dos paineis, so que na horizontal inteira. */
+  background-image: var(--gradiente-superficie);
+  margin-top: var(--espaco-12);
+  padding: var(--espaco-10) var(--espaco-8) var(--espaco-12);
 }
 
 .rodape-conteudo {
@@ -12,22 +15,40 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: var(--espaco-4);
+  gap: var(--espaco-5);
 }
 
 .rodape-links {
   display: flex;
-  gap: var(--espaco-5);
+  gap: var(--espaco-6);
   font-size: var(--texto-13);
+  font-weight: 500;
+  letter-spacing: var(--entressilha-titulo);
   color: var(--cor-texto-secundario);
+}
+
+.rodape-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--alvo-toque);
+  padding: 0 var(--espaco-2);
+  margin-inline: calc(var(--espaco-2) * -1);
+  border-radius: var(--raio-chip);
+  transition:
+    color var(--transicao-rapida),
+    background var(--transicao-rapida);
 }
 
 .rodape-links a:hover {
   color: var(--cor-texto);
+  background: var(--cor-superficie-hover);
 }
 
 .rodape-nota {
+  /* Medida curta: linha de rodape com 1600px de largura vira uma regua ilegivel. */
+  max-width: 62ch;
   font-size: var(--texto-12);
+  line-height: var(--altura-linha-corpo);
   color: var(--cor-texto-terciario);
 }
 

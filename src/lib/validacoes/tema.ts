@@ -29,12 +29,12 @@ export function normalizarTema(valor: unknown): Tema {
 /** Cor da barra do navegador. No automatico saem duas, cada uma com sua media query. */
 export function metaDeTema(tema: Tema): string {
   const escuro =
-    '<meta name="theme-color" content="#08080b" media="(prefers-color-scheme: dark)" />';
+    '<meta name="theme-color" content="#07070c" media="(prefers-color-scheme: dark)" />';
   const claro =
     '<meta name="theme-color" content="#f4f4f7" media="(prefers-color-scheme: light)" />';
 
   if (tema === 'automatico') return `${escuro}\n    ${claro}`;
   return tema === 'claro'
     ? '<meta name="theme-color" content="#f4f4f7" />'
-    : '<meta name="theme-color" content="#08080b" />';
+    : '<meta name="theme-color" content="#07070c" />';
 }

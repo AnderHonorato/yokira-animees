@@ -8,8 +8,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--espaco-5);
-  background: var(--cor-fundo);
+  gap: var(--espaco-6);
+  padding: var(--espaco-6);
+  /* O mesmo brilho da pagina: a primeira tela ja e a marca, nao um fundo neutro. */
+  background-image: var(--brilho-marca);
+  background-color: var(--cor-fundo);
 }
 
 .carregando-marca {
@@ -18,19 +21,26 @@
 
 .carregando-barra {
   width: min(260px, 70vw);
-  height: 4px;
+  height: 6px;
   border-radius: var(--raio-botao);
   background: var(--cor-superficie);
+  border: 1px solid var(--vidro-borda);
   overflow: hidden;
 }
 
 .carregando-preenchimento {
   height: 100%;
-  background: var(--cor-marca);
+  border-radius: var(--raio-botao);
+  background-image: var(--gradiente-marca);
+  background-color: var(--cor-marca);
   transition: width var(--transicao-media);
 }
 
 .carregando-rotulo {
   font-size: var(--texto-12);
+  font-weight: 500;
+  letter-spacing: var(--entressilha-titulo);
   color: var(--cor-texto-secundario);
+  /* A porcentagem sobe de 0 a 100 no lugar: sem numero tabular o rotulo tremia. */
+  font-variant-numeric: tabular-nums;
 }

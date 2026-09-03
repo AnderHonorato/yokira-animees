@@ -1,27 +1,33 @@
 /* Arquivo: src/lib/estilos/tema.css */
-/* Tokens tirados direto das telas de referencia do Yokira. */
+/* Tokens do visual do Yokira. Nada de cor, tamanho ou espaco nasce fora daqui. */
 /* O ESCURO e o padrao da marca e mora aqui. O claro fica em tema-claro.css, que
    so remapeia as cores — tipografia, ritmo e medidas nao mudam com o tema. */
 
 :root {
   color-scheme: dark;
 
-  /* Superficies */
-  --cor-fundo: #08080b;
-  --cor-fundo-elevado: #111116;
-  --cor-superficie: #16161d;
-  --cor-superficie-hover: #1e1e27;
-  --cor-borda: #26262f;
+  /* Superficies. O preto puro foi trocado por um preto com um fio de violeta:
+     sobre ele o roxo da marca para de parecer "colado" e a arte dos posters
+     ganha profundidade sem precisar de sombra. */
+  --cor-fundo: #07070c;
+  --cor-fundo-elevado: #101019;
+  --cor-superficie: #15151f;
+  --cor-superficie-hover: #1e1e2b;
+  --cor-borda: #262633;
+  --cor-borda-forte: #34344a;
 
   /* Marca */
   --cor-marca: #8b5cf6;
   --cor-marca-forte: #7c3aed;
   --cor-marca-suave: rgba(139, 92, 246, 0.16);
+  /* Segundo tom da marca, usado so em gradiente e brilho — nunca sozinho como
+     fundo de texto, por isso nao entra na tabela de contraste. */
+  --cor-marca-secundaria: #e879f9;
 
   /* Texto */
   --cor-texto: #ffffff;
-  --cor-texto-secundario: #a1a1ac;
-  --cor-texto-terciario: #8a8a96;
+  --cor-texto-secundario: #a5a5b3;
+  --cor-texto-terciario: #8b8b99;
 
   /* Apoio */
   --cor-estrela: #f5c518;
@@ -48,24 +54,76 @@
 
   /* Veus e sobreposicoes. O veu do hero termina na cor de fundo da pagina:
      no tema claro ele precisa clarear, nao escurecer. */
-  --veu-arte: rgba(8, 8, 11, 0.35);
-  --veu-hero-forte: rgba(8, 8, 11, 0.72);
-  --veu-hero-medio: rgba(8, 8, 11, 0.35);
-  --veu-hero-nulo: rgba(8, 8, 11, 0);
+  --veu-arte: rgba(7, 7, 12, 0.35);
+  --veu-hero-forte: rgba(7, 7, 12, 0.72);
+  --veu-hero-medio: rgba(7, 7, 12, 0.35);
+  --veu-hero-nulo: rgba(7, 7, 12, 0);
   --cor-cortina-dialogo: rgba(4, 4, 6, 0.72);
-  --cor-seta-carrossel: rgba(17, 17, 22, 0.92);
+  --cor-seta-carrossel: rgba(16, 16, 25, 0.92);
   --brilho-esqueleto: rgba(255, 255, 255, 0.06);
 
-  /* Tipografia — escala propositalmente pequena */
-  --fonte-base: 'Inter', system-ui, sans-serif;
-  --texto-11: 0.6875rem; /* chips, meta dos cards */
+  /* Camada de vidro: barra superior, barra inferior e controles sobre a arte.
+     Fundo translucido + desfoque. Onde o navegador nao tem backdrop-filter o
+     fundo ja e opaco o bastante pra continuar legivel. */
+  --vidro-fundo: rgba(12, 12, 19, 0.72);
+  --vidro-fundo-denso: rgba(9, 9, 15, 0.9);
+  --vidro-borda: rgba(255, 255, 255, 0.07);
+  --vidro-realce: rgba(255, 255, 255, 0.04);
+  --desfoque-vidro: saturate(160%) blur(18px);
+
+  /* Gradientes da marca. Sao decoracao (botao, faixa, brilho do hero) e por isso
+     nunca sao a unica fonte de contraste de um texto. */
+  --gradiente-marca: linear-gradient(135deg, #8b5cf6 0%, #a855f7 45%, #e879f9 100%);
+  --gradiente-marca-forte: linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #c026d3 100%);
+  --gradiente-superficie: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0) 55%
+  );
+  --gradiente-borda-marca: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.55),
+    rgba(232, 121, 249, 0.18) 60%,
+    rgba(255, 255, 255, 0.06)
+  );
+  --brilho-marca: radial-gradient(
+    60% 80% at 20% 0%,
+    rgba(139, 92, 246, 0.28) 0%,
+    rgba(139, 92, 246, 0) 70%
+  );
+
+  /* Tipografia.
+     Display: Outfit — geometrica e larga, o desenho de chamada que as
+     plataformas de streaming usam (Netflix Sans, Neulis Neue) e que a Inter,
+     por ser neutra, nao entrega.
+     Interface: Plus Jakarta Sans — aberturas maiores que a Inter entre 11 e 14px,
+     que e onde vive quase todo o texto deste app. */
+  --fonte-titulo: 'Outfit', 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  --fonte-base: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+
+  --texto-10: 0.625rem; /* selo dentro da arte, rotulo em tela estreita */
+  --texto-11: 0.6875rem; /* chips, meta dos cards, subtitulo da logo */
   --texto-12: 0.75rem; /* legendas, rotulos da barra inferior */
   --texto-13: 0.8125rem; /* titulo de card, itens de navegacao */
   --texto-14: 0.875rem; /* sinopse, corpo */
+  --texto-15: 0.9375rem; /* corpo em coluna larga */
   --texto-16: 1rem; /* titulo de secao no mobile */
+  --texto-18: 1.125rem; /* subtitulo, titulo de dialogo */
   --texto-20: 1.25rem; /* titulo de secao no desktop */
+  --texto-24: 1.5rem; /* titulo de pagina no mobile */
   --texto-28: 1.75rem; /* titulo do hero no mobile */
+  --texto-32: 2rem; /* titulo de pagina no desktop */
   --texto-40: 2.5rem; /* titulo do hero no desktop */
+  --texto-48: 3rem; /* titulo do hero em tela grande */
+
+  /* Ajustes de desenho da fonte. A Outfit e larga: em caixa alta ela pede
+     entressilha negativa, senao o titulo do hero estoura a coluna. */
+  --entressilha-display: -0.02em;
+  --entressilha-titulo: -0.01em;
+  --entressilha-rotulo: 0.08em;
+  --altura-linha-apertada: 1.05;
+  --altura-linha-titulo: 1.15;
+  --altura-linha-corpo: 1.55;
 
   /* Ritmo */
   --espaco-1: 4px;
@@ -76,18 +134,23 @@
   --espaco-6: 24px;
   --espaco-8: 32px;
   --espaco-10: 40px;
+  --espaco-12: 48px;
 
-  --raio-chip: 6px;
-  --raio-card: 10px;
-  --raio-painel: 14px;
+  --raio-chip: 8px;
+  --raio-card: 14px;
+  --raio-painel: 20px;
+  --raio-painel-grande: 26px;
   --raio-botao: 999px;
 
-  --sombra-card: 0 8px 28px rgba(0, 0, 0, 0.55);
+  --sombra-card: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --sombra-suave: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --sombra-flutuante: 0 22px 60px rgba(0, 0, 0, 0.62);
+  --sombra-marca: 0 10px 30px rgba(124, 58, 237, 0.42);
   --transicao-rapida: 160ms cubic-bezier(0.22, 1, 0.36, 1);
   --transicao-media: 280ms cubic-bezier(0.22, 1, 0.36, 1);
 
   /* Medidas de layout que aparecem em varios lugares */
-  --altura-barra-inferior: 62px;
+  --altura-barra-inferior: 66px;
   --largura-maxima: 1600px;
   --alvo-toque: 44px;
 }

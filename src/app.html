@@ -20,17 +20,27 @@
     <link rel="manifest" href="%sveltekit.assets%/manifesto.webmanifest" />
 
     <!--
-      Inter auto-hospedada (static/fontes/). Vinha do Google Fonts, e com o CDN lento o
+      Tipografia auto-hospedada (static/fontes/). Vinha do Google Fonts, e com o CDN lento o
       load da pagina esperava o timeout — 12,7s numa navegacao medida. Sem terceiro,
       a fonte tambem entra no cache do service worker e funciona offline.
+      Plus Jakarta Sans (interface) + Outfit (display). A Inter continua no arquivo ao
+      lado como ultima rede de seguranca do stack, e so baixa se as duas falharem.
     -->
     <link
       rel="preload"
       as="font"
       type="font/woff2"
-      href="%sveltekit.assets%/fontes/inter-latin.woff2"
+      href="%sveltekit.assets%/fontes/jakarta-latin.woff2"
       crossorigin
     />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="%sveltekit.assets%/fontes/outfit-latin.woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="%sveltekit.assets%/fontes/tipografia.css" />
     <link rel="stylesheet" href="%sveltekit.assets%/fontes/inter.css" />
 
     %sveltekit.head%

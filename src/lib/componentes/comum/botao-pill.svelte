@@ -3,7 +3,9 @@
 <script lang="ts">
   import './botao-pill.css';
 
-  export let variante: 'marca' | 'neutro' | 'circular' | 'sucesso' = 'marca';
+  /* "fantasma" e a acao de apoio: sem fundo nem borda, pra nao competir com o
+     primario que estiver do lado. */
+  export let variante: 'marca' | 'neutro' | 'circular' | 'sucesso' | 'fantasma' = 'marca';
   /** Estado ligado (na lista, curtido). Dispara a animacao de confirmacao. */
   export let ativo = false;
   export let href: string | undefined = undefined;
