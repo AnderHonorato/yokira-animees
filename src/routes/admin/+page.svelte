@@ -45,7 +45,7 @@
 <div class="admin-numeros">
   <div class="admin-cartao"><strong>{data.titulos}</strong><span>títulos</span></div>
   <div class="admin-cartao"><strong>{data.episodios}</strong><span>episódios</span></div>
-  <div class="admin-cartao">
+  <div class="admin-cartao admin-cartao-estado">
     <strong class="admin-ffmpeg" class:admin-ffmpeg-ok={data.temFfmpeg}>
       <Verificado tamanho={18} />
     </strong>

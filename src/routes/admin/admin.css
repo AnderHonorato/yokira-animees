@@ -104,11 +104,31 @@
 
 /* --- Cartoes de numero --- */
 
+/* Uma medida so pro painel inteiro. A secao ja parava nos 900px e o resto ia ate
+   a borda da tela: no desktop a busca ficava com o dobro da largura da tabela
+   que ela filtra, e as duas pareciam de paginas diferentes. */
+.admin-numeros,
+.admin-atalhos,
+.admin-busca,
+.admin-forma,
+.admin-forma-inline {
+  max-width: var(--largura-painel-admin);
+}
+
+/* Flex, e nao grade: os cartoes de numero crescem ate um teto (240px) e param.
+   Com `auto-fit` a faixa de estado, que atravessa a linha inteira, mantinha as
+   seis trilhas da grade vivas — e os dois numeros ficavam com 140px cada num
+   painel de 900, encolhidos no canto. */
 .admin-numeros {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--espaco-3);
   margin-bottom: var(--espaco-6);
+}
+
+.admin-numeros .admin-cartao {
+  flex: 1 1 150px;
+  max-width: 240px;
 }
 
 .admin-cartao {
@@ -138,6 +158,31 @@
   color: var(--cor-texto-terciario);
 }
 
+/* O estado do ffmpeg nao e um numero, e no celular ele ficava sozinho numa
+   coluna da grade parecendo um cartao de estatistica que esqueceram de
+   preencher. Aqui ele atravessa a linha inteira e vira uma FAIXA de estado:
+   selo a esquerda, texto ao lado, na horizontal. */
+/* Seletor com a mesma forca de `.admin-numeros .admin-cartao`, senao o teto de
+   240px daquela regra vence e a faixa fica do tamanho de um cartao de numero. */
+.admin-numeros .admin-cartao-estado {
+  /* Cresce ate o fim da linha: e um estado do sistema, nao um numero. */
+  flex: 1 1 220px;
+  max-width: none;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--espaco-3);
+  padding: var(--espaco-3) var(--espaco-4);
+}
+
+/* Sem caixa alta e sem entressilha de rotulo: aqui e frase, nao etiqueta. */
+.admin-cartao-estado span {
+  font-size: var(--texto-13);
+  font-weight: 600;
+  letter-spacing: var(--entressilha-titulo);
+  text-transform: none;
+  color: var(--cor-texto-secundario);
+}
+
 /* O estado do ffmpeg e um icone, nao um numero: vira selo pra ocupar a mesma
    altura visual dos vizinhos. */
 .admin-ffmpeg {
@@ -159,7 +204,7 @@
 /* --- Painel de secao --- */
 
 .admin-secao {
-  max-width: 900px;
+  max-width: var(--largura-painel-admin);
   margin-bottom: var(--espaco-6);
   padding: var(--espaco-4);
   background-color: var(--cor-fundo-elevado);

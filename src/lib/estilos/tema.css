@@ -152,5 +152,9 @@
   /* Medidas de layout que aparecem em varios lugares */
   --altura-barra-inferior: 66px;
   --largura-maxima: 1600px;
+  /* O painel administrativo e leitura em coluna, nao vitrine: passando disso a
+     linha da tabela fica com o nome numa ponta e a acao na outra, longe demais
+     pra relacionar as duas de um olhar. */
+  --largura-painel-admin: 900px;
   --alvo-toque: 44px;
 }

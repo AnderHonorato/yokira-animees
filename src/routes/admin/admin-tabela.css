@@ -69,6 +69,79 @@ a.admin-linha-principal:hover strong {
   align-items: center;
 }
 
+/* O seletor de papel herdava `.admin-campo`, que estica o campo pra 100% da
+   coluna: dentro da linha ele virava uma caixa de 220px encostada num chip de
+   80, e no celular a acao de remover era empurrada pra uma terceira linha.
+   Aqui ele encolhe pro tamanho do conteudo e ganha a mesma pele dos seletores
+   de temporada e de ordenacao — superficie, raio de chip e seta propria. */
+.admin-linha-marcas .admin-seletor {
+  position: relative;
+  flex: 0 0 auto;
+  width: auto;
+  flex-direction: row;
+  align-items: center;
+  min-height: var(--alvo-toque);
+  padding: 0 var(--espaco-3);
+  border-radius: var(--raio-chip);
+  border: 1px solid var(--cor-borda);
+  background-color: var(--cor-superficie);
+  background-image: var(--gradiente-superficie);
+  transition:
+    background-color var(--transicao-rapida),
+    border-color var(--transicao-rapida);
+}
+
+.admin-linha-marcas .admin-seletor:hover {
+  background-color: var(--cor-superficie-hover);
+  border-color: var(--cor-borda-forte);
+}
+
+/* O anel mora no rotulo e nao no <select>: o contorno nativo fica colado no
+   texto e ignora o raio da caixa desenhada por fora. */
+.admin-linha-marcas .admin-seletor:focus-within {
+  border-color: var(--cor-marca);
+  outline: 2px solid var(--cor-marca);
+  outline-offset: 1px;
+}
+
+.admin-linha-marcas .admin-seletor select {
+  appearance: none;
+  width: auto;
+  min-height: var(--alvo-toque);
+  /* Folga a direita pra seta, que e absoluta e nao ocupa lugar no fluxo. */
+  padding: 0 var(--espaco-5) 0 0;
+  background: none;
+  border: none;
+  outline: none;
+  /* 13px aqui, e nao os 16 do resto do painel: o valor e uma palavra em caixa
+     alta e o zoom do Android so dispara em campo de digitacao. */
+  font-size: var(--texto-13);
+  font-weight: 600;
+  letter-spacing: var(--entressilha-titulo);
+  cursor: pointer;
+}
+
+.admin-linha-marcas .admin-seletor svg {
+  position: absolute;
+  right: var(--espaco-2);
+  pointer-events: none;
+  color: var(--cor-texto-secundario);
+  transition:
+    transform var(--transicao-rapida),
+    color var(--transicao-rapida);
+}
+
+.admin-linha-marcas .admin-seletor:hover svg {
+  transform: translateY(1px);
+  color: var(--cor-texto);
+}
+
+/* A acao destrutiva vai pro fim da linha: separa visualmente de "trocar papel",
+   que e reversivel, e para de disputar a leitura com o chip do papel atual. */
+.admin-linha-marcas .pill {
+  margin-left: auto;
+}
+
 /* --- Temporadas e episodios --- */
 
 .admin-temporada {

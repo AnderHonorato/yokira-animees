@@ -13,6 +13,7 @@
   import { executarAcaoAdministrativa } from '$cliente/acoes-administrativas';
   import { avisar, avisarErro } from '$cliente/avisos';
   import { PAPEIS } from '$lib/validacoes/administracao';
+  import SetaBaixo from '$visual/icones/seta-baixo.svelte';
 
   // A casca so oferece o que o papel alcanca; quem barra de verdade e o servidor.
   $: nivel = PAPEIS.indexOf(data.usuario.papel);
@@ -122,7 +123,7 @@
         <span class="admin-linha-marcas">
           <Chip variante={usuario.papel === 'ESPECTADOR' ? 'neutro' : 'roxo'}>{usuario.papel}</Chip>
 
-          <label class="admin-campo">
+          <label class="admin-campo admin-seletor">
             <span class="admin-rotulo-oculto">Papel de {usuario.nome}</span>
             <select
               value={usuario.papel}
@@ -132,6 +133,7 @@
                 <option value={papel}>{papel}</option>
               {/each}
             </select>
+            <SetaBaixo tamanho={14} />
           </label>
 
           <BotaoPill

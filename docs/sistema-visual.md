@@ -113,11 +113,12 @@ Duas durações de transição (`160ms` e `280ms`), ambas com a mesma curva
 
 ## Medidas de layout
 
-| Token                     | Valor  | Por quê                                      |
-| ------------------------- | ------ | -------------------------------------------- |
-| `--alvo-toque`            | 44px   | Mínimo de área tocável exigido no mobile     |
-| `--altura-barra-inferior` | 66px   | Altura da barra de 5 abas, fora da safe area |
-| `--largura-maxima`        | 1600px | Onde o conteúdo para de crescer no desktop   |
+| Token                     | Valor  | Por quê                                                                  |
+| ------------------------- | ------ | ------------------------------------------------------------------------ |
+| `--alvo-toque`            | 44px   | Mínimo de área tocável exigido no mobile                                 |
+| `--altura-barra-inferior` | 66px   | Altura da barra de 5 abas, fora da safe area                             |
+| `--largura-maxima`        | 1600px | Onde o conteúdo para de crescer no desktop                               |
+| `--largura-painel-admin`  | 900px  | Coluna única do painel: busca, formulário, tabela e cartões param juntos |
 
 A barra inferior soma `env(safe-area-inset-bottom)` por fora desses 66px, e o
 cabeçalho soma `env(safe-area-inset-top)` — em aparelho com recorte a barra
