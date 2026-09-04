@@ -1,11 +1,13 @@
 /* Arquivo: src/lib/componentes/carregando/esqueleto-generico.css */
+/* Fallback pras rotas sem esqueleto proprio. O titulo segue a altura do h1 das
+   paginas simples (24px), que subiu junto com a escala de display. */
 
 .esqueleto-generico {
   max-width: 520px;
 }
 
 .esqueleto-generico-titulo {
-  height: var(--texto-20);
+  height: var(--texto-24);
   width: 220px;
   margin: var(--espaco-6) 0 var(--espaco-5);
 }

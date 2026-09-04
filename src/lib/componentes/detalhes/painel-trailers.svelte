@@ -1,5 +1,7 @@
 <!-- Arquivo: src/lib/componentes/detalhes/painel-trailers.svelte -->
-<!-- Coluna direita da imagem 3: "Trailers >", "Mais episodios >" e o botao largo do fim. -->
+<!-- Coluna direita: "Trailers >", "Mais episodios >" e o botao largo do fim. A duracao
+     entrou pra DENTRO da arte, como veu no canto: fora dela era mais uma linha de
+     texto cinza embaixo do nome, e o cartao ficava com tres alturas de legenda. -->
 <script lang="ts">
   import './painel-trailers.css';
   import SetaDireita from '$visual/icones/seta-direita.svelte';
@@ -26,9 +28,9 @@
       <span class="trailer-arte">
         <img src={arteDoTrailer} alt="" aria-hidden="true" loading="lazy" decoding="async" />
         <span class="trailer-play"><Play tamanho={18} /></span>
+        <span class="trailer-duracao">{duracaoDoTrailer}</span>
       </span>
       <span class="trailer-nome">{nomeDoTrailer}</span>
-      <span class="trailer-duracao">{duracaoDoTrailer}</span>
     </a>
   </section>
 

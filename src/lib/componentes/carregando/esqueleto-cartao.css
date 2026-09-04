@@ -1,4 +1,7 @@
 /* Arquivo: src/lib/componentes/carregando/esqueleto-cartao.css */
+/* Copia as larguras de cartao-conteudo.css e a moldura de moldura-card.css —
+   proporcao, raio, sombra e anel interno. Se divergir, a grade pula quando o
+   dado chega. */
 
 .esqueleto-cartao {
   flex: 0 0 auto;
@@ -11,15 +14,21 @@
   aspect-ratio: 2 / 3;
   border-radius: var(--raio-card);
   overflow: hidden;
+  /* Mesma elevacao da moldura de verdade: sem ela a trilha carregando fica
+     visivelmente mais "plana" do que a trilha pronta. */
+  box-shadow:
+    var(--sombra-card),
+    inset 0 0 0 1px var(--vidro-borda);
 }
 
+/* 15px e a caixa real do titulo (13px com a altura de linha de titulo). */
 .esqueleto-cartao-nome {
-  height: 13px;
+  height: 15px;
   margin-top: var(--espaco-2);
 }
 
 .esqueleto-cartao-meta {
-  height: 11px;
+  height: 13px;
   width: 60%;
   margin-top: var(--espaco-1);
 }

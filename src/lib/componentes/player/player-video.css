@@ -7,12 +7,19 @@
 }
 
 /* O quadro e o container de posicionamento dos controles e o alvo da tela cheia.
-   O overflow recorta a barra no cantinho arredondado. */
+   O overflow recorta a barra de vidro no canto arredondado. */
 .player-quadro {
   position: relative;
   overflow: hidden;
-  border-radius: var(--raio-card);
-  background: #000;
+  border-radius: var(--raio-painel);
+  /* A tarja do video precisa ser escura nos DOIS temas, entao nao pode sair de
+     --cor-fundo (que inverte). Os unicos veus escuros em qualquer tema sao
+     --cor-cortina-dialogo e --veu-arte; empilhados, chegam perto do opaco. */
+  background-color: var(--cor-cortina-dialogo);
+  background-image:
+    linear-gradient(var(--cor-cortina-dialogo), var(--cor-cortina-dialogo)),
+    linear-gradient(var(--cor-cortina-dialogo), var(--cor-cortina-dialogo)),
+    linear-gradient(var(--veu-arte), var(--veu-arte));
 }
 
 .player-quadro:focus-visible {
@@ -27,38 +34,50 @@
 
 .player-quadro-limpo .controles {
   opacity: 0;
+  transform: translateY(var(--espaco-2));
   pointer-events: none;
 }
 
 .controles {
-  transition: opacity var(--transicao-media);
+  transition:
+    opacity var(--transicao-media),
+    transform var(--transicao-media);
 }
 
-.player-video,
-.player-vazio {
+.player-video {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
-  border-radius: var(--raio-card);
-  background: #000;
+  /* O fundo escuro e do quadro, que ja recorta o canto: repetir aqui so criaria
+     uma segunda borda por baixo da primeira. */
+  background: transparent;
 }
 
 /* Em tela cheia o quadro ocupa a tela toda: a proporcao fixa deixaria tarja preta
    em cima e embaixo alem da que o proprio video ja tem. */
+.player-quadro:fullscreen {
+  border-radius: 0;
+}
+
 .player-quadro:fullscreen .player-video {
   height: 100%;
   aspect-ratio: auto;
-  border-radius: 0;
   object-fit: contain;
 }
 
+/* Sem midia nao ha video por baixo: aqui a superficie e a da pagina mesmo, e o
+   texto volta a seguir o tema. */
 .player-vazio {
   display: grid;
   place-content: center;
   gap: var(--espaco-2);
-  text-align: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   padding: var(--espaco-5);
-  background: var(--cor-superficie);
+  text-align: center;
+  border-radius: var(--raio-painel);
+  background-color: var(--cor-superficie);
+  background-image: var(--gradiente-superficie);
   border: 1px solid var(--cor-borda);
   font-size: var(--texto-14);
   color: var(--cor-texto-secundario);
@@ -69,25 +88,44 @@
   color: var(--cor-texto-terciario);
 }
 
-/* Erro de midia (link expirado, sessao caida, video em processamento). */
+/* Erro de midia (link expirado, sessao caida, video em processamento). Deixou de
+   ser um cinza discreto: quem chega aqui precisa ver que algo falhou. */
 .player-erro {
-  margin: var(--espaco-2) 0 0;
+  margin: 0;
+  padding: var(--espaco-3) var(--espaco-4);
+  border-radius: var(--raio-card);
+  background: var(--cor-erro-fundo);
+  border: 1px solid var(--cor-erro-borda);
   font-size: var(--texto-13);
-  color: var(--cor-texto-secundario);
+  color: var(--cor-erro-texto);
 }
 
 .player-audiencia {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: var(--espaco-2);
+  align-self: flex-start;
+  padding: var(--espaco-1) var(--espaco-3);
+  border-radius: var(--raio-botao);
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-superficie);
   font-size: var(--texto-12);
+  font-weight: 600;
   color: var(--cor-texto-secundario);
+  font-variant-numeric: tabular-nums;
 }
 
 .player-ponto {
   width: 7px;
   height: 7px;
+  flex: 0 0 auto;
   border-radius: 50%;
   background: var(--cor-sucesso);
   animation: pulsar-ponto 1.6s ease-in-out infinite;
+}
+
+@media (min-width: 768px) {
+  .player-quadro {
+    box-shadow: var(--sombra-flutuante);
+  }
 }

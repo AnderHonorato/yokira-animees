@@ -11,7 +11,10 @@
 </script>
 
 <section class="esqueleto-trilha">
-  <div class="esqueleto-trilha-titulo"><Esqueleto raio="var(--raio-chip)" /></div>
+  <div class="esqueleto-trilha-topo">
+    <div class="esqueleto-trilha-traco"><Esqueleto raio="var(--raio-botao)" /></div>
+    <div class="esqueleto-trilha-titulo"><Esqueleto raio="var(--raio-botao)" /></div>
+  </div>
   <ul class="esqueleto-trilha-fila">
     {#each repetir(cartoes) as indice (indice)}
       <EsqueletoCartao />

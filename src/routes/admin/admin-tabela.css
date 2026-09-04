@@ -1,34 +1,65 @@
 /* Arquivo: src/routes/admin/admin-tabela.css */
-/* Linhas de listagem, temporadas e episodios. */
+/* Linhas de listagem, temporadas e episodios.
+   A "tabela" do painel nao e um <table>: cada linha e um cartao que empilha
+   sozinho no celular e volta a parecer linha no desktop. Assim a lista rola na
+   vertical em 360px sem nunca empurrar a pagina pro lado. */
 
 .admin-tabela {
   display: flex;
   flex-direction: column;
-  gap: var(--espaco-2);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+  background: var(--cor-superficie);
+  overflow: hidden;
 }
 
 .admin-linha {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--espaco-3);
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--espaco-3);
-  background: var(--cor-superficie);
-  border-radius: var(--raio-chip);
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--espaco-2);
+  padding: var(--espaco-3) var(--espaco-4);
+  border-top: 1px solid var(--cor-borda);
+  transition: background var(--transicao-rapida);
+}
+
+.admin-linha:first-child {
+  border-top: 0;
+}
+
+/* Zebra a partir do proprio texto: funciona no escuro e no claro sem uma cor
+   nova pra cada tema. */
+.admin-linha:nth-child(even) {
+  background: color-mix(in srgb, var(--cor-texto) 3%, transparent);
+}
+
+.admin-linha:hover {
+  background: var(--cor-superficie-hover);
 }
 
 .admin-linha-principal {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
   font-size: var(--texto-14);
   color: var(--cor-texto);
 }
 
+.admin-linha-principal strong {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+a.admin-linha-principal:hover strong {
+  color: var(--cor-marca-clara);
+}
+
 .admin-linha-meta {
   font-size: var(--texto-12);
+  line-height: var(--altura-linha-corpo);
   color: var(--cor-texto-terciario);
+  overflow-wrap: anywhere;
 }
 
 .admin-linha-marcas {
@@ -41,9 +72,9 @@
 /* --- Temporadas e episodios --- */
 
 .admin-temporada {
-  padding: var(--espaco-4);
-  margin-top: var(--espaco-3);
-  background: var(--cor-fundo-elevado);
+  padding: var(--espaco-3);
+  margin-top: var(--espaco-4);
+  background: var(--cor-superficie);
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio-painel);
 }
@@ -54,36 +85,52 @@
   gap: var(--espaco-3);
   align-items: center;
   justify-content: space-between;
+  padding-bottom: var(--espaco-3);
   margin-bottom: var(--espaco-3);
+  border-bottom: 1px solid var(--cor-borda);
 }
 
 .admin-temporada-cabecalho h3 {
+  font-family: var(--fonte-titulo);
   font-size: var(--texto-16);
+  letter-spacing: var(--entressilha-titulo);
+  overflow-wrap: anywhere;
 }
 
 .admin-episodios {
   display: flex;
   flex-direction: column;
-  gap: var(--espaco-2);
   margin-bottom: var(--espaco-3);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+  background: var(--cor-fundo-elevado);
+  overflow: hidden;
 }
 
 .admin-episodio {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--espaco-3);
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: var(--espaco-2);
   padding: var(--espaco-3);
-  background: var(--cor-superficie);
-  border-radius: var(--raio-chip);
+  border-top: 1px solid var(--cor-borda);
   font-size: var(--texto-13);
+  transition: background var(--transicao-rapida);
+}
+
+.admin-episodio:first-child {
+  border-top: 0;
+}
+
+.admin-episodio:hover {
+  background: var(--cor-superficie-hover);
 }
 
 .admin-episodio-nome {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .admin-episodio-acoes {
@@ -93,10 +140,15 @@
   align-items: center;
 }
 
-/* --- Zona de risco e abas --- */
+/* --- Zona de risco --- */
 
-.admin-secao-perigo {
-  border: 1px solid var(--cor-erro-borda);
+.admin-secao.admin-secao-perigo {
+  border-color: var(--cor-erro-borda);
+  background-color: var(--cor-erro-fundo);
+}
+
+.admin-secao.admin-secao-perigo .admin-secao-titulo {
+  color: var(--cor-erro-texto);
 }
 
 .admin-perigo-acoes {
@@ -105,24 +157,75 @@
   gap: var(--espaco-3);
 }
 
+/* --- Abas de filtro (denuncias) --- */
+
 .admin-abas {
   display: flex;
   gap: var(--espaco-2);
   margin-bottom: var(--espaco-4);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.admin-abas::-webkit-scrollbar {
+  display: none;
 }
 
 .admin-aba {
+  flex: 0 0 auto;
   min-height: var(--alvo-toque);
   display: inline-flex;
   align-items: center;
   padding: 0 var(--espaco-4);
+  border: 1px solid var(--cor-borda);
   border-radius: var(--raio-botao);
   background: var(--cor-superficie);
   font-size: var(--texto-13);
+  font-weight: 600;
   color: var(--cor-texto-secundario);
+  white-space: nowrap;
+  transition:
+    background var(--transicao-rapida),
+    border-color var(--transicao-rapida),
+    color var(--transicao-rapida);
 }
 
-.admin-aba-ativa {
-  background: var(--cor-marca-superficie);
-  color: var(--cor-texto-sobre-marca);
+.admin-aba:hover {
+  background: var(--cor-superficie-hover);
+  border-color: var(--cor-borda-forte);
+  color: var(--cor-texto);
+}
+
+.admin-aba-ativa,
+.admin-aba-ativa:hover {
+  background: var(--cor-marca-suave);
+  border-color: var(--cor-marca);
+  color: var(--cor-marca-clara);
+}
+
+/* A partir daqui cabe linha de verdade: principal a esquerda, marcas a direita. */
+@media (min-width: 640px) {
+  .admin-linha,
+  .admin-episodio {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--espaco-3);
+  }
+
+  .admin-linha-principal {
+    flex: 1 1 240px;
+  }
+
+  /* No modo edicao o episodio volta a empilhar: o formulario inteiro nao cabe
+     numa linha so. */
+  .admin-episodio:has(.admin-forma-inline) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-temporada {
+    padding: var(--espaco-4);
+  }
 }

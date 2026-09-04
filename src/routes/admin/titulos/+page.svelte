@@ -7,17 +7,42 @@
   import '../admin-tabela.css';
   import BotaoPill from '$componentes/comum/botao-pill.svelte';
   import Chip from '$componentes/comum/chip.svelte';
-  import { CLASSIFICACOES, SITUACOES_DE_TITULO } from '$lib/validacoes/administracao';
+  import { CLASSIFICACOES, PAPEIS, SITUACOES_DE_TITULO } from '$lib/validacoes/administracao';
 
   export let data;
   export let form;
 
   let criando = false;
+
+  // A casca so oferece o que o papel alcanca; quem barra de verdade e o servidor.
+  $: nivel = PAPEIS.indexOf(data.usuario.papel);
+  $: podeModerar = nivel >= PAPEIS.indexOf('MODERADOR');
+  $: podeGerirUsuarios = nivel >= PAPEIS.indexOf('ADMINISTRADOR');
 </script>
 
 <svelte:head><title>Títulos — Painel Yōkira</title></svelte:head>
 
-<h1 class="admin-titulo">Títulos</h1>
+<header class="admin-cabecalho">
+  <h1 class="admin-titulo">Títulos</h1>
+  <p class="admin-subtitulo">Catálogo do painel: criar, buscar e abrir para edição.</p>
+</header>
+
+<nav class="admin-nav" aria-label="Seções do painel">
+  <div class="admin-nav-trilha">
+    <a class="admin-nav-item" href="/admin">Início</a>
+    <a class="admin-nav-item admin-nav-item-ativa" aria-current="page" href="/admin/titulos">
+      Títulos
+    </a>
+    <a class="admin-nav-item" href="/admin/enviar">Enviar</a>
+    {#if podeModerar}
+      <a class="admin-nav-item" href="/admin/denuncias">Denúncias</a>
+      <a class="admin-nav-item" href="/admin/registro">Registro</a>
+    {/if}
+    {#if podeGerirUsuarios}
+      <a class="admin-nav-item" href="/admin/usuarios">Usuários</a>
+    {/if}
+  </div>
+</nav>
 
 <form class="admin-busca" method="GET">
   <label class="admin-campo">

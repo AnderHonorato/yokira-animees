@@ -1,30 +1,68 @@
 /* Arquivo: src/lib/componentes/detalhes/abas-conteudo.css */
+/* Barra de abas com indicador deslizante. O traco e um pseudo-elemento unico movido
+   por transform: um elemento so na tela, animacao na GPU e nenhuma borda piscando
+   de uma aba pra outra. As medidas chegam em duas variaveis vindas do componente. */
 
 .abas {
+  position: relative;
   display: flex;
-  gap: var(--espaco-6);
+  align-items: stretch;
+  gap: var(--espaco-1);
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   border-bottom: 1px solid var(--cor-borda);
   white-space: nowrap;
 }
 
 .aba {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
   min-height: var(--alvo-toque);
-  padding: 0 0 var(--espaco-2);
-  font-size: var(--texto-13);
-  font-weight: 500;
+  padding: 0 var(--espaco-3) var(--espaco-3);
+  background: none;
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-14);
+  font-weight: 600;
+  letter-spacing: var(--entressilha-titulo);
   color: var(--cor-texto-secundario);
-  border-bottom: 2px solid transparent;
-  transition:
-    color var(--transicao-rapida),
-    border-color var(--transicao-rapida);
+  white-space: nowrap;
+  /* Rolar uma aba pra dentro nao pode encostar ela na borda do quadro. */
+  scroll-margin-inline: var(--espaco-4);
+  transition: color var(--transicao-rapida);
 }
 
 .aba:hover {
   color: var(--cor-texto);
 }
 
+/* Contorno PRA DENTRO: a barra rola na horizontal, e um anel por fora seria
+   recortado pelo overflow justamente na primeira e na ultima aba. */
+.aba:focus-visible {
+  outline: 2px solid var(--cor-marca);
+  outline-offset: -4px;
+  border-radius: var(--raio-chip);
+}
+
 .aba-ativa {
-  color: var(--cor-texto);
-  border-bottom-color: var(--cor-marca);
+  color: var(--cor-marca);
+}
+
+.abas::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  /* Sem medida ainda (antes da hidratacao) a largura e zero e o traco nao aparece,
+     em vez de piscar colado na borda esquerda. */
+  width: var(--aba-largura, 0);
+  border-radius: var(--raio-botao);
+  background-color: var(--cor-marca);
+  background-image: var(--gradiente-marca);
+  transform: translateX(var(--aba-deslocamento, 0));
+  transition:
+    transform var(--transicao-media),
+    width var(--transicao-media);
+  pointer-events: none;
 }

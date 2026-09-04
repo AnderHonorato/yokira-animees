@@ -1,14 +1,33 @@
 /* Arquivo: src/routes/grade-titulos.css */
-/* Grade compartilhada por Catalogo, Novidades e Minha Lista. */
+/* Grade compartilhada por Catalogo, Novidades, Minha Lista, Generos e Busca. */
 
+/* Cabecalho de pagina: mesma familia de display do hero e das trilhas, com o
+   traco da marca por baixo. Antes era um negrito de 20px que nao se distinguia
+   do titulo de uma secao qualquer da home. */
 .pagina-titulo {
-  font-size: var(--texto-20);
-  font-weight: 700;
-  margin: var(--espaco-6) 0 var(--espaco-4);
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-24);
+  font-weight: 800;
+  letter-spacing: var(--entressilha-display);
+  line-height: var(--altura-linha-apertada);
+  margin: var(--espaco-6) 0 var(--espaco-3);
+}
+
+/* Content vazio de proposito: e decoracao e nao pode entrar no nome acessivel do
+   h1, que os testes procuram por texto exato ("Catalogo"). */
+.pagina-titulo::after {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 3px;
+  margin-top: var(--espaco-3);
+  border-radius: var(--raio-botao);
+  background: var(--gradiente-marca);
 }
 
 .pagina-subtitulo {
-  font-size: var(--texto-14);
+  font-size: var(--texto-15);
+  line-height: var(--altura-linha-corpo);
   color: var(--cor-texto-secundario);
   margin-bottom: var(--espaco-5);
 }
@@ -30,6 +49,7 @@
   background: var(--cor-superficie);
   border: 1px solid var(--cor-borda);
   font-size: var(--texto-13);
+  font-weight: 600;
   color: var(--cor-texto-secundario);
   transition:
     background var(--transicao-rapida),
@@ -41,24 +61,46 @@
   color: var(--cor-texto);
 }
 
-.filtro-ativo {
-  background: var(--cor-marca);
-  border-color: var(--cor-marca);
-  color: var(--cor-texto);
+/* Fundo da marca com o texto que o acompanha. Estava com --cor-texto por cima do
+   roxo: no tema claro isso dava quase-preto sobre roxo escuro, ilegivel. */
+.filtro-ativo,
+.filtro-ativo:hover {
+  background: var(--gradiente-marca);
+  border-color: transparent;
+  color: var(--cor-texto-sobre-marca);
+  box-shadow: var(--sombra-marca);
 }
 
+/* Duas colunas fixas no celular, e nao auto-fill: com a coluna minima em pixels a
+   grade oscilava entre 2 e 3 colunas conforme a largura do aparelho, e em 3
+   colunas o poster ficava com 100px. A goteira lateral e menor que a de baixo de
+   proposito — o que separa uma linha da outra e o titulo do card, nao o vazio. */
 .grade-titulos {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(126px, 1fr));
-  gap: var(--espaco-4) var(--espaco-3);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--espaco-6) var(--espaco-3);
+}
+
+@media (min-width: 600px) {
+  .grade-titulos {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--espaco-6) var(--espaco-4);
+  }
 }
 
 /* Capa deitada precisa de coluna larga: com 126px a imagem viraria uma tarja de
    70px de altura. Mesmo ponto de corte da moldura, senao grade e trilha divergem. */
 @media (min-width: 1024px) {
+  .pagina-titulo {
+    font-size: var(--texto-32);
+    margin: var(--espaco-8) 0 var(--espaco-4);
+  }
+  .pagina-titulo::after {
+    width: 56px;
+  }
   .grade-titulos {
     grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
-    gap: var(--espaco-5) var(--espaco-4);
+    gap: var(--espaco-8) var(--espaco-5);
   }
 }
 
@@ -67,9 +109,35 @@
   width: 100%;
 }
 
-.grade-vazia,
+/* Estado vazio de verdade, e nao uma frase solta no meio do branco: painel
+   tracejado com o brilho da marca, do tamanho de um bloco de conteudo, pra a
+   pagina nao parecer quebrada quando a busca nao acha nada. */
+.grade-vazia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-2);
+  min-height: 180px;
+  margin-top: var(--espaco-4);
+  padding: var(--espaco-8) var(--espaco-5);
+  text-align: center;
+  text-wrap: balance;
+  border: 1px dashed var(--cor-borda-forte);
+  border-radius: var(--raio-painel);
+  background-color: var(--cor-superficie);
+  background-image: var(--brilho-marca), var(--gradiente-superficie);
+  box-shadow: var(--sombra-suave);
+  font-size: var(--texto-15);
+  line-height: var(--altura-linha-corpo);
+  color: var(--cor-texto-secundario);
+}
+
+/* Contagem do fim da grade: centralizada, como legenda da pagina inteira. */
 .grade-rodape {
+  display: flex;
+  justify-content: center;
   font-size: var(--texto-13);
   color: var(--cor-texto-secundario);
-  margin-top: var(--espaco-5);
+  margin-top: var(--espaco-6);
 }

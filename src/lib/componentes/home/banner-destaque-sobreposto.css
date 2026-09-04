@@ -17,13 +17,24 @@
     height: 100%;
     aspect-ratio: auto;
   }
+  /* Dois veus somados: um de baixo pra cima, que sustenta a linha de acoes, e
+     outro da esquerda pra direita, que e o que segura o bloco de texto sem
+     precisar escurecer a imagem inteira. E assim que cartaz de cinema resolve
+     texto sobre arte — escurecer tudo por igual mata o assunto da foto. */
   .hero-veu {
-    background: linear-gradient(
-      to top,
-      var(--veu-hero-forte) 0%,
-      var(--veu-hero-medio) 42%,
-      var(--veu-hero-nulo) 78%
-    );
+    background:
+      linear-gradient(
+        to top,
+        var(--veu-hero-forte) 0%,
+        var(--veu-hero-medio) 46%,
+        var(--veu-hero-nulo) 82%
+      ),
+      linear-gradient(
+        to right,
+        var(--veu-hero-forte) 0%,
+        var(--veu-hero-medio) 42%,
+        var(--veu-hero-nulo) 72%
+      );
   }
   .hero-texto {
     padding: var(--espaco-6);
@@ -32,20 +43,32 @@
        a ponta fica longa demais pra ler e ainda tapa o assunto da imagem. */
     max-width: 60%;
   }
+  .hero-titulo {
+    font-size: var(--texto-40);
+  }
 }
 
 @media (min-width: 1024px) {
   .hero-painel {
     aspect-ratio: 24 / 9;
   }
-  .hero-titulo {
-    font-size: var(--texto-40);
-  }
   .hero-texto {
     gap: var(--espaco-3);
     padding: var(--espaco-8);
     padding-top: var(--espaco-8);
     max-width: 52%;
+  }
+}
+
+/* Em tela grande o titulo pode assumir o tamanho de cartaz sem espremer a
+   sinopse: a coluna de texto ja tem mais de 600px. */
+@media (min-width: 1440px) {
+  .hero-titulo {
+    font-size: var(--texto-48);
+  }
+  .hero-texto {
+    padding: var(--espaco-10);
+    padding-top: var(--espaco-10);
   }
 }
 
@@ -58,7 +81,9 @@
 
 .hero-titulo,
 .hero-gratuito {
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+  /* Halo na cor do fundo da pagina: no escuro ele escurece atras da letra, no
+     claro ele clareia. Um preto fixo aqui viraria borrao cinza no tema claro. */
+  text-shadow: 0 1px 12px color-mix(in srgb, var(--cor-fundo) 55%, transparent);
 }
 
 /* Contagem ate o proximo destaque. Dois pixels de proposito: informa quem procura
@@ -69,9 +94,8 @@
   bottom: 0;
   z-index: 3;
   width: 100%;
-  height: 2px;
-  background: var(--cor-marca);
-  opacity: 0.7;
+  height: 3px;
+  background: var(--gradiente-marca);
   transform: scaleX(0);
   transform-origin: left;
   animation: preencher-progresso var(--duracao-do-destaque) linear forwards;
@@ -85,18 +109,19 @@
 .hero-dots {
   display: flex;
   justify-content: center;
+  gap: var(--espaco-1);
   margin-top: var(--espaco-2);
 }
 
 /* O botao e so o alvo de toque de 44px; quem desenha o ponto e o ::before. Antes o
    proprio botao era pintado com content-box, o que dava uma barra de 22x4px — e com
    gap: 0 as barras se emendavam num bloco unico que parecia uma barra de progresso
-   quebrada. A contagem ate o proximo destaque agora e a linha de 2px no painel;
+   quebrada. A contagem ate o proximo destaque agora e a linha de 3px no painel;
    estes aqui voltaram a ser o que sao, um por destaque. */
 .hero-dot {
   display: grid;
   place-items: center;
-  width: 30px;
+  width: 28px;
   height: var(--alvo-toque);
   background: none;
 }
@@ -104,19 +129,26 @@
 .hero-dot::before {
   content: '';
   display: block;
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: var(--cor-borda);
+  width: 7px;
+  height: 7px;
+  border-radius: var(--raio-botao);
+  background: var(--cor-borda-forte);
+  /* A largura e a propriedade que anima: o ponto ESTICA ate virar a pilula do
+     destaque atual, em vez de dois estados piscando um no lugar do outro. */
   transition:
-    background var(--transicao-rapida),
-    width var(--transicao-rapida);
+    background var(--transicao-media),
+    width var(--transicao-media);
+}
+
+.hero-dot:hover::before {
+  background: var(--cor-texto-secundario);
 }
 
 /* O ativo vira pilula: da pra saber em qual destaque voce esta sem contar os pontos. */
-.hero-dot-ativo::before {
-  width: 22px;
-  background: var(--cor-marca);
+.hero-dot-ativo::before,
+.hero-dot-ativo:hover::before {
+  width: 24px;
+  background: var(--gradiente-marca);
 }
 
 .hero-curtir {

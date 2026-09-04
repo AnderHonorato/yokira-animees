@@ -1,7 +1,9 @@
 <!-- Arquivo: src/lib/componentes/player/controles-player.svelte -->
 <!-- Barra de controles propria. Os controles nativos davam tela cheia e acessibilidade
      de graca, mas cada navegador desenhava um player diferente e nenhum deles conhecia
-     as variantes de qualidade que o nosso HLS oferece. -->
+     as variantes de qualidade que o nosso HLS oferece.
+     A barra de busca e a linha de botoes moram dentro do mesmo involucro de vidro:
+     sao um painel so por cima do video, e nao duas tiras soltas. -->
 <script lang="ts">
   import './controles-player.css';
   import { createEventDispatcher } from 'svelte';
@@ -35,111 +37,113 @@
 </script>
 
 <div class="controles">
-  <BarraDeBusca
-    atual={estado.atual}
-    duracao={estado.duracao}
-    carregado={estado.carregado}
-    on:buscar={(e) => despachar('buscar', e.detail)}
-  />
+  <div class="controles-vidro">
+    <BarraDeBusca
+      atual={estado.atual}
+      duracao={estado.duracao}
+      carregado={estado.carregado}
+      on:buscar={(e) => despachar('buscar', e.detail)}
+    />
 
-  <div class="controles-linha">
-    <button
-      class="controles-botao"
-      type="button"
-      aria-label={estado.tocando ? 'Pausar' : 'Reproduzir'}
-      on:click={() => despachar('alternar')}
-    >
-      {#if estado.tocando}<Pausa tamanho={20} />{:else}<Play tamanho={20} />{/if}
-    </button>
-
-    <div class="controles-volume">
+    <div class="controles-linha">
       <button
-        class="controles-botao"
+        class="controles-botao controles-botao-principal"
         type="button"
-        aria-label={estado.mudo || estado.volume === 0 ? 'Reativar som' : 'Silenciar'}
-        on:click={() => despachar('mudo')}
+        aria-label={estado.tocando ? 'Pausar' : 'Reproduzir'}
+        on:click={() => despachar('alternar')}
       >
-        {#if estado.mudo || estado.volume === 0}<Mudo tamanho={20} />{:else}<Volume
-            tamanho={20}
-          />{/if}
+        {#if estado.tocando}<Pausa tamanho={20} />{:else}<Play tamanho={20} />{/if}
       </button>
-      <input
-        class="controles-volume-faixa"
-        type="range"
-        min="0"
-        max="1"
-        step="0.05"
-        value={estado.mudo ? 0 : estado.volume}
-        aria-label="Volume"
-        on:input={(evento) => despachar('volume', Number(evento.currentTarget.value))}
-      />
-    </div>
 
-    <span class="controles-tempo">
-      {formatarTempo(estado.atual)} <span class="controles-tempo-separador">/</span>
-      {formatarTempo(estado.duracao)}
-    </span>
-
-    <span class="controles-espaco"></span>
-
-    <!-- O seletor so aparece quando ha o que escolher: no HLS nativo a lista vem
-         vazia porque o navegador nao a expoe, e um menu de um item so seria enfeite. -->
-    {#if niveis.length > 1}
-      <div class="controles-menu">
+      <div class="controles-volume">
         <button
-          class="controles-botao controles-botao-texto"
+          class="controles-botao"
           type="button"
-          aria-haspopup="true"
-          aria-expanded={menuAberto}
-          aria-label={`Qualidade: ${rotuloDoNivel}`}
-          on:click={() => (menuAberto = !menuAberto)}
+          aria-label={estado.mudo || estado.volume === 0 ? 'Reativar som' : 'Silenciar'}
+          on:click={() => despachar('mudo')}
         >
-          <Qualidade tamanho={18} />
-          <span>{rotuloDoNivel}</span>
+          {#if estado.mudo || estado.volume === 0}<Mudo tamanho={20} />{:else}<Volume
+              tamanho={20}
+            />{/if}
         </button>
+        <input
+          class="controles-volume-faixa"
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+          value={estado.mudo ? 0 : estado.volume}
+          aria-label="Volume"
+          on:input={(evento) => despachar('volume', Number(evento.currentTarget.value))}
+        />
+      </div>
 
-        {#if menuAberto}
-          <ul class="controles-opcoes">
-            <li>
-              <button
-                class="controles-opcao"
-                class:controles-opcao-ativa={nivelAtual === -1}
-                type="button"
-                on:click={() => {
-                  despachar('nivel', -1);
-                  menuAberto = false;
-                }}
-              >
-                Automático
-              </button>
-            </li>
-            {#each niveis as nivel (nivel.indice)}
+      <span class="controles-tempo">
+        {formatarTempo(estado.atual)} <span class="controles-tempo-separador">/</span>
+        {formatarTempo(estado.duracao)}
+      </span>
+
+      <span class="controles-espaco"></span>
+
+      <!-- O seletor so aparece quando ha o que escolher: no HLS nativo a lista vem
+         vazia porque o navegador nao a expoe, e um menu de um item so seria enfeite. -->
+      {#if niveis.length > 1}
+        <div class="controles-menu">
+          <button
+            class="controles-botao controles-botao-texto"
+            type="button"
+            aria-haspopup="true"
+            aria-expanded={menuAberto}
+            aria-label={`Qualidade: ${rotuloDoNivel}`}
+            on:click={() => (menuAberto = !menuAberto)}
+          >
+            <Qualidade tamanho={18} />
+            <span>{rotuloDoNivel}</span>
+          </button>
+
+          {#if menuAberto}
+            <ul class="controles-opcoes">
               <li>
                 <button
                   class="controles-opcao"
-                  class:controles-opcao-ativa={nivelAtual === nivel.indice}
+                  class:controles-opcao-ativa={nivelAtual === -1}
                   type="button"
                   on:click={() => {
-                    despachar('nivel', nivel.indice);
+                    despachar('nivel', -1);
                     menuAberto = false;
                   }}
                 >
-                  {nivel.rotulo}
+                  Automático
                 </button>
               </li>
-            {/each}
-          </ul>
-        {/if}
-      </div>
-    {/if}
+              {#each niveis as nivel (nivel.indice)}
+                <li>
+                  <button
+                    class="controles-opcao"
+                    class:controles-opcao-ativa={nivelAtual === nivel.indice}
+                    type="button"
+                    on:click={() => {
+                      despachar('nivel', nivel.indice);
+                      menuAberto = false;
+                    }}
+                  >
+                    {nivel.rotulo}
+                  </button>
+                </li>
+              {/each}
+            </ul>
+          {/if}
+        </div>
+      {/if}
 
-    <button
-      class="controles-botao"
-      type="button"
-      aria-label="Tela cheia"
-      on:click={() => despachar('telaCheia')}
-    >
-      <TelaCheia tamanho={20} />
-    </button>
+      <button
+        class="controles-botao"
+        type="button"
+        aria-label="Tela cheia"
+        on:click={() => despachar('telaCheia')}
+      >
+        <TelaCheia tamanho={20} />
+      </button>
+    </div>
   </div>
 </div>

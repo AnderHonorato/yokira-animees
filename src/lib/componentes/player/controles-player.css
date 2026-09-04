@@ -1,4 +1,14 @@
 /* Arquivo: src/lib/componentes/player/controles-player.css */
+/* Os controles ficam por cima do VIDEO, e nao por cima da pagina. Isso muda duas
+   regras em relacao ao resto do app:
+   1) o texto e branco sempre — nao pode sair de --cor-texto, que inverte no tema
+      claro e daria cinza-escuro por cima de uma cena escura;
+   2) o fundo tem de ser escuro nos DOIS temas, entao tambem nao pode sair de
+      --vidro-fundo-denso (branco no claro). Os unicos veus escuros em qualquer
+      tema sao --cor-cortina-dialogo e --veu-arte; empilhados, chegam perto do
+      opaco sem nenhum valor cru.
+   O menu de qualidade e a excecao: e um painel fechado, com fundo e texto proprios,
+   entao ali o vidro do tema (--vidro-fundo-denso) e justamente o certo. */
 
 .controles {
   position: absolute;
@@ -6,58 +16,119 @@
   right: 0;
   bottom: 0;
   z-index: 2;
+  padding: var(--espaco-10) var(--espaco-2) var(--espaco-2);
+  color: var(--cor-texto-sobre-marca);
+  /* Degrade do rodape do video pra tras dos controles: sem ele a barra some numa
+     cena clara (praia, ceu, flashback em branco). */
+  background-image:
+    linear-gradient(
+      to top,
+      var(--cor-cortina-dialogo),
+      color-mix(in srgb, var(--cor-cortina-dialogo) 40%, transparent) 55%,
+      transparent
+    ),
+    linear-gradient(to top, var(--veu-arte), transparent 70%);
+  pointer-events: none;
+}
+
+/* O degrade nao pode roubar o clique do video (que alterna play/pause): so as
+   pecas de verdade voltam a receber ponteiro. */
+.controles-vidro {
   display: flex;
   flex-direction: column;
   gap: var(--espaco-1);
-  padding: var(--espaco-5) var(--espaco-3) var(--espaco-3);
-  /* O degrade existe pro texto branco sobreviver a um quadro claro do video. */
-  background: linear-gradient(to top, var(--veu-hero-forte), transparent);
-  color: #fff;
+  padding: var(--espaco-1) var(--espaco-2);
+  border-radius: var(--raio-painel);
+  border: 1px solid color-mix(in srgb, var(--cor-texto-sobre-marca) 12%, transparent);
+  box-shadow:
+    var(--sombra-flutuante),
+    inset 0 1px 0 color-mix(in srgb, var(--cor-texto-sobre-marca) 10%, transparent);
+  -webkit-backdrop-filter: var(--desfoque-vidro);
+  backdrop-filter: var(--desfoque-vidro);
+  /* Tres camadas do mesmo veu: uma so, no tema claro, pararia em 45% de opacidade
+     e a barra ficaria transparente demais pra segurar texto branco. */
+  background-image:
+    linear-gradient(var(--cor-cortina-dialogo), var(--cor-cortina-dialogo)),
+    linear-gradient(var(--cor-cortina-dialogo), var(--cor-cortina-dialogo)),
+    linear-gradient(var(--veu-arte), var(--veu-arte));
+  pointer-events: auto;
 }
 
 .controles-linha {
   display: flex;
   align-items: center;
-  gap: var(--espaco-2);
+  gap: var(--espaco-1);
 }
 
 .controles-espaco {
   flex: 1 1 auto;
 }
 
+/* Alvo de 44px em todo botao: e um dedo numa tela de celular, nao um cursor. */
 .controles-botao {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--espaco-1);
-  min-width: 36px;
-  height: 36px;
+  flex: 0 0 auto;
+  min-width: var(--alvo-toque);
+  height: var(--alvo-toque);
   padding: 0 var(--espaco-1);
   border-radius: var(--raio-botao);
-  color: #fff;
   background: none;
-  transition: background var(--transicao-rapida);
+  color: var(--cor-texto-sobre-marca);
+  transition:
+    background var(--transicao-rapida),
+    transform var(--transicao-rapida);
 }
 
-.controles-botao:hover,
+.controles-botao:hover {
+  background: color-mix(in srgb, var(--cor-texto-sobre-marca) 16%, transparent);
+}
+
+.controles-botao:active {
+  transform: scale(0.94);
+}
+
+/* Anel branco e nao roxo: o roxo do tema claro (#6d28d9) sobre o veu escuro do
+   player fica quase invisivel, e o foco nao pode depender do tema da pagina. */
 .controles-botao:focus-visible {
-  background: var(--veu-hero-medio);
+  outline: 2px solid var(--cor-texto-sobre-marca);
+  outline-offset: -2px;
+  background: color-mix(in srgb, var(--cor-texto-sobre-marca) 16%, transparent);
+}
+
+/* Play/pausa e o unico preenchido: e o botao que a pessoa procura primeiro. */
+.controles-botao-principal {
+  background-color: var(--cor-marca-superficie);
+  background-image: var(--gradiente-marca-forte);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--cor-texto-sobre-marca) 26%, transparent);
+}
+
+.controles-botao-principal:hover {
+  background-color: var(--cor-marca-superficie);
+  background-image: var(--gradiente-marca);
 }
 
 .controles-botao-texto {
-  padding: 0 var(--espaco-2);
+  padding: 0 var(--espaco-3);
+  font-family: var(--fonte-base);
   font-size: var(--texto-12);
   font-weight: 600;
+  letter-spacing: var(--entressilha-titulo);
 }
 
 .controles-tempo {
+  padding: 0 var(--espaco-1);
   font-size: var(--texto-12);
+  font-weight: 600;
+  /* Sem tabular a coluna de tempo "dança" a cada segundo que passa. */
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
 .controles-tempo-separador {
-  opacity: 0.6;
+  opacity: 0.55;
 }
 
 /* A faixa de volume some no celular: nao ha ponteiro pra ajustar e o botao de mudo
@@ -70,37 +141,50 @@
 
 .controles-volume-faixa {
   display: none;
-  width: 80px;
+  width: 84px;
   accent-color: var(--cor-marca);
+}
+
+.controles-volume-faixa:focus-visible {
+  outline: 2px solid var(--cor-texto-sobre-marca);
+  outline-offset: 2px;
 }
 
 .controles-menu {
   position: relative;
 }
 
+/* Painel fechado: aqui o vidro do tema e o certo, porque a cor do texto e a do
+   fundo andam juntas dentro dele. */
 .controles-opcoes {
   position: absolute;
   right: 0;
   bottom: calc(100% + var(--espaco-2));
-  min-width: 132px;
+  min-width: 148px;
   padding: var(--espaco-1);
   list-style: none;
-  border-radius: var(--raio-card);
-  background: var(--cor-fundo-elevado);
-  border: 1px solid var(--cor-borda);
-  box-shadow: var(--sombra-card);
+  border-radius: var(--raio-painel);
+  background: var(--vidro-fundo-denso);
+  -webkit-backdrop-filter: var(--desfoque-vidro);
+  backdrop-filter: var(--desfoque-vidro);
+  border: 1px solid var(--vidro-borda);
+  box-shadow: var(--sombra-flutuante);
   color: var(--cor-texto);
 }
 
 .controles-opcao {
-  display: block;
+  display: flex;
+  align-items: center;
   width: 100%;
-  padding: var(--espaco-2) var(--espaco-3);
+  min-height: var(--alvo-toque);
+  padding: 0 var(--espaco-3);
   text-align: left;
   font-size: var(--texto-13);
-  border-radius: var(--raio-botao);
+  font-weight: 600;
+  border-radius: var(--raio-chip);
   color: var(--cor-texto);
   background: none;
+  transition: background var(--transicao-rapida);
 }
 
 .controles-opcao:hover,
@@ -110,12 +194,19 @@
 
 .controles-opcao-ativa {
   color: var(--cor-marca);
-  font-weight: 600;
+  background: var(--cor-marca-suave);
 }
 
 @media (min-width: 768px) {
   .controles {
-    padding: var(--espaco-6) var(--espaco-4) var(--espaco-4);
+    padding: var(--espaco-12) var(--espaco-3) var(--espaco-3);
+  }
+  .controles-vidro {
+    gap: var(--espaco-2);
+    padding: var(--espaco-2) var(--espaco-3) var(--espaco-3);
+  }
+  .controles-linha {
+    gap: var(--espaco-2);
   }
   .controles-volume-faixa {
     display: block;

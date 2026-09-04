@@ -1,79 +1,163 @@
 /* Arquivo: src/lib/componentes/detalhes/painel-trailers.css */
+/* Coluna da direita no desktop; no celular ela desce pra baixo da lista e ganha um
+   fio de separacao, senao os episodios e os trailers viram uma lista so. */
 
 .painel-lateral {
   display: flex;
   flex-direction: column;
   gap: var(--espaco-8);
+  margin-top: var(--espaco-8);
+  padding-top: var(--espaco-8);
+  border-top: 1px solid var(--cor-borda);
 }
 
 .painel-titulo {
   display: flex;
   align-items: center;
   gap: var(--espaco-2);
-  font-size: var(--texto-16);
-  font-weight: 700;
   margin-bottom: var(--espaco-3);
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-18);
+  font-weight: 700;
+  letter-spacing: var(--entressilha-titulo);
   color: var(--cor-texto);
 }
 
+.painel-titulo svg {
+  color: var(--cor-texto-terciario);
+}
+
+/* Cartao do trailer: uma peca so, com a duracao por cima da arte. */
 .trailer {
   display: block;
+  overflow: hidden;
+  border-radius: var(--raio-card);
+  border: 1px solid var(--cor-borda);
+  background-color: var(--cor-superficie);
+  background-image: var(--gradiente-superficie);
+  box-shadow: var(--sombra-suave);
+  transition:
+    transform var(--transicao-rapida),
+    border-color var(--transicao-rapida),
+    box-shadow var(--transicao-rapida);
+}
+
+.trailer:hover {
+  transform: translateY(-2px);
+  border-color: var(--cor-borda-forte);
+  box-shadow: var(--sombra-card);
 }
 
 .trailer-arte {
   position: relative;
   display: block;
   aspect-ratio: 16 / 9;
-  border-radius: var(--raio-card);
   overflow: hidden;
-  background: var(--cor-superficie);
+  background: var(--cor-superficie-hover);
 }
 
 .trailer-arte img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform var(--transicao-media);
 }
 
+.trailer:hover .trailer-arte img {
+  transform: scale(1.04);
+}
+
+/* Disco de play sobre a arte. O icone e claro nos dois temas porque o que esta
+   atras dele e imagem, nao a cor da pagina. */
 .trailer-play {
   position: absolute;
   inset: 0;
   display: grid;
   place-items: center;
   background: var(--veu-arte);
-  color: var(--cor-texto);
+  color: var(--cor-texto-sobre-marca);
+}
+
+.trailer-play::before {
+  content: '';
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--raio-botao);
+  background-color: var(--cor-marca-superficie);
+  background-image: var(--gradiente-marca-forte);
+  box-shadow: var(--sombra-marca);
+  transition: transform var(--transicao-rapida);
+}
+
+.trailer:hover .trailer-play::before {
+  transform: scale(1.08);
+}
+
+.trailer-play svg {
+  position: relative;
+}
+
+.trailer-duracao {
+  position: absolute;
+  right: var(--espaco-2);
+  bottom: var(--espaco-2);
+  padding: 2px var(--espaco-2);
+  border-radius: var(--raio-chip);
+  background: var(--cor-cortina-dialogo);
+  -webkit-backdrop-filter: var(--desfoque-vidro);
+  backdrop-filter: var(--desfoque-vidro);
+  color: var(--cor-texto-sobre-marca);
+  font-size: var(--texto-10);
+  font-weight: 600;
+  line-height: var(--altura-linha-apertada);
+  font-variant-numeric: tabular-nums;
 }
 
 .trailer-nome {
   display: block;
-  margin-top: var(--espaco-2);
+  padding: var(--espaco-3);
   font-size: var(--texto-13);
-}
-
-.trailer-duracao {
-  display: block;
-  font-size: var(--texto-12);
-  color: var(--cor-texto-terciario);
+  font-weight: 600;
+  line-height: var(--altura-linha-titulo);
+  letter-spacing: var(--entressilha-titulo);
 }
 
 .painel-episodios {
   display: flex;
   flex-direction: column;
-  gap: var(--espaco-3);
+  gap: var(--espaco-1);
 }
 
 .painel-episodio {
   display: flex;
   gap: var(--espaco-3);
-  align-items: flex-start;
+  align-items: center;
+  padding: var(--espaco-2);
+  border-radius: var(--raio-card);
+  border: 1px solid transparent;
+  transition:
+    background-color var(--transicao-rapida),
+    border-color var(--transicao-rapida);
+}
+
+.painel-episodio:hover {
+  background-color: var(--cor-superficie-hover);
+  border-color: var(--cor-borda);
+}
+
+.painel-episodio:focus-visible {
+  outline: 2px solid var(--cor-marca);
+  outline-offset: 2px;
 }
 
 .painel-episodio img {
   flex: 0 0 auto;
-  width: 92px;
+  width: 96px;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: var(--raio-chip);
+  background: var(--cor-superficie-hover);
 }
 
 .painel-episodio-corpo {
@@ -85,17 +169,20 @@
 
 .painel-episodio-nome {
   font-size: var(--texto-13);
-  line-height: 1.35;
+  font-weight: 600;
+  line-height: var(--altura-linha-titulo);
+  letter-spacing: var(--entressilha-titulo);
 }
 
 .painel-episodio-duracao {
   font-size: var(--texto-12);
   color: var(--cor-texto-terciario);
+  font-variant-numeric: tabular-nums;
 }
 
 .painel-episodio-chips {
   display: flex;
-  gap: var(--espaco-2);
+  gap: var(--espaco-1);
   margin-top: 2px;
 }
 
@@ -105,13 +192,30 @@
   justify-content: center;
   min-height: var(--alvo-toque);
   margin-top: var(--espaco-4);
-  border-radius: var(--raio-card);
-  background: var(--cor-superficie);
+  border-radius: var(--raio-botao);
   border: 1px solid var(--cor-borda);
+  background-color: var(--cor-superficie);
+  background-image: var(--gradiente-superficie);
   font-size: var(--texto-13);
-  transition: background var(--transicao-rapida);
+  font-weight: 600;
+  letter-spacing: var(--entressilha-titulo);
+  transition:
+    background-color var(--transicao-rapida),
+    border-color var(--transicao-rapida);
 }
 
 .painel-ver-todos:hover {
-  background: var(--cor-superficie-hover);
+  background-color: var(--cor-superficie-hover);
+  border-color: var(--cor-borda-forte);
+}
+
+/* No desktop o painel volta a ser coluna: o fio de separacao some porque a
+   separacao ja e o espaco entre as duas colunas. */
+@media (min-width: 1024px) {
+  .painel-lateral {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    gap: var(--espaco-10);
+  }
 }

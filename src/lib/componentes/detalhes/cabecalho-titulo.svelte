@@ -1,8 +1,9 @@
 <!-- Arquivo: src/lib/componentes/detalhes/cabecalho-titulo.svelte -->
-<!-- Banner deitado no topo e o texto entrando por baixo, dentro do degrade. A arte
-     era um retrato de 118px em pe ao lado do texto — vertical ate no celular, onde
-     banner e justamente o formato que cabe. O degrade e o que costura os dois: sem
-     ele a imagem termina numa borda dura e o bloco vira duas pecas soltas. -->
+<!-- Hero de detalhes: a arte sangra ate as bordas da tela e o texto sobe por dentro
+     do degrade. A arte era um retrato de 118px em pe ao lado do texto — vertical ate
+     no celular, onde banner e justamente o formato que cabe. O degrade e o que costura
+     os dois: sem ele a imagem termina numa borda dura e o bloco vira duas pecas soltas.
+     A meta virou chip a chip porque sobre a imagem texto solto some e chip nao. -->
 <script lang="ts">
   import './cabecalho-titulo.css';
   import BotaoPill from '../comum/botao-pill.svelte';
@@ -95,15 +96,18 @@
 
     <p class="titulo-hero-meta">
       <Chip variante="classificacao">{destaque.classificacao}</Chip>
-      <span>{destaque.ano}</span>
-      <span aria-hidden="true">•</span>
+      <span class="titulo-hero-meta-item">{destaque.ano}</span>
+      <span class="titulo-hero-ponto" aria-hidden="true">•</span>
       {#if destaque.ehFilme}
-        <span>Filme</span>
+        <span class="titulo-hero-meta-item">Filme</span>
       {:else}
-        <span>{destaque.temporadas} {destaque.temporadas === 1 ? 'Temporada' : 'Temporadas'}</span>
+        <span class="titulo-hero-meta-item">
+          {destaque.temporadas}
+          {destaque.temporadas === 1 ? 'Temporada' : 'Temporadas'}
+        </span>
       {/if}
-      <span aria-hidden="true">•</span>
-      <span>{destaque.generos.join(', ')}</span>
+      <span class="titulo-hero-ponto" aria-hidden="true">•</span>
+      <span class="titulo-hero-meta-item">{destaque.generos.join(', ')}</span>
       {#if nota !== null}
         <span class="titulo-hero-nota"><Estrela tamanho={12} /> {nota.toFixed(1)}</span>
       {/if}

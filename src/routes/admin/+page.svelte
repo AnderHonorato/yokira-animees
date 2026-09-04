@@ -22,8 +22,36 @@
 
 <svelte:head><title>Painel — Yōkira Animes</title></svelte:head>
 
-<h1 class="admin-titulo">Painel administrativo</h1>
-<p class="admin-subtitulo">Entrou como {data.usuario.nome} ({data.usuario.papel}).</p>
+<header class="admin-cabecalho">
+  <h1 class="admin-titulo">Painel administrativo</h1>
+  <p class="admin-subtitulo">Entrou como {data.usuario.nome} ({data.usuario.papel}).</p>
+</header>
+
+<nav class="admin-nav" aria-label="Seções do painel">
+  <div class="admin-nav-trilha">
+    <a class="admin-nav-item admin-nav-item-ativa" aria-current="page" href="/admin">Início</a>
+    <a class="admin-nav-item" href="/admin/titulos">Títulos</a>
+    <a class="admin-nav-item" href="/admin/enviar">Enviar</a>
+    {#if data.podeModerar}
+      <a class="admin-nav-item" href="/admin/denuncias">Denúncias</a>
+      <a class="admin-nav-item" href="/admin/registro">Registro</a>
+    {/if}
+    {#if data.podeGerirUsuarios}
+      <a class="admin-nav-item" href="/admin/usuarios">Usuários</a>
+    {/if}
+  </div>
+</nav>
+
+<div class="admin-numeros">
+  <div class="admin-cartao"><strong>{data.titulos}</strong><span>títulos</span></div>
+  <div class="admin-cartao"><strong>{data.episodios}</strong><span>episódios</span></div>
+  <div class="admin-cartao">
+    <strong class="admin-ffmpeg" class:admin-ffmpeg-ok={data.temFfmpeg}>
+      <Verificado tamanho={18} />
+    </strong>
+    <span>{data.temFfmpeg ? 'FFmpeg disponível' : 'FFmpeg ausente'}</span>
+  </div>
+</div>
 
 <nav class="admin-atalhos" aria-label="Áreas do painel">
   <a class="admin-atalho" href="/admin/titulos">
@@ -51,17 +79,6 @@
     </a>
   {/if}
 </nav>
-
-<div class="admin-numeros">
-  <div class="admin-cartao"><strong>{data.titulos}</strong><span>títulos</span></div>
-  <div class="admin-cartao"><strong>{data.episodios}</strong><span>episódios</span></div>
-  <div class="admin-cartao">
-    <strong class="admin-ffmpeg" class:admin-ffmpeg-ok={data.temFfmpeg}>
-      <Verificado tamanho={18} />
-    </strong>
-    <span>{data.temFfmpeg ? 'FFmpeg disponível' : 'FFmpeg ausente'}</span>
-  </div>
-</div>
 
 <section class="admin-secao">
   <h2 class="admin-secao-titulo"><Upload tamanho={18} /> Enviar episódio</h2>

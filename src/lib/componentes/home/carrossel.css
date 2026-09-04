@@ -11,7 +11,9 @@
   /* Snap so no mobile: no desktop as setas ja dao o passo certo. */
   scroll-snap-type: x mandatory;
   overscroll-behavior-x: contain;
-  padding-bottom: var(--espaco-1);
+  /* A capa agora tem sombra; sem esta folga a sombra de baixo era cortada pelo
+     proprio overflow da trilha. */
+  padding-bottom: var(--espaco-3);
 }
 
 /* A seta e uma faixa de borda, nao um botao solto: o alvo passa a ser "chegar perto
@@ -21,7 +23,7 @@
 .carrossel-seta {
   position: absolute;
   top: 0;
-  bottom: var(--espaco-1);
+  bottom: var(--espaco-3);
   z-index: 5;
   display: flex;
   align-items: center;
@@ -67,17 +69,22 @@
   background: linear-gradient(to left, var(--veu-hero-forte), transparent);
 }
 
+/* Disco de vidro: fundo translucido + desfoque, como a barra superior. Sobre capa
+   clara ou escura o icone continua legivel sem precisar de um circulo opaco. */
 .carrossel-seta-disco {
   display: grid;
   place-items: center;
   width: var(--alvo-toque);
   height: var(--alvo-toque);
   border-radius: var(--raio-botao);
-  background: var(--cor-seta-carrossel);
-  border: 1px solid var(--cor-borda);
-  box-shadow: var(--sombra-card);
+  background: var(--vidro-fundo-denso);
+  backdrop-filter: var(--desfoque-vidro);
+  border: 1px solid var(--vidro-borda);
+  box-shadow: var(--sombra-suave);
   pointer-events: auto;
-  transition: transform var(--transicao-rapida);
+  transition:
+    transform var(--transicao-rapida),
+    background var(--transicao-rapida);
 }
 
 .carrossel-seta:active:not(:disabled) .carrossel-seta-disco {
@@ -99,6 +106,45 @@
     gap: var(--espaco-4);
     padding-bottom: 96px;
     margin-bottom: -88px;
+  }
+
+  /* Desvanecimento das bordas: a trilha deixa de terminar num corte reto e passa a
+     sumir dentro da pagina, dizendo que ha mais conteudo do lado de fora. So
+     acende do lado que ainda tem para onde rolar — por isso le o :disabled da
+     propria seta. Onde :has nao existe, nao aparece nada e nada quebra. */
+  .carrossel::before,
+  .carrossel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: var(--espaco-3);
+    width: var(--espaco-8);
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--transicao-media);
+  }
+
+  .carrossel::before {
+    left: 0;
+    background: linear-gradient(to right, var(--cor-fundo), transparent);
+  }
+
+  .carrossel::after {
+    right: 0;
+    background: linear-gradient(to left, var(--cor-fundo), transparent);
+  }
+
+  .carrossel:has(.carrossel-seta-esquerda:not(:disabled))::before,
+  .carrossel:has(.carrossel-seta-direita:not(:disabled))::after {
+    opacity: 1;
+  }
+
+  /* Com o desvanecimento sempre ligado, o degrade da faixa da seta viraria uma
+     segunda camada escura no mesmo lugar. */
+  .carrossel-seta-esquerda::before,
+  .carrossel-seta-direita::before {
+    background: none;
   }
 
   /* No desktop a faixa inteira volta a ser clicavel e o disco e maior. Aqui existe

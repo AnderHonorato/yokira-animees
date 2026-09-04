@@ -8,10 +8,10 @@
 
 <div class="esqueleto-detalhes">
   <div class="esqueleto-detalhes-principal">
-    <div class="esqueleto-detalhes-banner"><Esqueleto raio="var(--raio-painel)" /></div>
+    <div class="esqueleto-detalhes-banner"><Esqueleto raio="0" /></div>
 
-    <div class="esqueleto-detalhes-nome"><Esqueleto raio="var(--raio-chip)" /></div>
-    <div class="esqueleto-detalhes-meta"><Esqueleto raio="var(--raio-chip)" /></div>
+    <div class="esqueleto-detalhes-nome"><Esqueleto raio="var(--raio-botao)" /></div>
+    <div class="esqueleto-detalhes-meta"><Esqueleto raio="var(--raio-botao)" /></div>
 
     <!-- Numa linha so, de proposito: e assim que a pagina de verdade se comporta. -->
     <div class="esqueleto-detalhes-acoes">
@@ -22,7 +22,7 @@
 
     <div class="esqueleto-detalhes-abas">
       {#each repetir(4) as indice (indice)}
-        <div class="esqueleto-detalhes-aba"><Esqueleto raio="var(--raio-chip)" /></div>
+        <div class="esqueleto-detalhes-aba"><Esqueleto raio="var(--raio-botao)" /></div>
       {/each}
     </div>
 
@@ -31,8 +31,8 @@
         <li class="esqueleto-episodio">
           <div class="esqueleto-episodio-miniatura"><Esqueleto /></div>
           <div class="esqueleto-episodio-texto">
-            <div class="esqueleto-episodio-nome"><Esqueleto raio="var(--raio-chip)" /></div>
-            <div class="esqueleto-episodio-linha"><Esqueleto raio="var(--raio-chip)" /></div>
+            <div class="esqueleto-episodio-nome"><Esqueleto raio="var(--raio-botao)" /></div>
+            <div class="esqueleto-episodio-linha"><Esqueleto raio="var(--raio-botao)" /></div>
           </div>
         </li>
       {/each}
@@ -40,9 +40,9 @@
   </div>
 
   <aside class="esqueleto-detalhes-painel">
-    <div class="esqueleto-detalhes-trailer"><Esqueleto raio="var(--raio-card)" /></div>
+    <div class="esqueleto-detalhes-trailer"><Esqueleto raio="var(--raio-painel)" /></div>
     {#each repetir(3) as indice (indice)}
-      <div class="esqueleto-detalhes-lateral"><Esqueleto raio="var(--raio-card)" /></div>
+      <div class="esqueleto-detalhes-lateral"><Esqueleto raio="var(--raio-painel)" /></div>
     {/each}
   </aside>
 </div>

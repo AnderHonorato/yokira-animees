@@ -1,39 +1,54 @@
 /* Arquivo: src/lib/componentes/admin/escolher-capa.css */
+/* O bloco serve pro poster, pra arte do topo e pra miniatura do episodio. A
+   pre-visualizacao vem antes das opcoes de proposito: primeiro se ve o que ja
+   esta valendo, depois se decide o que trocar. */
 
 .capa {
   display: flex;
   flex-direction: column;
   gap: var(--espaco-3);
-  padding: var(--espaco-4);
+  min-width: 0;
+  padding: var(--espaco-3);
   border: 1px solid var(--cor-borda);
-  border-radius: var(--raio-card);
-  background: var(--cor-superficie);
+  border-radius: var(--raio-painel);
+  background-color: var(--cor-superficie);
+  background-image: var(--gradiente-superficie);
+  box-shadow: var(--sombra-suave);
 }
 
 .capa-titulo {
+  font-family: var(--fonte-titulo);
   font-size: var(--texto-14);
   font-weight: 700;
+  letter-spacing: var(--entressilha-titulo);
 }
 
-/* Altura fixa com contain: a capa vertical e a deitada convivem no mesmo bloco sem
-   uma esticar a outra. */
+/* Altura fixa com contain: a capa vertical e a deitada convivem no mesmo bloco
+   sem uma esticar a outra. */
 .capa-atual {
   width: 100%;
   height: 132px;
   object-fit: contain;
+  border: 1px solid var(--cor-borda);
   border-radius: var(--raio-card);
   background: var(--cor-fundo);
 }
 
 .capa-vazia {
+  padding: var(--espaco-4) var(--espaco-3);
+  border: 1px dashed var(--cor-borda-forte);
+  border-radius: var(--raio-card);
+  background: color-mix(in srgb, var(--cor-superficie) 60%, transparent);
   font-size: var(--texto-12);
-  color: var(--cor-texto-secundario);
+  line-height: var(--altura-linha-corpo);
+  text-align: center;
+  color: var(--cor-texto-terciario);
 }
 
 .capa-origens {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--espaco-4);
+  gap: var(--espaco-2);
 }
 
 .capa-origem {
@@ -41,22 +56,111 @@
   align-items: center;
   gap: var(--espaco-2);
   min-height: var(--alvo-toque);
+  padding: 0 var(--espaco-3);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-botao);
+  background: var(--cor-superficie);
   font-size: var(--texto-13);
+  color: var(--cor-texto-secundario);
+  cursor: pointer;
+  transition:
+    background var(--transicao-rapida),
+    border-color var(--transicao-rapida),
+    color var(--transicao-rapida);
+}
+
+.capa-origem:hover {
+  background: var(--cor-superficie-hover);
+  border-color: var(--cor-borda-forte);
+  color: var(--cor-texto);
 }
 
 .capa-origem input {
   accent-color: var(--cor-marca);
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.capa-origem:has(input:checked) {
+  border-color: var(--cor-marca);
+  background: var(--cor-marca-suave);
+  color: var(--cor-marca-clara);
 }
 
 .capa-campo {
   display: flex;
   flex-direction: column;
-  gap: var(--espaco-1);
+  gap: var(--espaco-2);
+  min-width: 0;
+}
+
+.capa-campo > span {
+  font-size: var(--texto-12);
+  font-weight: 600;
+  letter-spacing: var(--entressilha-rotulo);
+  color: var(--cor-texto-secundario);
+}
+
+.capa-campo select,
+.capa-campo input[type='number'] {
+  width: 100%;
+  min-width: 0;
+  min-height: var(--alvo-toque);
+  padding: var(--espaco-2) var(--espaco-3);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-chip);
+  background: var(--cor-superficie);
+  /* 16px (--texto-16): abaixo disso o Android da zoom ao focar o campo. */
+  font-size: var(--texto-16);
+  color: var(--cor-texto);
+  font-family: inherit;
+  transition:
+    border-color var(--transicao-rapida),
+    box-shadow var(--transicao-rapida);
+}
+
+/* Zona de arraste: o proprio input e o alvo do soltar, entao ele cresce em vez
+   de virar um botao pequeno num canto. */
+.capa-campo input[type='file'] {
+  width: 100%;
+  min-width: 0;
+  padding: var(--espaco-4) var(--espaco-3);
+  border: 1px dashed var(--cor-borda-forte);
+  border-radius: var(--raio-card);
+  background: color-mix(in srgb, var(--cor-superficie) 60%, transparent);
   font-size: var(--texto-13);
+  color: var(--cor-texto-secundario);
+  cursor: pointer;
+  transition:
+    border-color var(--transicao-rapida),
+    background var(--transicao-rapida);
+}
+
+.capa-campo input[type='file']:hover {
+  border-color: var(--cor-marca);
+  background: var(--cor-marca-suave);
+}
+
+.capa-campo select:focus-visible,
+.capa-campo input:focus-visible {
+  outline: none;
+  border-color: var(--cor-marca);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cor-marca) 24%, transparent);
 }
 
 .capa-dica {
   font-size: var(--texto-11);
-  line-height: 1.5;
-  color: var(--cor-texto-secundario);
+  line-height: var(--altura-linha-corpo);
+  color: var(--cor-texto-terciario);
+}
+
+@media (min-width: 768px) {
+  .capa {
+    padding: var(--espaco-4);
+  }
+
+  .capa-atual {
+    height: 160px;
+  }
 }

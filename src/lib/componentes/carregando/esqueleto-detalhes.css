@@ -1,15 +1,22 @@
 /* Arquivo: src/lib/componentes/carregando/esqueleto-detalhes.css */
-/* Espelha detalhes.css: coluna unica no celular, principal + painel no desktop. */
+/* Espelha detalhes.css e cabecalho-titulo.css: coluna unica no celular, principal
+   + painel de 360px no desktop. O banner agora SANGRA ate as bordas da tela no
+   celular e muda de proporcao duas vezes (4:3 -> 16:9 -> 21:9). O esqueleto copia
+   as tres, senao a pagina inteira pula de altura quando o titulo chega. */
 
 .esqueleto-detalhes {
   display: grid;
   gap: var(--espaco-6);
-  margin-top: var(--espaco-4);
+  /* Zero, igual ao .detalhes: qualquer respiro aqui vira uma faixa de fundo entre
+     a barra de vidro e a arte. */
+  margin-top: 0;
 }
 
-/* O banner e deitado tambem no celular. Isso foi pedido; nao e engano de recorte. */
 .esqueleto-detalhes-banner {
-  aspect-ratio: 16 / 9;
+  /* Mesma sangria de .titulo-hero: cancela o respiro lateral da casca em vez de
+     esticar, que e o que mantem 360px sem rolagem horizontal. */
+  margin: 0 calc(var(--espaco-4) * -1) var(--espaco-6);
+  aspect-ratio: 4 / 3;
 }
 
 .esqueleto-detalhes-nome {
@@ -97,10 +104,27 @@
   margin-top: var(--espaco-3);
 }
 
+/* Do 600 pra cima a arte deita, como no hero de verdade. */
+@media (min-width: 600px) {
+  .esqueleto-detalhes-banner {
+    aspect-ratio: 16 / 9;
+  }
+}
+
 @media (min-width: 1024px) {
   .esqueleto-detalhes {
-    grid-template-columns: minmax(0, 1fr) 320px;
-    gap: var(--espaco-8);
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: var(--espaco-10);
+    align-items: start;
+    margin-top: var(--espaco-2);
+  }
+  /* Acima de 1024 o hero volta a ser painel: fim da sangria, raio grande e a
+     faixa larga de 21:9. */
+  .esqueleto-detalhes-banner {
+    margin-inline: 0;
+    aspect-ratio: 21 / 9;
+    border-radius: var(--raio-painel-grande);
+    overflow: hidden;
   }
   .esqueleto-detalhes-nome {
     height: var(--texto-40);

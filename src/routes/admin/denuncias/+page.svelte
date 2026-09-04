@@ -6,16 +6,42 @@
   import '../admin-tabela.css';
   import BotaoPill from '$componentes/comum/botao-pill.svelte';
   import Chip from '$componentes/comum/chip.svelte';
+  import { PAPEIS } from '$lib/validacoes/administracao';
 
   export let data;
   export let form;
 
   const formatador = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+
+  // A casca so oferece o que o papel alcanca; quem barra de verdade e o servidor.
+  $: nivel = PAPEIS.indexOf(data.usuario.papel);
+  $: podeModerar = nivel >= PAPEIS.indexOf('MODERADOR');
+  $: podeGerirUsuarios = nivel >= PAPEIS.indexOf('ADMINISTRADOR');
 </script>
 
 <svelte:head><title>Denúncias — Painel Yōkira</title></svelte:head>
 
-<h1 class="admin-titulo">Denúncias</h1>
+<header class="admin-cabecalho">
+  <h1 class="admin-titulo">Denúncias</h1>
+  <p class="admin-subtitulo">O que a comunidade reportou, da mais recente para a mais antiga.</p>
+</header>
+
+<nav class="admin-nav" aria-label="Seções do painel">
+  <div class="admin-nav-trilha">
+    <a class="admin-nav-item" href="/admin">Início</a>
+    <a class="admin-nav-item" href="/admin/titulos">Títulos</a>
+    <a class="admin-nav-item" href="/admin/enviar">Enviar</a>
+    {#if podeModerar}
+      <a class="admin-nav-item admin-nav-item-ativa" aria-current="page" href="/admin/denuncias">
+        Denúncias
+      </a>
+      <a class="admin-nav-item" href="/admin/registro">Registro</a>
+    {/if}
+    {#if podeGerirUsuarios}
+      <a class="admin-nav-item" href="/admin/usuarios">Usuários</a>
+    {/if}
+  </div>
+</nav>
 
 {#if form?.mensagem}<p class="admin-recado" role="status">{form.mensagem}</p>{/if}
 

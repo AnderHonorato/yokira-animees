@@ -7,9 +7,10 @@
 </script>
 
 <div class="esqueleto-player">
-  <div class="esqueleto-player-quadro"><Esqueleto raio="var(--raio-painel)" /></div>
-  <div class="esqueleto-player-nome"><Esqueleto raio="var(--raio-chip)" /></div>
-  <div class="esqueleto-player-meta"><Esqueleto raio="var(--raio-chip)" /></div>
+  <div class="esqueleto-player-voltar"><Esqueleto raio="var(--raio-botao)" /></div>
+  <div class="esqueleto-player-quadro"><Esqueleto raio="var(--raio-card)" /></div>
+  <div class="esqueleto-player-nome"><Esqueleto raio="var(--raio-botao)" /></div>
+  <div class="esqueleto-player-meta"><Esqueleto raio="var(--raio-botao)" /></div>
 
   <div class="esqueleto-player-acoes">
     {#each repetir(3) as indice (indice)}

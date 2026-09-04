@@ -1,11 +1,14 @@
 /* Arquivo: src/lib/componentes/detalhes/lista-episodios.css */
+/* Os dois seletores ("Temporada N" e "Ordenar") eram texto solto com uma setinha:
+   pareciam titulo, nao controle. Agora sao superficie com raio de chip, hover e
+   anel de foco — a mesma pele dos outros controles do app. */
 
 .lista-episodios-controles {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--espaco-4);
-  margin: var(--espaco-4) 0 var(--espaco-3);
+  gap: var(--espaco-3);
+  margin: var(--espaco-5) 0 var(--espaco-3);
 }
 
 .seletor {
@@ -13,26 +16,67 @@
   display: inline-flex;
   align-items: center;
   gap: var(--espaco-2);
+  min-height: var(--alvo-toque);
+  padding: 0 var(--espaco-3);
+  border-radius: var(--raio-chip);
+  border: 1px solid var(--cor-borda);
+  background-color: var(--cor-superficie);
+  background-image: var(--gradiente-superficie);
   color: var(--cor-texto);
-  font-size: var(--texto-14);
+  font-size: var(--texto-13);
+  transition:
+    background-color var(--transicao-rapida),
+    border-color var(--transicao-rapida);
+}
+
+.seletor:hover {
+  background-color: var(--cor-superficie-hover);
+  border-color: var(--cor-borda-forte);
+}
+
+/* O anel mora no rotulo e nao no <select>: o contorno nativo do select fica
+   colado no texto e ignora o raio da caixa que desenhamos por fora. */
+.seletor:focus-within {
+  border-color: var(--cor-marca);
+  outline: 2px solid var(--cor-marca);
+  outline-offset: 1px;
 }
 
 .seletor select {
   appearance: none;
   min-height: var(--alvo-toque);
-  padding: 0 var(--espaco-5) 0 0;
+  /* Espaco a direita pra seta, que e absoluta e nao ocupa lugar no fluxo. */
+  padding: 0 var(--espaco-6) 0 0;
   background: transparent;
   border: none;
-  font-size: var(--texto-14);
+  outline: none;
+  font-family: var(--fonte-base);
+  font-size: var(--texto-13);
   font-weight: 600;
+  letter-spacing: var(--entressilha-titulo);
   cursor: pointer;
+}
+
+/* A lista aberta e desenhada pelo sistema: sem isto ela nasce branca no tema
+   escuro em boa parte dos Android. */
+.seletor option {
+  background: var(--cor-fundo-elevado);
+  color: var(--cor-texto);
 }
 
 .seletor svg {
   position: absolute;
-  right: 0;
+  right: var(--espaco-3);
   pointer-events: none;
   color: var(--cor-texto-secundario);
+  transition:
+    transform var(--transicao-rapida),
+    color var(--transicao-rapida);
+}
+
+.seletor:hover svg {
+  transform: translateY(1px);
+  color: var(--cor-texto);
 }
 
 .lista-episodios-itens {

@@ -1,4 +1,6 @@
 /* Arquivo: src/lib/componentes/comum/dialogo-confirmacao.css */
+/* Dialogo da dupla confirmacao. A cortina desfoca a pagina inteira: a decisao
+   que vem aqui e definitiva, entao nada atras dela pode continuar chamando. */
 
 .dialogo-fundo {
   position: fixed;
@@ -8,30 +10,57 @@
   place-items: center;
   padding: var(--espaco-4);
   background: var(--cor-cortina-dialogo);
+  -webkit-backdrop-filter: var(--desfoque-vidro);
+  backdrop-filter: var(--desfoque-vidro);
   animation: surgir var(--transicao-rapida) both;
 }
 
 .dialogo {
   width: min(440px, 100%);
-  background: var(--cor-fundo-elevado);
+  max-height: calc(100dvh - var(--espaco-8));
+  overflow-y: auto;
+  background-color: var(--cor-fundo-elevado);
+  background-image: var(--gradiente-superficie);
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio-painel);
   padding: var(--espaco-5);
-  box-shadow: var(--sombra-card);
+  box-shadow: var(--sombra-flutuante);
+  animation: entrada-do-dialogo var(--transicao-media) both;
+}
+
+/* O painel sobe e cresce um fio ao entrar; a cortina so aparece. Dois tempos
+   diferentes de proposito: o fundo escurece antes de o cartao chegar. */
+@keyframes entrada-do-dialogo {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialogo {
+    animation: none;
+  }
 }
 
 .dialogo-topo {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--espaco-3);
   margin-bottom: var(--espaco-3);
 }
 
 .dialogo-passo {
+  font-family: var(--fonte-titulo);
   font-size: var(--texto-11);
-  font-weight: 600;
+  font-weight: 700;
   color: var(--cor-marca);
-  letter-spacing: 0.06em;
+  letter-spacing: var(--entressilha-rotulo);
   text-transform: uppercase;
 }
 
@@ -39,10 +68,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  flex: 0 0 auto;
+  width: var(--alvo-toque);
+  height: var(--alvo-toque);
+  /* Puxa o botao pra fora do padding do topo: o alvo cresce pra 44px sem abrir
+     um buraco de 44px entre o rotulo do passo e o titulo. */
+  margin: calc(var(--espaco-2) * -1) calc(var(--espaco-2) * -1) calc(var(--espaco-2) * -1) 0;
   border-radius: var(--raio-botao);
   color: var(--cor-texto-secundario);
+  transition:
+    background var(--transicao-rapida),
+    color var(--transicao-rapida);
 }
 
 .dialogo-fechar:hover {
@@ -51,24 +87,29 @@
 }
 
 .dialogo-titulo {
-  font-size: var(--texto-16);
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-18);
   font-weight: 700;
+  line-height: var(--altura-linha-titulo);
+  letter-spacing: var(--entressilha-titulo);
   margin-bottom: var(--espaco-3);
 }
 
 .dialogo-texto {
   font-size: var(--texto-14);
   color: var(--cor-texto-secundario);
-  line-height: 1.55;
+  line-height: var(--altura-linha-corpo);
 }
 
 .dialogo-aviso {
   margin-top: var(--espaco-3);
-  padding: var(--espaco-3);
-  border-radius: var(--raio-chip);
+  padding: var(--espaco-3) var(--espaco-4);
+  border-radius: var(--raio-card);
   background: var(--cor-erro-fundo);
   border: 1px solid var(--cor-erro-borda);
+  border-left-width: 3px;
   font-size: var(--texto-13);
+  line-height: var(--altura-linha-corpo);
   color: var(--cor-erro-texto);
 }
 
@@ -76,41 +117,90 @@
   display: block;
   font-size: var(--texto-13);
   color: var(--cor-texto-secundario);
+  line-height: var(--altura-linha-corpo);
   margin-bottom: var(--espaco-2);
 }
 
+.dialogo-rotulo strong {
+  color: var(--cor-texto);
+  letter-spacing: var(--entressilha-rotulo);
+}
+
+/* 16px no campo: abaixo disso o teclado do celular dá zoom sozinho ao focar. */
 .dialogo-campo {
   width: 100%;
   min-height: var(--alvo-toque);
-  padding: 0 var(--espaco-3);
-  border-radius: var(--raio-chip);
+  padding: 0 var(--espaco-4);
+  border-radius: var(--raio-card);
   background: var(--cor-superficie);
   border: 1px solid var(--cor-borda);
-  font-size: var(--texto-14);
-  letter-spacing: 0.06em;
+  font-size: var(--texto-16);
+  font-weight: 600;
+  color: var(--cor-texto);
+  letter-spacing: var(--entressilha-rotulo);
+  transition:
+    border-color var(--transicao-rapida),
+    box-shadow var(--transicao-rapida);
+}
+
+.dialogo-campo:focus {
+  outline: none;
+  border-color: var(--cor-marca);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cor-marca) 22%, transparent);
 }
 
 .dialogo-caixa {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--espaco-3);
+  padding: var(--espaco-3);
+  border-radius: var(--raio-card);
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
   font-size: var(--texto-13);
   color: var(--cor-texto-secundario);
-  line-height: 1.5;
+  line-height: var(--altura-linha-corpo);
   cursor: pointer;
   min-height: var(--alvo-toque);
+  transition:
+    border-color var(--transicao-rapida),
+    background var(--transicao-rapida);
+}
+
+.dialogo-caixa:hover {
+  background: var(--cor-superficie-hover);
+  border-color: var(--cor-borda-forte);
+}
+
+/* Marcada, a caixa acende: e o passo que libera o botao, precisa ficar obvio. */
+.dialogo-caixa:has(input:checked) {
+  border-color: var(--cor-marca);
+  background: var(--cor-marca-suave);
+  color: var(--cor-texto);
 }
 
 .dialogo-caixa input {
-  width: 18px;
-  height: 18px;
-  margin-top: 2px;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 0;
   accent-color: var(--cor-marca);
 }
 
 .dialogo-acoes {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
   gap: var(--espaco-2);
   margin-top: var(--espaco-5);
+}
+
+@media (min-width: 768px) {
+  .dialogo {
+    padding: var(--espaco-6);
+  }
+
+  .dialogo-campo {
+    font-size: var(--texto-15);
+  }
 }

@@ -53,6 +53,10 @@
   flex: 1 1 150px;
 }
 
+.admin-forma-inline .admin-campo-largo {
+  flex: 2 1 200px;
+}
+
 /* Uma coluna no celular, duas no desktop: e o par (rotulo, campo) que manda no
    ponto de virada, nao a largura da tela inteira. */
 .admin-forma-linha {

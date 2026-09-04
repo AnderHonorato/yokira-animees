@@ -7,8 +7,8 @@
 </script>
 
 <div class="esqueleto-painel">
-  <div class="esqueleto-painel-titulo"><Esqueleto raio="var(--raio-chip)" /></div>
-  <div class="esqueleto-painel-subtitulo"><Esqueleto raio="var(--raio-chip)" /></div>
+  <div class="esqueleto-painel-titulo"><Esqueleto raio="var(--raio-botao)" /></div>
+  <div class="esqueleto-painel-subtitulo"><Esqueleto raio="var(--raio-botao)" /></div>
 
   <div class="esqueleto-painel-atalhos">
     {#each repetir(4) as indice (indice)}
@@ -24,7 +24,7 @@
 
   <ul class="esqueleto-painel-linhas">
     {#each repetir(6) as indice (indice)}
-      <li class="esqueleto-painel-linha"><Esqueleto raio="var(--raio-chip)" /></li>
+      <li class="esqueleto-painel-linha"><Esqueleto raio="var(--raio-card)" /></li>
     {/each}
   </ul>
 </div>

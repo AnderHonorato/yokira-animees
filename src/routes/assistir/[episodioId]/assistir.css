@@ -1,36 +1,103 @@
 /* Arquivo: src/routes/assistir/[episodioId]/assistir.css */
+/* Pagina do player. A ordem de leitura e sempre a mesma: de onde vim, o video, que
+   episodio e este, e o que vem depois. */
 
 .assistir {
   display: flex;
   flex-direction: column;
-  gap: var(--espaco-3);
-  padding-top: var(--espaco-4);
+  gap: var(--espaco-4);
+  padding-top: var(--espaco-1);
   max-width: 1100px;
   margin: 0 auto;
+}
+
+/* No celular o video encosta nas duas bordas: cancela exatamente o respiro lateral
+   da casca (--espaco-4 ate 1023px) e devolve o canto reto, porque canto arredondado
+   colado na borda da tela vira meia-lua. O resto da pagina continua recuado. */
+@media (max-width: 767px) {
+  .assistir .player-quadro,
+  .assistir .player-vazio {
+    margin-inline: calc(var(--espaco-4) * -1);
+    border-radius: 0;
+  }
 }
 
 .assistir-voltar {
   display: inline-flex;
   align-items: center;
+  align-self: flex-start;
   gap: var(--espaco-2);
   min-height: var(--alvo-toque);
+  padding-right: var(--espaco-2);
   font-size: var(--texto-13);
+  font-weight: 600;
+  letter-spacing: var(--entressilha-titulo);
   color: var(--cor-texto-secundario);
+  transition: color var(--transicao-rapida);
 }
 
 .assistir-voltar:hover {
   color: var(--cor-texto);
 }
 
+.assistir-voltar svg {
+  transition: transform var(--transicao-rapida);
+}
+
+.assistir-voltar:hover svg {
+  transform: translateX(-2px);
+}
+
 .assistir-titulo {
-  font-size: var(--texto-16);
-  font-weight: 700;
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-20);
+  font-weight: 800;
+  line-height: var(--altura-linha-titulo);
+  letter-spacing: var(--entressilha-titulo);
+  /* O "T1 ·" e numero: sem tabular ele muda de largura entre temporadas. */
+  font-variant-numeric: tabular-nums;
 }
 
 .assistir-meta {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--espaco-2);
+  margin-top: calc(var(--espaco-2) * -1);
   font-size: var(--texto-12);
   color: var(--cor-texto-secundario);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Proximos episodios. A marcacao desta lista mora no +page.svelte da rota (fora
+   desta entrega); o desenho ja fica pronto e coerente com o painel de trailers —
+   embaixo do player no celular, coluna a direita quando ha largura. */
+.assistir-proximos {
+  margin-top: var(--espaco-4);
+  padding-top: var(--espaco-6);
+  border-top: 1px solid var(--cor-borda);
+}
+
+.assistir-proximos-titulo {
+  margin-bottom: var(--espaco-3);
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-18);
+  font-weight: 700;
+  letter-spacing: var(--entressilha-titulo);
+}
+
+.assistir-proximos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-1);
+}
+
+@media (min-width: 768px) {
+  .assistir {
+    gap: var(--espaco-5);
+    padding-top: var(--espaco-2);
+  }
+  .assistir-titulo {
+    font-size: var(--texto-24);
+  }
 }

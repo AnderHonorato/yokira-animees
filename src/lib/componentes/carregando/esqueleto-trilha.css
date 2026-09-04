@@ -1,14 +1,30 @@
 /* Arquivo: src/lib/componentes/carregando/esqueleto-trilha.css */
-/* Espelha trilha-conteudo.css: mesma margem de topo e mesma altura de titulo. */
+/* Espelha trilha-conteudo.css: mesma margem de topo e mesma altura de titulo.
+   O titulo de secao cresceu (18px no celular, 24px no desktop) e ganhou um traco
+   da marca antes do texto — o esqueleto reproduz os dois, senao a linha inteira
+   salta pra direita no instante em que o conteudo chega. */
 
 .esqueleto-trilha {
   margin-top: var(--espaco-8);
 }
 
-.esqueleto-trilha-titulo {
-  height: var(--texto-16);
-  width: 140px;
+.esqueleto-trilha-topo {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
   margin-bottom: var(--espaco-3);
+}
+
+.esqueleto-trilha-traco {
+  flex: 0 0 auto;
+  width: 3px;
+  height: var(--texto-18);
+  border-radius: var(--raio-botao);
+}
+
+.esqueleto-trilha-titulo {
+  height: var(--texto-18);
+  width: 140px;
 }
 
 .esqueleto-trilha-fila {
@@ -23,8 +39,12 @@
   .esqueleto-trilha {
     margin-top: var(--espaco-10);
   }
+  .esqueleto-trilha-traco {
+    width: 4px;
+    height: var(--texto-24);
+  }
   .esqueleto-trilha-titulo {
-    height: var(--texto-20);
+    height: var(--texto-24);
     width: 200px;
   }
   .esqueleto-trilha-fila {

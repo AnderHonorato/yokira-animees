@@ -1,5 +1,9 @@
 /* Arquivo: src/lib/componentes/comum/girador.css */
 
 .girador {
+  /* Dentro de um pill ele nao pode encolher junto com o rotulo, e o alinhamento
+     tem que ser o mesmo dos icones (por isso o flex 0 0 auto, e nao inline). */
+  flex: 0 0 auto;
+  color: currentColor;
   animation: girar 780ms linear infinite;
 }

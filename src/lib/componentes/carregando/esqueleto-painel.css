@@ -1,7 +1,9 @@
 /* Arquivo: src/lib/componentes/carregando/esqueleto-painel.css */
+/* Espelha admin.css: o titulo do painel agora e 24px no celular e 32px no
+   desktop, e os atalhos viraram cartoes com o raio de painel. */
 
 .esqueleto-painel-titulo {
-  height: var(--texto-28);
+  height: var(--texto-24);
   width: 260px;
   margin: var(--espaco-6) 0 var(--espaco-2);
 }
@@ -41,4 +43,10 @@
 .esqueleto-painel-linha {
   height: var(--alvo-toque);
   margin-bottom: var(--espaco-2);
+}
+
+@media (min-width: 1024px) {
+  .esqueleto-painel-titulo {
+    height: var(--texto-32);
+  }
 }

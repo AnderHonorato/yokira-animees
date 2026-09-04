@@ -1,10 +1,13 @@
 /* Arquivo: src/routes/titulo/[slug]/detalhes.css */
+/* Duas colunas no desktop, uma so no celular. O recuo de topo e zero de proposito:
+   o hero sangra ate as bordas e qualquer respiro aqui viraria uma faixa de fundo
+   entre a barra de vidro e a arte. */
 
 .detalhes {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--espaco-8);
-  padding-top: var(--espaco-4);
+  gap: var(--espaco-6);
+  padding-top: 0;
 }
 
 .detalhes-principal {
@@ -13,8 +16,9 @@
 
 .detalhes-sobre {
   margin-top: var(--espaco-5);
-  font-size: var(--texto-14);
-  line-height: 1.6;
+  max-width: 68ch;
+  font-size: var(--texto-15);
+  line-height: var(--altura-linha-corpo);
   color: var(--cor-texto-secundario);
 }
 
@@ -30,8 +34,12 @@
 
 @media (min-width: 1024px) {
   .detalhes {
-    /* Duas colunas iguais as da imagem 3: conteudo largo + painel de ~360px. */
+    /* Conteudo largo + painel de 360px, as mesmas medidas da referencia. */
     grid-template-columns: minmax(0, 1fr) 360px;
     gap: var(--espaco-10);
+    /* Cada coluna cresce ate onde precisa: sem isto o painel de trailers estica
+       ate a altura da lista de episodios e o "Ver todos" acaba boiando no fim. */
+    align-items: start;
+    padding-top: var(--espaco-2);
   }
 }

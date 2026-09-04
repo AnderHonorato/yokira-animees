@@ -8,6 +8,6 @@
 
 <li class="esqueleto-cartao">
   <div class="esqueleto-cartao-capa"><Esqueleto /></div>
-  <div class="esqueleto-cartao-nome"><Esqueleto raio="var(--raio-chip)" /></div>
-  <div class="esqueleto-cartao-meta"><Esqueleto raio="var(--raio-chip)" /></div>
+  <div class="esqueleto-cartao-nome"><Esqueleto raio="var(--raio-botao)" /></div>
+  <div class="esqueleto-cartao-meta"><Esqueleto raio="var(--raio-botao)" /></div>
 </li>

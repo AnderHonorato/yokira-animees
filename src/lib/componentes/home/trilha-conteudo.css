@@ -12,23 +12,64 @@
   margin-bottom: var(--espaco-3);
 }
 
+/* O titulo de secao era so um texto em negrito no meio da pagina. Com a fonte de
+   display, a entressilha fechada e o traco da marca antes do texto ele vira
+   cabecalho de fato — da pra varrer a home so pelos tracos roxos. */
 .trilha-titulo {
-  font-size: var(--texto-16);
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  min-width: 0;
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-18);
+  font-weight: 800;
+  letter-spacing: var(--entressilha-display);
+  line-height: var(--altura-linha-titulo);
 }
 
+/* Content vazio de proposito: e decoracao e nao pode entrar no nome acessivel do
+   cabecalho, que os testes procuram por texto exato ("Populares"). */
+.trilha-titulo::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 3px;
+  height: 1em;
+  border-radius: var(--raio-botao);
+  background: var(--gradiente-marca);
+}
+
+/* Alvo de verdade, e nao um texto solto: 44px de altura, area clicavel com raio e
+   um fundo que acende no hover. A margem negativa devolve o padding lateral pro
+   layout, senao o "Ver mais" descolava da borda direita da trilha. */
 .trilha-ver-mais {
   display: inline-flex;
   align-items: center;
   gap: var(--espaco-1);
+  flex: 0 0 auto;
+  padding: 0 var(--espaco-3);
+  margin-right: calc(var(--espaco-3) * -1);
+  border-radius: var(--raio-botao);
   font-size: var(--texto-13);
+  font-weight: 600;
   color: var(--cor-texto-secundario);
   min-height: var(--alvo-toque);
-  transition: color var(--transicao-rapida);
+  transition:
+    color var(--transicao-rapida),
+    background var(--transicao-rapida);
 }
 
 .trilha-ver-mais:hover {
   color: var(--cor-texto);
+  background: var(--cor-superficie-hover);
+}
+
+/* A seta anda junto: o movimento diz para onde o link leva. */
+.trilha-ver-mais svg {
+  transition: transform var(--transicao-rapida);
+}
+
+.trilha-ver-mais:hover svg {
+  transform: translateX(2px);
 }
 
 @media (min-width: 1024px) {
@@ -36,6 +77,9 @@
     margin-top: var(--espaco-10);
   }
   .trilha-titulo {
-    font-size: var(--texto-20);
+    font-size: var(--texto-24);
+  }
+  .trilha-titulo::before {
+    width: 4px;
   }
 }

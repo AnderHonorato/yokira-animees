@@ -11,10 +11,10 @@
   <div class="esqueleto-hero">
     <div class="esqueleto-hero-arte"><Esqueleto raio="0" /></div>
     <div class="esqueleto-hero-texto">
-      <div class="esqueleto-hero-nome"><Esqueleto raio="var(--raio-chip)" /></div>
-      <div class="esqueleto-hero-linha"><Esqueleto raio="var(--raio-chip)" /></div>
+      <div class="esqueleto-hero-nome"><Esqueleto raio="var(--raio-botao)" /></div>
+      <div class="esqueleto-hero-linha"><Esqueleto raio="var(--raio-botao)" /></div>
       <div class="esqueleto-hero-linha esqueleto-hero-curta">
-        <Esqueleto raio="var(--raio-chip)" />
+        <Esqueleto raio="var(--raio-botao)" />
       </div>
       <div class="esqueleto-hero-acoes">
         <div class="esqueleto-hero-botao"><Esqueleto raio="var(--raio-botao)" /></div>

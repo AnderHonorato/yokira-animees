@@ -14,6 +14,11 @@
     miniatura: string;
   };
   export let selecionado = false;
+  /** Fracao de 0 a 1 do que ja foi assistido. `null` esconde a barra: episodio nunca
+      aberto nao mostra tracinho zerado, que so sujaria a miniatura. */
+  export let progresso: number | null = null;
+
+  $: fracao = progresso === null ? 0 : Math.min(1, Math.max(0, progresso));
 </script>
 
 <li class="episodio" class:episodio-selecionado={selecionado}>
@@ -21,6 +26,11 @@
     <span class="episodio-miniatura">
       <img src={episodio.miniatura} alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <span class="episodio-play"><Play tamanho={14} /></span>
+      {#if fracao > 0}
+        <span class="episodio-progresso" aria-hidden="true">
+          <span class="episodio-progresso-feito" style:width={`${fracao * 100}%`}></span>
+        </span>
+      {/if}
     </span>
 
     <span class="episodio-corpo">

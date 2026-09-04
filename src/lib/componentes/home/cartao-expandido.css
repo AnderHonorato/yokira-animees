@@ -10,24 +10,33 @@
   z-index: 30;
   width: 100%;
   transform-origin: top center;
-  transform: scale(0.98);
+  /* Duas funcoes na lista, mesmo que translateY seja zero: o estado final tambem
+     tem duas, e listas do mesmo formato interpolam funcao a funcao em vez de
+     virarem matriz. */
+  transform: translateY(0) scale(0.98);
   opacity: 0;
-  background: var(--cor-fundo-elevado);
+  background-color: var(--cor-fundo-elevado);
+  /* Fio de luz descendo do topo: e o que faz o painel parecer levantado da pagina
+     em vez de um retangulo recortado nela. */
+  background-image: var(--gradiente-superficie);
   /* Outline em vez de border: a borda ocupava 1px de cada lado e a arte entrava
      desalinhada da capa, dando um tranco de 1px na imagem no momento do hover. */
-  outline: 1px solid var(--cor-borda);
+  outline: 1px solid var(--cor-borda-forte);
   outline-offset: -1px;
-  border-radius: var(--raio-card);
+  border-radius: var(--raio-painel);
   overflow: hidden;
-  box-shadow: var(--sombra-card);
+  box-shadow: var(--sombra-flutuante);
   pointer-events: none;
   animation: expandir-cartao var(--transicao-media) forwards;
 }
 
+/* O painel termina no mesmo lugar que a capa levantada pelo hover (a variavel vem
+   de cartao-conteudo.css). Se ele parasse em scale(1), a capa de baixo sobraria
+   pelas beiradas como uma franja colorida. */
 @keyframes expandir-cartao {
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: var(--elevacao-do-card, translateY(0) scale(1));
   }
 }
 
@@ -41,22 +50,43 @@
   object-position: center 42%;
 }
 
+/* Veu do cabecalho: costura a arte com o corpo do painel em vez de deixar a
+   imagem parar numa linha reta no meio do cartao. Pseudo-elemento porque nao
+   precisa de marcacao — e decoracao pura. */
+.expandido::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  aspect-ratio: 16 / 9;
+  pointer-events: none;
+  background-image: linear-gradient(
+    to top,
+    var(--cor-fundo-elevado) 0%,
+    color-mix(in srgb, var(--cor-fundo-elevado) 45%, transparent) 34%,
+    transparent 72%
+  );
+}
+
 .expandido-corpo {
-  padding: var(--espaco-3);
+  padding: var(--espaco-3) var(--espaco-4) var(--espaco-4);
   display: flex;
   flex-direction: column;
   gap: var(--espaco-2);
 }
 
 .expandido-titulo {
-  font-size: var(--texto-14);
+  font-size: var(--texto-15);
   font-weight: 700;
+  letter-spacing: var(--entressilha-titulo);
+  line-height: var(--altura-linha-titulo);
 }
 
 .expandido-sinopse {
   font-size: var(--texto-12);
   color: var(--cor-texto-secundario);
-  line-height: 1.45;
+  line-height: var(--altura-linha-corpo);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -101,24 +131,29 @@
   margin-top: var(--espaco-1);
 }
 
+/* Mesmo desenho dos controles sobre arte do resto do app: vidro com fio claro. */
 .expandido-acao {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   border-radius: var(--raio-botao);
-  background: var(--cor-superficie);
-  border: 1px solid var(--cor-borda);
+  background: var(--vidro-fundo-denso);
+  backdrop-filter: var(--desfoque-vidro);
+  border: 1px solid var(--vidro-borda);
+  color: var(--cor-texto);
 }
 
 .expandido-acao-marca {
-  background: var(--cor-marca);
-  border-color: var(--cor-marca);
+  background: var(--gradiente-marca);
+  border-color: transparent;
+  color: var(--cor-texto-sobre-marca);
+  box-shadow: var(--sombra-marca);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .expandido {
-    transform: scale(1);
+    transform: var(--elevacao-do-card, translateY(0) scale(1));
     opacity: 1;
   }
 }

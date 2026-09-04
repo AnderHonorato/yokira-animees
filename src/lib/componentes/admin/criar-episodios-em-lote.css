@@ -1,24 +1,31 @@
 /* Arquivo: src/lib/componentes/admin/criar-episodios-em-lote.css */
+/* Cadastro de temporada inteira. A moldura tracejada e o mesmo sinal usado nos
+   campos de arquivo: "aqui se acrescenta em lote", nao "aqui se edita o que ja
+   existe". */
 
 .lote {
   display: flex;
   flex-direction: column;
   gap: var(--espaco-3);
-  margin-top: var(--espaco-4);
-  padding: var(--espaco-4);
-  border: 1px dashed var(--cor-borda);
+  min-width: 0;
+  margin-top: var(--espaco-3);
+  padding: var(--espaco-3);
+  border: 1px dashed var(--cor-borda-forte);
   border-radius: var(--raio-card);
+  background: color-mix(in srgb, var(--cor-superficie) 55%, transparent);
 }
 
 .lote-titulo {
+  font-family: var(--fonte-titulo);
   font-size: var(--texto-14);
   font-weight: 700;
+  letter-spacing: var(--entressilha-titulo);
 }
 
 .lote-modos {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--espaco-4);
+  gap: var(--espaco-2);
 }
 
 .lote-modo {
@@ -26,11 +33,36 @@
   align-items: center;
   gap: var(--espaco-2);
   min-height: var(--alvo-toque);
+  padding: 0 var(--espaco-3);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-botao);
+  background: var(--cor-superficie);
   font-size: var(--texto-13);
+  color: var(--cor-texto-secundario);
+  cursor: pointer;
+  transition:
+    background var(--transicao-rapida),
+    border-color var(--transicao-rapida),
+    color var(--transicao-rapida);
+}
+
+.lote-modo:hover {
+  background: var(--cor-superficie-hover);
+  border-color: var(--cor-borda-forte);
+  color: var(--cor-texto);
 }
 
 .lote-modo input {
   accent-color: var(--cor-marca);
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.lote-modo:has(input:checked) {
+  border-color: var(--cor-marca);
+  background: var(--cor-marca-suave);
+  color: var(--cor-marca-clara);
 }
 
 .lote-linha {
@@ -42,23 +74,80 @@
 .lote-campo {
   display: flex;
   flex-direction: column;
-  gap: var(--espaco-1);
-  flex: 1 1 220px;
-  font-size: var(--texto-13);
+  gap: var(--espaco-2);
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.lote-campo > span {
+  font-size: var(--texto-12);
+  font-weight: 600;
+  letter-spacing: var(--entressilha-rotulo);
+  color: var(--cor-texto-secundario);
 }
 
 .lote-campo-curto {
-  flex: 0 0 160px;
+  flex: 0 1 150px;
+}
+
+.lote-campo input,
+.lote-campo select,
+.lote-campo textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: var(--alvo-toque);
+  padding: var(--espaco-2) var(--espaco-3);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-chip);
+  background: var(--cor-superficie);
+  /* 16px (--texto-16): abaixo disso o Android da zoom ao focar o campo. */
+  font-size: var(--texto-16);
+  color: var(--cor-texto);
+  font-family: inherit;
+  transition:
+    border-color var(--transicao-rapida),
+    box-shadow var(--transicao-rapida),
+    background var(--transicao-rapida);
 }
 
 .lote-campo textarea {
-  font-family: var(--fonte-base);
-  font-size: var(--texto-13);
+  line-height: var(--altura-linha-corpo);
   resize: vertical;
+}
+
+/* Varios arquivos de uma vez: a caixa cresce pra virar alvo de arraste. */
+.lote-campo input[type='file'] {
+  padding: var(--espaco-4) var(--espaco-3);
+  border-style: dashed;
+  border-color: var(--cor-borda-forte);
+  border-radius: var(--raio-card);
+  background: color-mix(in srgb, var(--cor-superficie) 60%, transparent);
+  font-size: var(--texto-13);
+  color: var(--cor-texto-secundario);
+  cursor: pointer;
+}
+
+.lote-campo input[type='file']:hover {
+  border-color: var(--cor-marca);
+  background: var(--cor-marca-suave);
+}
+
+.lote-campo input:focus-visible,
+.lote-campo select:focus-visible,
+.lote-campo textarea:focus-visible {
+  outline: none;
+  border-color: var(--cor-marca);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cor-marca) 24%, transparent);
 }
 
 .lote-dica {
   font-size: var(--texto-11);
-  line-height: 1.5;
-  color: var(--cor-texto-secundario);
+  line-height: var(--altura-linha-corpo);
+  color: var(--cor-texto-terciario);
+}
+
+@media (min-width: 768px) {
+  .lote {
+    padding: var(--espaco-4);
+  }
 }

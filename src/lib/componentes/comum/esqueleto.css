@@ -1,9 +1,16 @@
 /* Arquivo: src/lib/componentes/comum/esqueleto.css */
+/* Bloco cinza com brilho passando. O raio e a medida chegam por style inline do
+   componente: quem monta a tela e que sabe se aquilo vira card (14px), painel
+   (20px) ou barra de texto. */
 
 .esqueleto {
   position: relative;
   overflow: hidden;
-  background: var(--cor-superficie);
+  /* Duas camadas: a superficie plana e o veu que acende o topo — o mesmo veu dos
+     paineis de verdade, senao o bloco chega chapado e o conteudo real "acende"
+     quando substitui o esqueleto. */
+  background-color: var(--cor-superficie);
+  background-image: var(--gradiente-superficie);
 }
 
 .esqueleto::after {
