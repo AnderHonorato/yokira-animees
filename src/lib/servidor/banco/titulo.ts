@@ -88,3 +88,45 @@ export async function proximosEpisodios(slug: string, limite = 3) {
       posterEmDataUri(`${slug}-mais-${episodio.id}`, `EP ${episodio.numero}`)
   }));
 }
+
+/** Episodios que vem DEPOIS de um episodio especifico, na ordem de exibicao.
+    Serve a pagina de assistir: quando um episodio acaba, o proximo passo obvio
+    tem que estar visivel sem voltar pra pagina do titulo. Diferente de
+    `proximosEpisodios`, que devolve os ultimos lancados do catalogo. */
+export async function episodiosSeguintes(episodioId: string, limite = 4) {
+  const atual = await banco.episodio.findUnique({
+    where: { id: episodioId },
+    select: {
+      numero: true,
+      temporada: { select: { numero: true, titulo: { select: { id: true, slug: true } } } }
+    }
+  });
+  if (!atual) return [];
+
+  const { slug, id: tituloId } = atual.temporada.titulo;
+
+  const episodios = await banco.episodio.findMany({
+    where: {
+      temporada: { tituloId },
+      ...jaEstreou(),
+      // Continua na mesma temporada e, quando ela acaba, segue pra proxima.
+      OR: [
+        { temporada: { numero: atual.temporada.numero }, numero: { gt: atual.numero } },
+        { temporada: { numero: { gt: atual.temporada.numero } } }
+      ]
+    },
+    orderBy: [{ temporada: { numero: 'asc' } }, { numero: 'asc' }],
+    take: limite,
+    include: { temporada: { select: { numero: true } } }
+  });
+
+  return episodios.map((episodio) => ({
+    id: episodio.id,
+    numero: episodio.numero,
+    temporada: episodio.temporada.numero,
+    nome: episodio.nome,
+    duracaoMinutos: Math.round(episodio.duracaoSegundos / 60),
+    miniatura:
+      episodio.miniaturaUrl ?? posterEmDataUri(`${slug}-${episodio.id}`, `EP ${episodio.numero}`)
+  }));
+}

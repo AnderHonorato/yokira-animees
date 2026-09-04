@@ -105,9 +105,13 @@
   min-width: 0;
   width: 100%;
   padding: 0 var(--espaco-5) var(--espaco-5);
-  /* 44% da LARGURA: a arte tem 75% dela de altura, entao o texto comeca a pouco
-     menos de dois tercos do banner, ja dentro da parte densa do degrade. */
-  padding-top: 44%;
+  /* 36% da LARGURA: a arte tem 75% dela de altura, entao o texto comeca a pouco
+     menos da metade do banner, ja dentro da parte densa do degrade.
+     Foram 44% ate medirmos num Pixel 5 (393x727): com aquele recuo o hero acabava
+     em 621px e a primeira fileira de capas comecava em 709 — fora da tela, entao
+     a home abria sem NENHUM sinal de que havia conteudo abaixo. Com 36% a capa
+     aparece uns 50px acima da dobra, que e o que convida a rolar. */
+  padding-top: 36%;
 }
 
 /* Chamada de cartaz: display, peso maximo e entressilha fechada. Em caixa alta a
@@ -203,6 +207,6 @@
   }
   .hero-texto {
     padding: 0 var(--espaco-4) var(--espaco-4);
-    padding-top: 44%;
+    padding-top: 36%;
   }
 }

@@ -12,6 +12,7 @@
 
 <div class="esqueleto-grade">
   <div class="esqueleto-grade-titulo"><Esqueleto raio="var(--raio-botao)" /></div>
+  <div class="esqueleto-grade-traco"><Esqueleto raio="var(--raio-botao)" /></div>
 
   <div class="esqueleto-grade-filtros">
     {#each repetir(filtros) as indice (indice)}

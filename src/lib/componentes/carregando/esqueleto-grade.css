@@ -1,10 +1,19 @@
 /* Arquivo: src/lib/componentes/carregando/esqueleto-grade.css */
-/* Espelha grade-titulos.css. Na grade o card nao tem largura fixa: quem manda e a coluna. */
+/* Espelha grade-titulos.css. Na grade o card nao tem largura fixa: quem manda e a
+   coluna — por isso as tres faixas de coluna sao copiadas na letra. O titulo de
+   pagina agora tem o traco da marca por baixo, e o esqueleto o reproduz pra a
+   grade nao subir alguns pixels quando o conteudo chega. */
 
 .esqueleto-grade-titulo {
-  height: var(--texto-20);
+  height: var(--texto-24);
   width: 180px;
-  margin: var(--espaco-6) 0 var(--espaco-4);
+  margin: var(--espaco-6) 0 var(--espaco-3);
+}
+
+.esqueleto-grade-traco {
+  height: 3px;
+  width: 44px;
+  margin-bottom: var(--espaco-5);
 }
 
 .esqueleto-grade-filtros {
@@ -22,8 +31,8 @@
 
 .esqueleto-grade-itens {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(126px, 1fr));
-  gap: var(--espaco-4) var(--espaco-3);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--espaco-6) var(--espaco-3);
   list-style: none;
 }
 
@@ -31,9 +40,23 @@
   width: 100%;
 }
 
+@media (min-width: 600px) {
+  .esqueleto-grade-itens {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--espaco-6) var(--espaco-4);
+  }
+}
+
 @media (min-width: 1024px) {
+  .esqueleto-grade-titulo {
+    height: var(--texto-32);
+    margin: var(--espaco-8) 0 var(--espaco-4);
+  }
+  .esqueleto-grade-traco {
+    width: 56px;
+  }
   .esqueleto-grade-itens {
     grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
-    gap: var(--espaco-5) var(--espaco-4);
+    gap: var(--espaco-8) var(--espaco-5);
   }
 }

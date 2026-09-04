@@ -41,6 +41,12 @@ test('no celular a faixa da seta nao engole o toque do card', async ({ page }, i
 
   await page.goto('/');
   const seta = page.getByRole('button', { name: /Avançar em Populares/ });
+  // `elementFromPoint` le coordenada de JANELA. Sem trazer a trilha pra dentro da
+  // tela primeiro, o ponto medido cai em qualquer coisa que esteja naquela altura
+  // da janela — a barra inferior, por exemplo — e o teste passa a falar de outro
+  // elemento. Nao e detalhe do layout: qualquer hero um pouco mais alto empurrava
+  // a primeira fileira pra baixo da dobra num aparelho de 727px.
+  await seta.scrollIntoViewIfNeeded();
   const caixa = (await seta.boundingBox())!;
 
   // Um ponto DENTRO da faixa da seta, mas fora do disco: o alvo ali tem que ser o

@@ -4,6 +4,7 @@ import { error } from '@sveltejs/kit';
 import { banco } from '$servidor/banco/cliente';
 import { estreou, podeVerAntesDaEstreia } from '$servidor/banco/estreia';
 import { lerProgresso } from '$servidor/banco/progresso';
+import { episodiosSeguintes } from '$servidor/banco/titulo';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
@@ -29,6 +30,10 @@ export const load: PageServerLoad = async ({ params, locals }) => {
   // no momento do play. A pagina so diz se existe video pra tocar.
   const temMidia = episodio.arquivos.some((arquivo) => arquivo.variantes.length > 0);
 
+  // O que vem depois. Sem isso a pagina termina em beco sem saida: acabou o
+  // episodio, ou volta pra pagina do titulo ou fecha o app.
+  const seguintes = await episodiosSeguintes(episodio.id);
+
   return {
     episodio: {
       id: episodio.id,
@@ -39,6 +44,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     titulo: { nome: episodio.temporada.titulo.nome, slug: episodio.temporada.titulo.slug },
     temporada: episodio.temporada.numero,
     temMidia,
-    segundoInicial: progresso?.segundos ?? 0
+    segundoInicial: progresso?.segundos ?? 0,
+    seguintes
   };
 };

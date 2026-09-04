@@ -8,7 +8,8 @@
 
 <div class="esqueleto-player">
   <div class="esqueleto-player-voltar"><Esqueleto raio="var(--raio-botao)" /></div>
-  <div class="esqueleto-player-quadro"><Esqueleto raio="var(--raio-card)" /></div>
+  <!-- O raio mora no invólucro, que recorta: no celular ele e zero (video sangrado). -->
+  <div class="esqueleto-player-quadro"><Esqueleto raio="0" /></div>
   <div class="esqueleto-player-nome"><Esqueleto raio="var(--raio-botao)" /></div>
   <div class="esqueleto-player-meta"><Esqueleto raio="var(--raio-botao)" /></div>
 

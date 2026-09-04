@@ -1,24 +1,37 @@
 /* Arquivo: src/lib/componentes/carregando/esqueleto-home.css */
-/* Espelha banner-destaque-estilo.css: arte 16:9 no topo e o texto entrando por baixo. */
+/* Espelha banner-destaque-estilo.css e banner-destaque-sobreposto.css.
+   O hero deixou de ser "arte em cima, texto embaixo": a arte e o FUNDO do painel
+   e o texto entra por cima dela, recuado por um padding proporcional. O esqueleto
+   copia esse recuo — e nao a pilha antiga — senao a home encolhe uns 90px na hora
+   em que o destaque chega. */
 
 .esqueleto-hero {
+  position: relative;
   margin-top: var(--espaco-4);
-  border-radius: var(--raio-painel);
+  border-radius: var(--raio-painel-grande);
   border: 1px solid var(--cor-borda);
   background: var(--cor-fundo-elevado);
   overflow: hidden;
 }
 
+/* A arte fica atras do texto, presa no topo, exatamente como no destaque real. */
 .esqueleto-hero-arte {
-  aspect-ratio: 16 / 9;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  aspect-ratio: 4 / 3;
 }
 
 .esqueleto-hero-texto {
-  padding: var(--espaco-4);
+  position: relative;
+  padding: 0 var(--espaco-5) var(--espaco-5);
+  /* Mesmos 36% do destaque: e o que define onde o titulo comeca. */
+  padding-top: 36%;
 }
 
 .esqueleto-hero-nome {
-  height: var(--texto-28);
+  height: var(--texto-32);
   width: 70%;
   margin-bottom: var(--espaco-3);
 }
@@ -43,12 +56,41 @@
   width: 148px;
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 399px) {
   .esqueleto-hero-texto {
-    padding: var(--espaco-6) var(--espaco-8) var(--espaco-8);
+    padding: 0 var(--espaco-4) var(--espaco-4);
+    padding-top: 36%;
+  }
+  .esqueleto-hero-nome {
+    height: var(--texto-28);
+  }
+}
+
+/* Do 768 pra cima o destaque vira faixa deitada com o texto sobreposto a esquerda. */
+@media (min-width: 768px) {
+  .esqueleto-hero-arte {
+    aspect-ratio: 21 / 9;
+  }
+  .esqueleto-hero-texto {
+    max-width: 620px;
+    padding: var(--espaco-6);
+    padding-top: var(--espaco-6);
   }
   .esqueleto-hero-nome {
     height: var(--texto-40);
+    width: 60%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .esqueleto-hero-arte {
+    aspect-ratio: 24 / 9;
+  }
+  .esqueleto-hero-texto {
+    padding: var(--espaco-8);
+    padding-top: var(--espaco-8);
+  }
+  .esqueleto-hero-nome {
     width: 45%;
   }
   .esqueleto-hero-linha {
@@ -56,5 +98,15 @@
   }
   .esqueleto-hero-curta {
     width: 40%;
+  }
+}
+
+@media (min-width: 1440px) {
+  .esqueleto-hero-nome {
+    height: var(--texto-48);
+  }
+  .esqueleto-hero-texto {
+    padding: var(--espaco-10);
+    padding-top: var(--espaco-10);
   }
 }

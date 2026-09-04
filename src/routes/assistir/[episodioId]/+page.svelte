@@ -4,6 +4,7 @@
   import PlayerVideo from '$componentes/player/player-video.svelte';
   import SetaEsquerda from '$visual/icones/seta-esquerda.svelte';
   import Chip from '$componentes/comum/chip.svelte';
+  import ItemEpisodio from '$componentes/detalhes/item-episodio.svelte';
 
   export let data;
 </script>
@@ -31,4 +32,17 @@
     <Chip>Legendas Br</Chip>
     <Chip variante="neutro">PT</Chip>
   </p>
+
+  <!-- O que assistir em seguida. A lista reusa o mesmo item da pagina de detalhes,
+       entao miniatura, numeracao e download se comportam igual nos dois lugares. -->
+  {#if data.seguintes.length > 0}
+    <section class="assistir-proximos">
+      <h2 class="assistir-proximos-titulo">Próximos episódios</h2>
+      <ul class="assistir-proximos-lista">
+        {#each data.seguintes as episodio (episodio.id)}
+          <ItemEpisodio {episodio} />
+        {/each}
+      </ul>
+    </section>
+  {/if}
 </div>

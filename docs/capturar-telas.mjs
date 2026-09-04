@@ -16,7 +16,8 @@ const telas = [
   ['detalhes-desktop-1440', null, 1440, 1100],
   ['detalhes-mobile-390', null, 390, 1400],
   ['catalogo-desktop-1440', '/catalogo', 1440, 1000],
-  ['configuracoes-mobile-390', '/configuracoes', 390, 900]
+  ['configuracoes-mobile-390', '/configuracoes', 390, 900],
+  ['assistir-mobile-390', 'ASSISTIR', 390, 1400]
 ];
 
 for (const [nome, caminho, largura, altura] of telas) {
@@ -25,7 +26,15 @@ for (const [nome, caminho, largura, altura] of telas) {
     deviceScaleFactor: 2
   });
   const pagina = await contexto.newPage();
-  if (caminho) {
+  if (caminho === 'ASSISTIR') {
+    // Tres cliques: catalogo -> titulo -> primeiro episodio. E o caminho que o
+    // visitante faz, entao a captura mostra a pagina no estado real dela.
+    await pagina.goto(BASE + '/catalogo', { waitUntil: 'networkidle' });
+    await pagina.locator('a[href^="/titulo/"]').first().click();
+    await pagina.waitForLoadState('networkidle');
+    await pagina.locator('a[href^="/assistir/"]').first().click();
+    await pagina.waitForLoadState('networkidle');
+  } else if (caminho) {
     await pagina.goto(BASE + caminho, { waitUntil: 'networkidle' });
   } else {
     await pagina.goto(BASE + '/catalogo', { waitUntil: 'networkidle' });

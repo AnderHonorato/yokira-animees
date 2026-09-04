@@ -59,6 +59,16 @@
   color: var(--cor-texto-secundario);
 }
 
+/* O chip dentro do card e o mesmo componente do resto do app, so que aqui ele
+   divide 138px com o ano e a nota. Com a entressilha de rotulo e o padding cheios,
+   "Legendas Br" media 152px numa caixa de 138 e o "r" final ficava cortado na
+   borda do cartao. Fecho a entressilha e tiro 2px de cada lado: cabe com folga e
+   o chip continua identico ao de qualquer outro lugar em tamanho de fonte e cor. */
+.cartao-meta .chip {
+  padding-inline: 6px;
+  letter-spacing: var(--entressilha-titulo);
+}
+
 .cartao-nota {
   display: inline-flex;
   align-items: center;
