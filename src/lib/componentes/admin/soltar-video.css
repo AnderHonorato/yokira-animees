@@ -1,0 +1,67 @@
+/* Arquivo: src/lib/componentes/admin/soltar-video.css */
+/* Zona de arraste. O input de verdade fica escondido pro leitor de tela e o rotulo
+   inteiro e o alvo — assim o clique, o arraste e o teclado chegam no mesmo lugar. */
+
+.soltar {
+  border: 1px dashed var(--cor-borda-forte);
+  border-radius: var(--raio-card);
+  background: color-mix(in srgb, var(--cor-superficie) 60%, transparent);
+  transition:
+    border-color var(--transicao-rapida),
+    background var(--transicao-rapida);
+}
+
+.soltar-alvo {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-3);
+  min-height: var(--alvo-toque);
+  padding: var(--espaco-3) var(--espaco-4);
+  cursor: pointer;
+  color: var(--cor-texto-secundario);
+}
+
+.soltar-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  font-size: var(--texto-13);
+  font-weight: 600;
+  color: var(--cor-texto);
+}
+
+.soltar-dica {
+  font-size: var(--texto-11);
+  font-weight: 500;
+  color: var(--cor-texto-terciario);
+}
+
+.soltar:hover,
+.soltar:focus-within {
+  border-color: var(--cor-marca);
+  background: var(--cor-marca-suave);
+}
+
+/* Enquanto o arquivo paira por cima: o alvo precisa dizer que vai aceitar antes de
+   a pessoa soltar, senao ela solta em cima do painel e o navegador ABRE o video. */
+.soltar-ativo {
+  border-color: var(--cor-marca);
+  border-style: solid;
+  background: var(--cor-marca-suave);
+}
+
+/* Dentro da linha do episodio nao cabe uma caixa alta: vira um botao tracejado. */
+.soltar-compacto {
+  border-radius: var(--raio-botao);
+}
+
+.soltar-compacto .soltar-alvo {
+  padding: 0 var(--espaco-3);
+  gap: var(--espaco-2);
+}
+
+.soltar-compacto .soltar-texto {
+  font-size: var(--texto-12);
+  white-space: nowrap;
+}

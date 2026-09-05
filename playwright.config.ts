@@ -58,6 +58,12 @@ export default defineConfig({
       SEGREDO_SESSAO:
         process.env.SEGREDO_SESSAO ?? 'segredo-fixo-so-para-os-testes-de-ponta-a-ponta',
       PASTA_HLS: process.env.PASTA_HLS ?? './midia/hls',
+      PASTA_UPLOADS: process.env.PASTA_UPLOADS ?? './midia/originais-teste',
+      // O adapter-node corta qualquer corpo acima de 512K por padrao, e com isso
+      // nenhum video passa. Quem sobe o servidor de verdade e o `npm run iniciar`,
+      // que ja define isto; aqui a suite precisa definir sozinha porque chama o
+      // `node build/index.js` na mao.
+      BODY_SIZE_LIMIT: 'Infinity',
       // Transporte de arquivo: o teste le a caixa de saida e segue o link de verdade,
       // em vez de fingir que o e-mail chegou.
       EMAIL_TRANSPORTE: 'arquivo',

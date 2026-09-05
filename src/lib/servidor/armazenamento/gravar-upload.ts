@@ -31,7 +31,7 @@ export async function gravarBytes(episodioId: string, bytes: Buffer, nome: strin
   await writeFile(caminho, bytes);
 
   return banco.arquivoMidia.create({
-    data: { episodioId, caminho, tamanhoBytes: bytes.length }
+    data: { episodioId, caminho, tamanhoBytes: BigInt(bytes.length) }
   });
 }
 

@@ -312,10 +312,14 @@ Cria um mp4 sintético de 20 segundos (barras de cor e um tom de áudio) em
 
 ### Como funciona a conversão
 
-1. O upload grava o original em `midia/originais/` — **fora de `static/`**, com
-   nome gerado por `randomUUID()`.
-2. Um `TrabalhoProcessamento` entra no banco e o FFmpeg roda em processo
-   separado, sem segurar a resposta HTTP.
+1. O navegador envia **um arquivo por requisição** para `/api/admin/envio`, e os
+   bytes atravessam direto para o disco: o original é gravado em
+   `midia/originais/` — **fora de `static/`** — com nome gerado por
+   `randomUUID()`, sem passar por um buffer na memória.
+2. Um `TrabalhoProcessamento` entra no banco como `NA_FILA`. As conversões saem
+   **uma de cada vez** (`TRANSCODIFICACOES_SIMULTANEAS`): o FFmpeg já usa todos
+   os núcleos, e duas ao mesmo tempo terminam as duas mais tarde do que uma
+   depois da outra.
 3. Saem três variantes — 360p, 720p e 1080p — em `midia/hls/<id-do-arquivo>/`,
    mais a playlist mestre `mestre.m3u8`.
 4. O player carrega `hls.js` por import dinâmico, e só em navegador que não toca
@@ -336,7 +340,7 @@ episódios, se o FFmpeg está disponível e a fila de processamento.
 | Denúncias    | `/admin/denuncias` | MODERADOR     | Ver abertas e resolvidas, marcar resolvida e reabrir    |
 | Registro     | `/admin/registro`  | MODERADOR     | As 100 ações administrativas mais recentes              |
 | Usuários     | `/admin/usuarios`  | ADMINISTRADOR | Buscar contas, trocar papel, remover                    |
-| Enviar vídeo | `/admin/enviar`    | EDITOR        | Upload do original e geração do HLS                     |
+| Enviar vídeo | `/admin/enviar`    | EDITOR        | Trocar o vídeo de um episódio já criado                 |
 
 Tudo que apaga passa pela dupla confirmação, e o servidor exige o token de uso
 único emitido no passo 1 — pular a tela e chamar a API direto não funciona.
@@ -345,15 +349,29 @@ Não é possível rebaixar o último administrador.
 As listas mostram no máximo 100 linhas, da mais recente para a mais antiga; a
 tela avisa quando bate no teto e a busca resolve o resto.
 
-Primeiro envio:
+### Cadastrar uma série e enviar os episódios
 
-1. Entre com `admin@yokira.local`.
-2. Vá em `/admin` e clique em **Abrir formulário de envio**.
-3. Escolha o episódio de destino e o arquivo (`.mp4`, `.mkv`, `.mov` ou `.webm`,
-   até 8 GB).
-4. Envie. A tela confirma o recebimento e o FFmpeg começa a converter em segundo
-   plano; acompanhe o progresso na fila em `/admin`.
-5. Terminada a conversão, abra o episódio em `/assistir/<id>`.
+Tudo acontece na **tela do título**: dados, capas, temporadas, episódios e
+envio. Não é preciso ir e voltar entre telas.
+
+1. Entre com `admin@yokira.local` e vá em `/admin/titulos` → **Novo título**.
+   Ao criar, você já cai na tela do título.
+2. Adicione a temporada.
+3. **Solte os arquivos de vídeo na temporada.** Cada arquivo vira um episódio,
+   com o nome do próprio arquivo, e os vídeos entram na fila de envio.
+   Formatos: `.mp4`, `.mkv`, `.mov` ou `.webm`, até 8 GB cada.
+4. O painel do canto mostra uma linha por arquivo, com a porcentagem de cada um.
+   Três sobem ao mesmo tempo e o resto espera vaga. Dá para continuar
+   preenchendo a tela, trocar de página dentro do painel ou reenviar só o que
+   falhou — nada disso derruba o que está subindo.
+5. Cada episódio mostra em que pé está: _Enviando 42%_ → _Aguardando conversão_
+   → _Convertendo 66%_ → _Vídeo pronto_ (ou _Falhou na conversão_, com o motivo
+   na fila em `/admin`).
+6. Terminada a conversão, abra o episódio em `/assistir/<id>`.
+
+Quem prefere numerar à mão, agendar estreias ou colar uma lista de links usa o
+formulário **Adicionar vários episódios**, logo abaixo. E `/admin/enviar`
+continua existindo para trocar o vídeo de um episódio específico.
 
 Use apenas arquivos que você tem direito de distribuir.
 
@@ -410,20 +428,29 @@ CHROMIUM_EXECUTAVEL=/caminho/do/chromium npm run teste:ponta
 
 Todas em `.env.exemplo`. As que importam:
 
-| Variável         | Padrão                  | Para que serve                                  |
-| ---------------- | ----------------------- | ----------------------------------------------- |
-| `DATABASE_URL`   | `file:./dev.db`         | Conexão do Prisma                               |
-| `SEGREDO_SESSAO` | _(troque)_              | Segredo de sessão e tokens                      |
-| `PORT`           | `4000`                  | Porta do servidor                               |
-| `ORIGIN`         | `http://localhost:4000` | Origem pública — **obrigatória** em produção    |
-| `PASTA_UPLOADS`  | `./midia/originais`     | Onde os originais são gravados                  |
-| `PASTA_HLS`      | `./midia/hls`           | Onde saem os segmentos HLS (nunca em `static/`) |
-| `CAMINHO_FFMPEG` | `ffmpeg`                | Binário do FFmpeg                               |
-| `ADMIN_EMAIL`    | `admin@yokira.local`    | Conta criada pelo seed                          |
-| `ADMIN_SENHA`    | `YokiraAdmin#2024`      | Senha dessa conta                               |
+| Variável                        | Padrão                  | Para que serve                                  |
+| ------------------------------- | ----------------------- | ----------------------------------------------- |
+| `DATABASE_URL`                  | `file:./dev.db`         | Conexão do Prisma                               |
+| `SEGREDO_SESSAO`                | _(troque)_              | Segredo de sessão e tokens                      |
+| `PORT`                          | `4000`                  | Porta do servidor                               |
+| `ORIGIN`                        | `http://localhost:4000` | Origem pública — **obrigatória** em produção    |
+| `PASTA_UPLOADS`                 | `./midia/originais`     | Onde os originais são gravados                  |
+| `PASTA_HLS`                     | `./midia/hls`           | Onde saem os segmentos HLS (nunca em `static/`) |
+| `CAMINHO_FFMPEG`                | `ffmpeg`                | Binário do FFmpeg                               |
+| `BODY_SIZE_LIMIT`               | `Infinity`              | Teto do corpo da requisição (veja abaixo)       |
+| `TRANSCODIFICACOES_SIMULTANEAS` | `1`                     | Quantas conversões correm ao mesmo tempo        |
+| `ADMIN_EMAIL`                   | `admin@yokira.local`    | Conta criada pelo seed                          |
+| `ADMIN_SENHA`                   | `YokiraAdmin#2024`      | Senha dessa conta                               |
 
 `ORIGIN` errada em produção quebra o envio de formulários: o SvelteKit rejeita
 POST de origem diferente por proteção contra CSRF.
+
+`BODY_SIZE_LIMIT` **precisa estar definida**: o adapter-node corta qualquer
+corpo acima de 512 KB por padrão, e com esse teto nenhum vídeo passa — o envio
+morre em 413 antes de chegar na aplicação. `npm run iniciar` já define
+`Infinity`; quem sobe `node build/index.js` na mão precisa defini-la. Quem
+limita o tamanho de verdade é o próprio código do envio, que conta os bytes
+enquanto grava e apaga o arquivo pela metade se passar de 8 GB.
 
 ## Ir para produção
 

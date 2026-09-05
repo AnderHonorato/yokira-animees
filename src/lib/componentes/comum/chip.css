@@ -28,6 +28,14 @@
   color: var(--cor-texto-secundario);
 }
 
+/* Falha. Precisa de cor propria: um "Falhou na conversao" em cinza se perde no meio
+   dos chips neutros, e essa e justamente a linha que a pessoa tem que enxergar. */
+.chip-erro {
+  background: var(--cor-erro-fundo);
+  border-color: var(--cor-erro-borda);
+  color: var(--cor-erro-texto);
+}
+
 /* Classificacao indicativa: numero, entao entra tabular pra "12" e "16" ficarem
    com a mesma largura de caixa dentro da arte. */
 .chip-classificacao {

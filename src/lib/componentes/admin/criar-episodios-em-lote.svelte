@@ -4,17 +4,59 @@
      ao /admin/enviar escolher cada um num select. -->
 <script lang="ts">
   import './criar-episodios-em-lote.css';
+  import { enhance } from '$app/forms';
+  import { createEventDispatcher } from 'svelte';
   import BotaoPill from '$componentes/comum/botao-pill.svelte';
 
   export let temporadaId: string;
   /** Continua a numeracao de onde a temporada parou. */
   export let proximoNumero = 1;
 
+  const despachar = createEventDispatcher<{
+    enviarArquivos: { temporadaId: string; numeroInicial: number; arquivos: File[] };
+  }>();
+
   let modo: 'quantidade' | 'links' | 'arquivos' = 'quantidade';
   let agendar = false;
+  let numeroInicial = proximoNumero;
+  let campoArquivos: HTMLInputElement;
+  let pendentes: File[] = [];
 </script>
 
-<form class="lote" method="POST" action="?/criarEpisodiosEmLote" enctype="multipart/form-data">
+<!--
+  No modo "arquivos" os BYTES nao vao neste POST. O formulario cria so o cadastro —
+  que e rapido e precisa ficar de pe mesmo se a rede cair — e os videos sobem depois
+  pela fila do navegador, um a um, com progresso proprio. Antes era tudo num envio
+  unico: a aba ficava presa ate o ultimo byte do ultimo arquivo, e uma queda no meio
+  nao deixava nem os episodios criados.
+-->
+<form
+  class="lote"
+  method="POST"
+  action="?/criarEpisodiosEmLote"
+  enctype="multipart/form-data"
+  use:enhance={({ formData, cancel }) => {
+    if (modo === 'arquivos') {
+      const escolhidos = Array.from(campoArquivos?.files ?? []);
+      if (escolhidos.length === 0) {
+        cancel();
+        return;
+      }
+      formData.delete('arquivos');
+      formData.set('quantidade', String(escolhidos.length));
+      pendentes = escolhidos;
+    }
+
+    return async ({ result, update }) => {
+      await update();
+      if (result.type === 'success' && pendentes.length > 0) {
+        despachar('enviarArquivos', { temporadaId, numeroInicial, arquivos: pendentes });
+        pendentes = [];
+        if (campoArquivos) campoArquivos.value = '';
+      }
+    };
+  }}
+>
   <h4 class="lote-titulo">Adicionar vários episódios</h4>
   <input type="hidden" name="temporadaId" value={temporadaId} />
 
@@ -36,7 +78,7 @@
   <div class="lote-linha">
     <label class="lote-campo lote-campo-curto">
       <span>Começar no episódio</span>
-      <input type="number" name="numeroInicial" min="1" value={proximoNumero} required />
+      <input type="number" name="numeroInicial" min="1" bind:value={numeroInicial} required />
     </label>
 
     {#if modo === 'quantidade'}
@@ -60,8 +102,18 @@
   {:else if modo === 'arquivos'}
     <label class="lote-campo">
       <span>Arquivos de vídeo</span>
-      <input type="file" name="arquivos" accept="video/*" multiple required />
-      <small class="lote-dica">Um episódio por arquivo, na ordem em que aparecem.</small>
+      <input
+        bind:this={campoArquivos}
+        type="file"
+        name="arquivos"
+        accept="video/*"
+        multiple
+        required
+      />
+      <small class="lote-dica">
+        Um episódio por arquivo, na ordem em que aparecem. Os episódios são criados na hora e os
+        vídeos entram na fila de envio — dá para sair desta tela sem parar nada.
+      </small>
     </label>
   {/if}
 

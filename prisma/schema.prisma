@@ -212,7 +212,9 @@ model ArquivoMidia {
   id         String @id @default(cuid())
   episodioId String
   caminho    String
-  tamanhoBytes Int
+  // BigInt, e nao Int: o limite de envio e 8 GB e um Int de 32 bits para em 2,1 GB.
+  // Antes o arquivo era gravado no disco e SO ENTAO o Prisma recusava o registro.
+  tamanhoBytes BigInt
   criadoEm   DateTime @default(now())
 
   episodio  Episodio @relation(fields: [episodioId], references: [id], onDelete: Cascade)

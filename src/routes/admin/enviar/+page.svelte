@@ -1,7 +1,13 @@
 <!-- Arquivo: src/routes/admin/enviar/+page.svelte -->
-<!-- Duas origens pro mesmo destino: arquivo do computador ou link direto. O radio
-     escolhe qual campo fica de pe, pra ninguem preencher os dois e ficar em duvida
-     sobre qual valeu. -->
+<!-- Envio avulso: serve pra trocar o video de um episodio que ja existe, sem passar
+     pela tela do titulo. Duas origens pro mesmo destino — arquivo do computador ou
+     link direto — e o radio escolhe qual campo fica de pe, pra ninguem preencher os
+     dois e ficar em duvida sobre qual valeu.
+
+     O caminho do ARQUIVO nao passa mais por action de formulario: ele entra na mesma
+     fila da tela do titulo, entao a aba fica livre e da pra enfileirar um atras do
+     outro sem esperar. O caminho do LINK continua sendo uma action, porque quem baixa
+     e o servidor: nao ha bytes saindo daqui pra medir. -->
 <script lang="ts">
   import '../admin.css';
   import '../tabela-admin.css';
@@ -9,12 +15,25 @@
   import '../../formulario-conta.css';
   import BotaoPill from '$componentes/comum/botao-pill.svelte';
   import Upload from '$visual/icones/upload.svelte';
+  import SoltarVideo from '$componentes/admin/soltar-video.svelte';
+  import { enfileirarEnvio } from '$cliente/fila-de-envio';
+  import { avisar } from '$cliente/avisos';
   import { PAPEIS } from '$lib/validacoes/administracao';
 
   export let data;
   export let form;
 
   let origem: 'arquivo' | 'link' = 'arquivo';
+  let episodioId = data.episodios[0]?.id ?? '';
+
+  $: rotuloDoEpisodio =
+    data.episodios.find((episodio) => episodio.id === episodioId)?.rotulo ?? 'Episódio';
+
+  function enfileirar(arquivos: File[]) {
+    if (!episodioId) return;
+    for (const arquivo of arquivos) enfileirarEnvio(episodioId, rotuloDoEpisodio, arquivo);
+    avisar('Envio na fila. Pode continuar usando o painel.', 'sucesso');
+  }
 
   // A casca so oferece o que o papel alcanca; quem barra de verdade e o servidor.
   $: nivel = PAPEIS.indexOf(data.usuario.papel);
@@ -46,10 +65,10 @@
   </div>
 </nav>
 
-<form class="conta-forma" method="POST" enctype="multipart/form-data">
+<form class="conta-forma" method="POST">
   <label class="conta-campo">
     <span>Episódio</span>
-    <select name="episodioId" required>
+    <select name="episodioId" bind:value={episodioId} required>
       {#each data.episodios as episodio (episodio.id)}
         <option value={episodio.id}>{episodio.rotulo}</option>
       {/each}
@@ -69,10 +88,18 @@
   </fieldset>
 
   {#if origem === 'arquivo'}
-    <label class="conta-campo">
+    <div class="conta-campo">
       <span>Arquivo de vídeo</span>
-      <input type="file" name="arquivo" accept="video/*" required />
-    </label>
+      <SoltarVideo
+        destino={rotuloDoEpisodio}
+        rotulo="Enviar vídeo deste episódio"
+        on:arquivos={(evento) => enfileirar(evento.detail.arquivos)}
+      />
+      <small class="admin-dica">
+        O envio começa na hora e aparece no painel do canto. Não precisa esperar aqui: a fila
+        continua se você navegar pelo painel.
+      </small>
+    </div>
   {:else}
     <label class="conta-campo">
       <span>Link do vídeo</span>
@@ -96,5 +123,9 @@
     <p class="conta-erro" role="status">{form.mensagem}</p>
   {/if}
 
-  <BotaoPill variante="marca" tipo="submit"><Upload tamanho={16} /> Enviar</BotaoPill>
+  <!-- O botao vale so pro link: no modo arquivo quem envia e a fila, e um "Enviar"
+       ali embaixo sugeriria que ainda falta um passo. -->
+  {#if origem === 'link'}
+    <BotaoPill variante="marca" tipo="submit"><Upload tamanho={16} /> Enviar</BotaoPill>
+  {/if}
 </form>

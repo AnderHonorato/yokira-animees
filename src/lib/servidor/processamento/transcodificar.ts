@@ -8,6 +8,7 @@ import { join } from 'node:path';
 import { banco } from '../banco/cliente.js';
 import { pastaDeHls } from '../midia/caminhos.js';
 import { PERFIS, argumentosDaVariante, playlistMestre } from './perfis-hls.js';
+import { naFila } from './fila.js';
 
 const BINARIO = process.env.CAMINHO_FFMPEG ?? 'ffmpeg';
 
@@ -38,46 +39,55 @@ export async function processarArquivo(arquivoId: string): Promise<void> {
   const arquivo = await banco.arquivoMidia.findUnique({ where: { id: arquivoId } });
   if (!arquivo) return;
 
+  // O trabalho nasce NA_FILA, e nao PROCESSANDO: quem enviou tres episodios precisa
+  // ver "2 aguardando" em vez de tres barras fingindo que andam ao mesmo tempo.
   const trabalho = await banco.trabalhoProcessamento.create({
-    data: { arquivoId, situacao: 'PROCESSANDO' }
+    data: { arquivoId, situacao: 'NA_FILA' }
   });
 
   // Fora de static/: em static/ o servidor de arquivos entregaria os .ts sem
   // passar por sessao nenhuma, que era exatamente o buraco do item 5.2.
   const destino = join(pastaDeHls(), arquivoId);
 
-  try {
-    await mkdir(destino, { recursive: true });
+  await naFila(async () => {
+    await banco.trabalhoProcessamento.update({
+      where: { id: trabalho.id },
+      data: { situacao: 'PROCESSANDO' }
+    });
 
-    for (const [indice, perfil] of PERFIS.entries()) {
-      await executar(argumentosDaVariante(arquivo.caminho, destino, perfil));
+    try {
+      await mkdir(destino, { recursive: true });
+
+      for (const [indice, perfil] of PERFIS.entries()) {
+        await executar(argumentosDaVariante(arquivo.caminho, destino, perfil));
+        await banco.trabalhoProcessamento.update({
+          where: { id: trabalho.id },
+          data: { progresso: Math.round(((indice + 1) / PERFIS.length) * 100) }
+        });
+        await banco.varianteHls.create({
+          data: {
+            arquivoId,
+            altura: perfil.altura,
+            taxaBits: perfil.taxaBits,
+            // Nome do recurso, nao URL: quem monta a URL e quem assina, no /api/midia/playlist.
+            playlist: `${perfil.altura}p.m3u8`
+          }
+        });
+      }
+
+      await writeFile(join(destino, 'mestre.m3u8'), playlistMestre(PERFIS), 'utf8');
       await banco.trabalhoProcessamento.update({
         where: { id: trabalho.id },
-        data: { progresso: Math.round(((indice + 1) / PERFIS.length) * 100) }
+        data: { situacao: 'CONCLUIDO', progresso: 100 }
       });
-      await banco.varianteHls.create({
+    } catch (erro) {
+      await banco.trabalhoProcessamento.update({
+        where: { id: trabalho.id },
         data: {
-          arquivoId,
-          altura: perfil.altura,
-          taxaBits: perfil.taxaBits,
-          // Nome do recurso, nao URL: quem monta a URL e quem assina, no /api/midia/playlist.
-          playlist: `${perfil.altura}p.m3u8`
+          situacao: 'FALHOU',
+          mensagem: erro instanceof Error ? erro.message : 'Erro no ffmpeg'
         }
       });
     }
-
-    await writeFile(join(destino, 'mestre.m3u8'), playlistMestre(PERFIS), 'utf8');
-    await banco.trabalhoProcessamento.update({
-      where: { id: trabalho.id },
-      data: { situacao: 'CONCLUIDO', progresso: 100 }
-    });
-  } catch (erro) {
-    await banco.trabalhoProcessamento.update({
-      where: { id: trabalho.id },
-      data: {
-        situacao: 'FALHOU',
-        mensagem: erro instanceof Error ? erro.message : 'Erro no ffmpeg'
-      }
-    });
-  }
+  });
 }

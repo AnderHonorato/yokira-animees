@@ -123,3 +123,45 @@ export function resumoDoLote(resultado: ResultadoDoLote): string {
   const base = `${resultado.criados} episódio(s) criado(s), ${resultado.comVideo} com vídeo.`;
   return resultado.falhas.length > 0 ? `${base} Falhas: ${resultado.falhas.join(' ')}` : base;
 }
+
+/** Proximo numero livre da temporada. O lote continua de onde a temporada parou. */
+async function proximoNumeroLivre(temporadaId: string): Promise<number> {
+  const ultimo = await banco.episodio.findFirst({
+    where: { temporadaId },
+    orderBy: { numero: 'desc' },
+    select: { numero: true }
+  });
+  return (ultimo?.numero ?? 0) + 1;
+}
+
+/**
+ * Cria um episodio VAZIO por arquivo escolhido e devolve os ids na mesma ordem.
+ *
+ * Serve ao envio em lote da tela do titulo: os episodios nascem aqui, numa
+ * requisicao curta, e os videos sobem depois, um por vez, pela fila do navegador.
+ * Antes os dois aconteciam no mesmo POST — o cadastro so existia quando o ultimo
+ * byte do ultimo arquivo chegava, e uma queda no meio nao deixava nem os episodios.
+ *
+ * O nome sai do arquivo porque e o que a pessoa reconhece na hora de conferir;
+ * renomear depois e um clique em "Editar".
+ */
+export async function criarEpisodiosParaArquivos(temporadaId: string, nomesDeArquivo: string[]) {
+  const inicio = await proximoNumeroLivre(temporadaId);
+  const criados = [];
+
+  for (const [posicao, nomeDeArquivo] of nomesDeArquivo.entries()) {
+    const numero = inicio + posicao;
+    const semExtensao = nomeDeArquivo.replace(/\.[^./\\]+$/, '').trim();
+    const episodio = await banco.episodio.create({
+      data: {
+        temporadaId,
+        numero,
+        nome: (semExtensao || `Episódio ${numero}`).slice(0, 160),
+        duracaoSegundos: 0
+      }
+    });
+    criados.push({ id: episodio.id, numero: episodio.numero, nome: episodio.nome });
+  }
+
+  return criados;
+}

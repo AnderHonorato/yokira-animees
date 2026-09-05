@@ -1,0 +1,215 @@
+/* Arquivo: src/lib/componentes/admin/painel-de-envios.css */
+/* Cartao ancorado no canto inferior direito no desktop; no celular ele vira uma
+   faixa colada na barra inferior, porque um cartao flutuante ali cobriria metade
+   do formulario que a pessoa esta preenchendo. */
+
+.envios {
+  position: fixed;
+  z-index: 70;
+  right: var(--espaco-4);
+  /* Acima da barra de abas do celular e da area de gesto do sistema. */
+  bottom: calc(var(--altura-barra-inferior) + env(safe-area-inset-bottom) + var(--espaco-3));
+  left: var(--espaco-4);
+  display: flex;
+  flex-direction: column;
+  max-height: min(60vh, 420px);
+  overflow: hidden;
+  border-radius: var(--raio-painel);
+  border: 1px solid var(--vidro-borda);
+  background-color: var(--cor-fundo-elevado);
+  background-image: var(--gradiente-superficie);
+  box-shadow: var(--sombra-flutuante);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  .envios {
+    background-color: var(--vidro-fundo-denso);
+    backdrop-filter: var(--desfoque-vidro);
+  }
+}
+
+.envios-topo {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  padding: var(--espaco-2) var(--espaco-3);
+}
+
+/* O cabecalho inteiro e o alvo de recolher: mirar numa setinha de 12px com o
+   polegar, com a mao ocupada segurando o aparelho, nao funciona. */
+.envios-resumo {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: var(--alvo-toque);
+  padding: 0 var(--espaco-1);
+  border-radius: var(--raio-chip);
+  color: var(--cor-texto);
+  text-align: left;
+}
+
+.envios-resumo:hover {
+  background: var(--cor-superficie-hover);
+}
+
+.envios-titulo {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--fonte-titulo);
+  font-size: var(--texto-14);
+  font-weight: 700;
+  letter-spacing: var(--entressilha-titulo);
+}
+
+.envios-porcentagem {
+  flex: 0 0 auto;
+  font-size: var(--texto-13);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--cor-marca-clara);
+}
+
+.envios-limpar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-1);
+  flex: 0 0 auto;
+  min-height: var(--alvo-toque);
+  padding: 0 var(--espaco-3);
+  border-radius: var(--raio-botao);
+  font-size: var(--texto-12);
+  font-weight: 600;
+  color: var(--cor-texto-secundario);
+}
+
+.envios-limpar:hover {
+  background: var(--cor-superficie-hover);
+  color: var(--cor-texto);
+}
+
+/* Barra agregada de 3px na borda de cima do cartao. */
+.envios-barra {
+  height: 3px;
+  background: var(--cor-superficie);
+}
+
+.envios-barra-feita {
+  display: block;
+  height: 100%;
+  background: var(--gradiente-marca);
+  transition: width var(--transicao-media);
+}
+
+.envios-lista {
+  overflow-y: auto;
+  padding: var(--espaco-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-1);
+}
+
+.envios-recolhido .envios-lista,
+.envios-recolhido .envios-barra {
+  display: none;
+}
+
+.envios-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-3);
+  padding: var(--espaco-2) var(--espaco-3);
+  border-radius: var(--raio-chip);
+  background: var(--cor-superficie);
+  overflow: hidden;
+}
+
+.envios-item-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.envios-item-destino {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--texto-13);
+  font-weight: 600;
+}
+
+.envios-item-meta {
+  font-size: var(--texto-11);
+  font-variant-numeric: tabular-nums;
+  color: var(--cor-texto-secundario);
+}
+
+.envios-item-erro {
+  font-size: var(--texto-11);
+  line-height: var(--altura-linha-corpo);
+  color: var(--cor-erro-texto);
+}
+
+/* Fio de progresso no pe da propria linha: o item diz quanto falta sem precisar de
+   uma segunda barra ao lado do texto. */
+.envios-item-progresso {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--cor-borda);
+}
+
+.envios-item-progresso-feito {
+  display: block;
+  height: 100%;
+  background: var(--gradiente-marca);
+  transition: width var(--transicao-rapida);
+}
+
+.envios-item-acao {
+  flex: 0 0 auto;
+  min-height: var(--alvo-toque);
+  padding: 0 var(--espaco-3);
+  border-radius: var(--raio-botao);
+  border: 1px solid var(--cor-borda);
+  font-size: var(--texto-12);
+  font-weight: 600;
+  color: var(--cor-texto-secundario);
+}
+
+.envios-item-acao:hover {
+  background: var(--cor-superficie-hover);
+  color: var(--cor-texto);
+}
+
+/* Estado no fio da esquerda, e nao so na palavra: da pra varrer a lista e achar a
+   linha vermelha sem ler nada. */
+.envios-item[data-situacao='falhou'] {
+  box-shadow: inset 3px 0 0 var(--cor-erro-texto);
+}
+
+.envios-item[data-situacao='concluido'] {
+  box-shadow: inset 3px 0 0 var(--cor-sucesso);
+}
+
+.envios-item[data-situacao='enviando'] {
+  box-shadow: inset 3px 0 0 var(--cor-marca);
+}
+
+@media (min-width: 768px) {
+  .envios {
+    left: auto;
+    width: 380px;
+    bottom: var(--espaco-4);
+    right: var(--espaco-6);
+  }
+}
